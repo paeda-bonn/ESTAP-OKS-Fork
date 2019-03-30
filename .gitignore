@@ -1,0 +1,13 @@
+/.buildpath
+/.project
+/.settings
+/web/data/config.php
+/web/data/*.css
+/web/data/*.gif
+/web/data/*.png
+/web/data/*.jpg
+/web/data/*.jpeg
+/web/config.php
+/web/*.html
+/web/*.txt
+/web/lib/PhoolKit
