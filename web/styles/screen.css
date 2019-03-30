@@ -30,6 +30,7 @@ table
 {
     margin-bottom: 1em;
     background: #fff;
+    margin-left: 3em;
 }
 
 th, td
@@ -241,7 +242,7 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
 
 #content
 {
-    /*width: 980px*/;
+    /*width: 980px*/
     margin: 0 auto;
     padding: 20px 20px 72px 20px;
 }
@@ -332,7 +333,7 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
 
 #content .messages.global .error
 {
-    color: #f00;
+    color: #ff0000;
 }
 
 #content .messages.global .info
@@ -371,7 +372,7 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
 
 #content .buttons .main
 {
-background-color=red;
+    background-color: red;
 }
 #content .buttons *
 {

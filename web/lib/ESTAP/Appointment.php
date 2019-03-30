@@ -223,6 +223,13 @@ final class Appointment
         return $appointment;
     }
 
+    public static function lockAppointmentsForDate($teacherId, $date){
+        $sql = "INSERT INTO `appointments`(`time_slot_id`, `teacher_id`, `pupil_id`)"
+            . " SELECT id, :teacher_id, NULL FROM time_slots "
+            . "WHERE id NOT IN (SELECT time_slot_id FROM `appointments` WHERE teacher_id=:teacher_id) AND `date`=:date";
+        DB::exec($sql, array("teacher_id" => $teacherId, "date" => $date));
+    }
+
     /**
      * Deletes a break from the database.
      *
@@ -270,7 +277,8 @@ final class Appointment
             . "r.teacher_id AS teacher_id, r.pupil_id AS pupil_id FROM "
             . "time_slots AS ts LEFT JOIN appointments AS r ON "
             . "ts.id=r.time_slot_id AND r.teacher_id=:teacher_id "
-            . "ORDER BY ts.start_time ASC";
+            . "WHERE `Lehrer`='ALL' OR `Lehrer`='$teacherId'"
+            . "ORDER BY ts.date ASC, ts.start_time ASC";
         $params = array("teacher_id" => $teacherId);
         foreach (DB::query($sql, $params) as $row)
         {
@@ -285,6 +293,13 @@ final class Appointment
             $appointments[] = $appointment;
         }
         return $appointments;
+    }
+
+    public static function teacherIsFullyBooked($teacherId){
+        $sql = "Select * from (SELECT COUNT(*) as teacherAppointmentCount FROM `appointments` WHERE teacher_id=:teacher_id) as i, 
+                (SELECT COUNT(*) as timeSlotCount FROM `time_slots`) as j";
+        $row = DB::query($sql, array("teacher_id" => $teacherId))[0];
+        return $row["teacherAppointmentCount"] === $row["timeSlotCount"];
     }
 
     /**
@@ -311,7 +326,7 @@ final class Appointment
             . "time_slots AS ts LEFT JOIN appointments AS r ON "
             . "ts.id=r.time_slot_id AND (r.teacher_id=:teacher_id "
             . "OR r.pupil_id=:pupil_id) "
-            . "ORDER BY ts.start_time ASC";
+            . "ORDER BY ts.date ASC, ts.start_time ASC";
         $params = array("teacher_id" => $teacherId, "pupil_id" => $pupilId);
         foreach (DB::query($sql, $params) as $row)
         {

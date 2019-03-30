@@ -52,6 +52,27 @@ class AddTimeSlotsForm extends Form
      */
     public $endMinute;
     
+    /**
+     * The day of the month
+     * 
+     * @var int
+     */
+    public $day;
+    
+    /**
+     * The month of the year
+     * 
+     * @var int
+     */
+    public $month;
+    
+    /**
+     * The year
+     * 
+     * @var int
+     */
+    public $year;
+    
     
     /**
      * @see PhoolKit.Form::getValidators()
@@ -60,7 +81,7 @@ class AddTimeSlotsForm extends Form
     {
         return array(
             new RequireValidator("duration", "startHour", "startMinute", 
-                "endHour", "endMinute")            
+                "endHour", "endMinute", "day", "month", "year")            
         );
     }
     
@@ -75,5 +96,8 @@ class AddTimeSlotsForm extends Form
         $this->startMinute = 0;
         $this->endHour = $config->getMaxTimeSlotEndHour();
         $this->endMinute = 0;
+        $this->day = date("d");
+        $this->month = date("m");
+        $this->year = date("Y");
     }    
 }

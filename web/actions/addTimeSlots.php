@@ -24,10 +24,12 @@ try
     DB::beginTransaction();
     $startTime = $form->startHour * 60 + $form->startMinute;
     $endTime = $form->endHour * 60 + $form->endMinute;
+    $date = $form->year . "-" . $form->month . "-" . $form->day;
     for ($i = $startTime; $i < $endTime; $i += $form->duration)
     {
-        $timeSlot = TimeSlot::create($i, $i + $form->duration);
+        $timeSlot = TimeSlot::create($i, $i + $form->duration, $date);
     }
+    
     DB::commit();
     Messages::addInfo(I18N::getMessage("timeSlots.created"));
     Request::redirect("../timeSlots.php");    

@@ -38,6 +38,7 @@ final class Config
             $this->values = array();
         $this->locale = Request::getLocale($this->getLocales(),
             $this->getDefaultLocale());
+        date_default_timezone_set('Europe/Berlin');
     }
 
     /**
@@ -604,11 +605,12 @@ final class Config
      */
     public function getTitle($locale = null)
     {
-        if (!$locale) $locale = $this->locale;
+    	
+        /*if (!$locale) $locale = $this->locale;
         $values = $this->getValue("title", array());
         if (array_key_exists($locale, $values))
-            return $values[$locale];
-        return "ESTAP";
+            return $values[$locale];*/
+        return "Elternsprechtag";
     }
 
     /**

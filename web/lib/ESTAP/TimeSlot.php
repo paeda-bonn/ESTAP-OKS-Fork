@@ -54,6 +54,14 @@ final class TimeSlot
     private $endTime;
     
     /**
+     * The date at which the timeslot occurs
+     * 
+     * @var object 
+     */
+    
+    private $date;
+    
+    /**
      * Creates a new time slot.
      * 
      * @param integer $id
@@ -63,11 +71,12 @@ final class TimeSlot
      * @param integer $endTime
      *           The end time in minutes after 00:00.
      */
-    public function __construct($id, $startTime, $endTime)
+    public function __construct($id, $startTime, $endTime, $date)
     {
         $this->id = $id;
         $this->startTime = $startTime;
         $this->endTime = $endTime;
+        $this->date = $date;
     }
     
     /**
@@ -137,6 +146,15 @@ final class TimeSlot
             $this->getEndTimeString()); 
     }
 
+    public function getDate(){
+    	return $this->date;
+    }
+    
+    public function getDateString(){
+    	$dateTime = new \DateTime($this->date);
+    	return $dateTime->format("d.m.Y");
+    }
+    
     /**
      * Returns the possible durations.
      * 
@@ -189,6 +207,46 @@ final class TimeSlot
         return $minutes;
     }    
     
+    public static function getDistinctDates($timeSlots){
+    	$distinctDates = array();
+    	foreach($timeSlots as $timeSlot){
+    		$date = $timeSlot->date;
+    		if(!in_array($date, $distinctDates)){
+    			array_push($distinctDates, $date);
+    		}
+    	}
+    	return $distinctDates;
+    }
+    
+    public static function getTimeSlotsForDate($timeSlots, $date){
+    	$returnSlots = array();
+    	foreach($timeSlots as $timeSlot){
+    		if($timeSlot->date === $date){
+    			array_push($returnSlots, $timeSlot);
+    		}
+    	}
+    	return $returnSlots;
+    }
+
+    
+    /**
+     * Returns the list of days to select
+     * 
+     * @return array
+     * 			The possible days
+     */
+    public static function getDays(){
+    	return Config::getDays();
+    }
+    
+    public static function getMonths(){
+    	return Config::getMonths();
+    }
+    
+    public static function getYears(){
+    	return Config::getYears();
+    }
+    
     /**
      * Creates a new time slot in the database and returns it.
      * 
@@ -199,17 +257,36 @@ final class TimeSlot
      * @return TimeSlot
      *            The created time slot.
      */
-    public static function create($startTime, $endTime)
+    public static function create($startTime, $endTime, $date)
     {
-        $sql = "INSERT INTO time_slots (start_time, end_time) "
-            . "VALUES (:start_time, :end_time)";
+        $sql = "INSERT INTO time_slots (start_time, end_time, date, Lehrer) "
+            . "VALUES (:start_time, :end_time, :date, 'ALL')";
         $id = DB::exec($sql, array(
             "start_time" => sprintf("%02d:%02d:00", $startTime / 60, $startTime % 60),
-            "end_time" => sprintf("%02d:%02d:00", $endTime / 60, $endTime % 60)
+            "end_time" => sprintf("%02d:%02d:00", $endTime / 60, $endTime % 60),
+        	"date" => $date
         ), "time_slot_id");
-        $timeSlot = new TimeSlot($id, $startTime, $endTime);
+        $timeSlot = new TimeSlot($id, $startTime, $endTime, $date);
         self::$timeSlotIndex[$id] = $timeSlot;
         return $timeSlot;
+    }
+
+    public static function createTeacher($startTime, $endTime, $teacherId, $clean, $date)
+    {
+        DB::open();
+
+        if($clean){
+            $sql= "DELETE FROM `time_slots` WHERE `Lehrer`='$teacherId'";
+            $result = DB::exec($sql);
+        }
+        $start = sprintf("%02d:%02d:00", $startTime / 60, $startTime % 60);
+        $end = sprintf("%02d:%02d:00", $endTime / 60, $endTime % 60);
+        $sql = "INSERT INTO time_slots (start_time, end_time, Lehrer, `date`) VALUES ('$start', '$end','$teacherId', '$date')";
+        
+        $result = DB::exec($sql);
+        $timeSlot = new TimeSlot($id, $startTime, $endTime,$date);
+        self::$timeSlotIndex[$id] = $timeSlot;
+        return "asdasd";
     }
     
     /**
@@ -223,22 +300,47 @@ final class TimeSlot
         if (!self::$timeSlots)
         {
             self::$timeSlots = array(); 
-            $sql = "SELECT id, start_time, end_time FROM time_slots ORDER BY start_time ASC"; 
+            $sql = "SELECT id, start_time, end_time, date FROM time_slots WHERE `Lehrer`='ALL' ORDER BY date, start_time ASC"; 
             foreach (DB::query($sql) as $row)
             {
-                $id = +$row["id"];
+                $id = $row["id"];
                 $values = explode(":", $row["start_time"]);
-                $startTime = +$values[0] * 60 + $values[1];
+                $startTime = $values[0] * 60 + $values[1];
                 $values = explode(":", $row["end_time"]);
-                $endTime = +$values[0] * 60 + $values[1];
-                $timeSlot = new TimeSlot($id, $startTime, $endTime);
+                $endTime = $values[0] * 60 + $values[1];
+                $date = $row["date"];
+                $timeSlot = new TimeSlot($id, $startTime, $endTime, $date);
                 self::$timeSlots[] = $timeSlot;
                 self::$timeSlotIndex[$id] = $timeSlot;
             }
         }
+
+        return self::$timeSlots;
+    } 
+	public static function getTimeSlotsForTeacher($teacherId)
+    {
+        if (!self::$timeSlots)
+        {
+            self::$timeSlots = array(); 
+            $sql = "SELECT id, start_time, end_time, date FROM time_slots WHERE `Lehrer`='$teacherId' ORDER BY date, start_time ASC"; 
+            foreach (DB::query($sql) as $row)
+            {
+                $id = $row["id"];
+                $values = explode(":", $row["start_time"]);
+                $startTime = $values[0] * 60 + $values[1];
+                $values = explode(":", $row["end_time"]);
+                $endTime = $values[0] * 60 + $values[1];
+                $date = $row["date"];
+                $timeSlot = new TimeSlot($id, $startTime, $endTime, $date);
+                self::$timeSlots[] = $timeSlot;
+                self::$timeSlotIndex[$id] = $timeSlot;
+            }
+        }
+
         return self::$timeSlots;
     }
-    
+	
+
     /**
      * Returns the time slot with the specified ID
      * 
@@ -257,15 +359,16 @@ final class TimeSlot
         }
         else
         {
-            $sql = "SELECT start_time, end_time FROM time_slots "
+            $sql = "SELECT start_time, end_time, date FROM time_slots "
                 . "WHERE id=:id";
             $data = DB::querySingle($sql, array("id" => $id));
-            if (!$data) throw new RuntimeException("No time slot with ID $id");
+            if (!$data) throw new \Exception("No time slot with ID $id");
             $values = explode(":", $data["start_time"]);
             $startTime = +$values[0] * 60 + $values[1];
             $values = explode(":", $data["end_time"]);
             $endTime = +$values[0] * 60 + $values[1];
-            $timeSlot = new TimeSlot($id, $startTime, $endTime);
+            $date = $data["date"];
+            $timeSlot = new TimeSlot($id, $startTime, $endTime, $date);
             self::$timeSlotIndex[$id] = $timeSlot;
         }
         return $timeSlot;
@@ -280,6 +383,12 @@ final class TimeSlot
         DB::exec($sql);
     }   
     
+
+    public static function deleteTeacher($teacherId)
+    {
+        $sql = "DELETE FROM time_slots WHERE `Lehrer`='$teacherId'";
+        DB::exec($sql);
+    } 
     /**
      * Deletes this time slot from the database. The time slot object is no 
      * longer valid after this call so don't use it anymore.
@@ -287,6 +396,14 @@ final class TimeSlot
     public function delete()
     {
         self::deleteById($this->getId());
+    }
+    
+    public static function deleteByDate($date){
+    	if(date_create($date) === false){ 
+    		throw new \Exception("Invalid date");
+    		return; }
+    	$sql = "DELETE FROM time_slots WHERE date=:date";
+    	DB::exec($sql, array("date" => $date));
     }
     
     /**
@@ -297,6 +414,9 @@ final class TimeSlot
      */
     public static function deleteById($id)
     {
+    	if(is_int($id) === false){
+    		return; 
+    	}
         $sql = "DELETE FROM time_slots WHERE id=:id";
         DB::exec($sql, array("id" => $id));
     }   

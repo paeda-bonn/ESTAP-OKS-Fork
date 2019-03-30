@@ -19,6 +19,7 @@ $styles = $config->getStylesUrl();
 ?>
 <!DOCTYPE html>
 <html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <head>
     <meta charset="UTF-8" />
     <title>
@@ -56,8 +57,8 @@ $styles = $config->getStylesUrl();
         <div class="content">
           <h1>
             <?php if ($logo): ?>
-              <img src="<?php echo $logo?>" alt="" />
-            <?php endif ?>
+              <a href="/paeda-elternsprechtag"><img src="<?php echo $logo?>" alt="" /></a>
+	    <?php endif ?>
             <?=htmlspecialchars($config->getTitle())?>
           </h1>
           <nav>

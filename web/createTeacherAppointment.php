@@ -73,6 +73,7 @@ $pupil = Pupil::getById($pupilId);
       <tr>
         <th class="buttons"></th>
         <th><?php h::msg("createTeacherAppointment.time") ?></th>
+        <th><?php h::msg("createTeacherAppointment.date") ?></th>
         <th><?php h::msg("createTeacherAppointment.status") ?></th>
       </tr>
 	  <?php if (Config::get()->isDuplicatesEnabled()): ?>
@@ -80,7 +81,7 @@ $pupil = Pupil::getById($pupilId);
 	  <?php else: ?>	
       <?php $appointments = Appointment::getForTeacherAndPupil($teacherId, $pupilId) ?>
 	  <?php endif; ?>	
-      <?php $selected = Appointment::getSelected($appointments, $pupilId, $teacherId) ?>    
+      <?php $selected = Appointment::getSelected($appointments, $pupilId, $teacherId) ?>
       <?php foreach ($appointments as $appointment): ?>
         <?php $timeSlot = $appointment->getTimeSlot() ?>
         <tr class="<?php echo $appointment->isReserved() ? "reserved" : "free" ?> <?php if ($appointment->isReservedTo($pupilId, $teacherId)):?>own<?php endif ?>">
@@ -91,6 +92,9 @@ $pupil = Pupil::getById($pupilId);
           </td>
           <td>
             <label for="timeSlot-<?php echo $appointment->getTimeSlotId()?>"><?php h::text($timeSlot->getTimeString()) ?></label>
+          </td>
+          <td>
+          	<?php $dateTime = new DateTime($timeSlot->getDate()); h::text($dateTime->format("d.m.Y")) ?>
           </td>
           <td class="buttons">
             <?php if ($appointment->isReserved()): ?>

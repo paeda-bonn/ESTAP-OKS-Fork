@@ -22,6 +22,8 @@ use PhoolKit\HTML as h
         <div class="copyright">
           <a target="_blank" href="<?php h::url("http://bitbucket.org/acg-bonn/estap") ?>">ESTAP</a>
           <?php h::msg("copyright", date('Y')) ?>
+          <?php h::msg("copyright-annotation")?>
+          <?php h::msg("copyright-annotation-name")?>
         </div>
       </footer>
     </div>

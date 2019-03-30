@@ -74,6 +74,7 @@ $config = Config::get();
     <table class="appointments">
       <tr>
         <th><?php h::msg("appointments.time") ?></th>
+        <th><?php h::msg("appointments.date")?></th>
         <th><?php h::msg("appointments.teacher") ?></th>
         <th><?php h::msg("appointments.pupil") ?></th>
         <th><?php h::msg("appointments.room") ?></th>
@@ -89,6 +90,9 @@ $config = Config::get();
         <tr <?php if ($conflict): ?>class="conflict"<?php endif ?>>
           <td>
             <?php h::text($timeSlot->getTimeString()) ?>
+          </td>
+          <td>
+          	<?php $dateTime = new DateTime($timeSlot->getDate()); h::text($dateTime->format("d.m.Y"))?>
           </td>
           <td>
             <?php h::text($appointment->getTeacher()->getName(Teacher::GENDER_LAST)) ?>

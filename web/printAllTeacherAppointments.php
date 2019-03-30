@@ -24,7 +24,7 @@ $teachers = Teacher::getAll();
 $pdf = new PDF();
 
 // Column headings
-$header = array(utf8_decode(I18N::getMessage("printPDF.time")),utf8_decode(I18N::getMessage("printPDF.pupil")),utf8_decode(I18N::getMessage("printPDF.class")));
+$header = array(utf8_decode(I18N::getMessage("printPDF.time")), utf8_decode(I18N::getMessage("printPDF.date")),utf8_decode(I18N::getMessage("printPDF.pupil")),utf8_decode(I18N::getMessage("printPDF.class")));
 $pdf->SetFont('Arial','',9);
 $lines = array();
 $data = array();
@@ -42,20 +42,21 @@ if ($teachers)
       foreach ($appointments as $appointment)
       {
         $lines[0] = $appointment->getTimeSlot()->getTimeString();
+        $lines[1] = $appointment->getTimeSlot()->getDateString();
         if (!$appointment->isReserved())
         {
-          $lines[1] = I18N::getMessage("printTeacher.free");
-          $lines[2] = "";
+          $lines[2] = I18N::getMessage("printTeacher.free");
+          $lines[3] = "";
         }
         elseif ($appointment->isLocked())
         {
-          $lines[1] = I18N::getMessage("printTeacher.locked");
-          $lines[2] = "";
+          $lines[2] = I18N::getMessage("printTeacher.locked");
+          $lines[3] = "";
         }
         else
         {
-          $lines[1] = utf8_decode($appointment->getPupil()->getName());
-          $lines[2] = $appointment->getPupil()->getClass();
+          $lines[2] = utf8_decode($appointment->getPupil()->getName());
+          $lines[3] = $appointment->getPupil()->getClass();
         }
         $data[$i] = $lines;
         unset($lines);
@@ -67,6 +68,6 @@ if ($teachers)
     }
   }
 unset($teachers);
-$pdf->Output(session_name("pageTitle").'.pdf','I');
+$pdf->Output('PDF.pdf','I');
 }
 ?>

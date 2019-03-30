@@ -15,10 +15,16 @@ use ESTAP\TimeSlot;
 use ESTAP\Session;
 
 $session = Session::get()->requireAdmin();
+$date = $_REQUEST["date"];
 
 try
 {
-    TimeSlot::deleteAll();    
+	if($date === null){
+    	TimeSlot::deleteAll();
+	}
+	else{
+		TimeSlot::deleteByDate($date);
+	}
     Messages::addInfo(I18N::getMessage("timeSlots.deleted"));
     Request::redirect("../timeSlots.php");
 }

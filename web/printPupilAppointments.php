@@ -47,5 +47,5 @@ $pupilIds[0] = $pupilId;
       $pdf->AppointmentTable($header,$data);
       unset($data);  
       unset($appointments);
-      $pdf->Output(session_name("pageTitle").'.pdf','I');
+      $pdf->Output('PDF.pdf','I');
 ?>

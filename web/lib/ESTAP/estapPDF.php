@@ -55,7 +55,7 @@ function AppointmentTable($header, $data)
 	$this->SetLineWidth(.3);
 	$this->SetFont('','B',11);
 	// Header
-	$w = array(40, 100, 30);
+	$w = array(40, 30, 100, 20);
 	for($i=0;$i<count($header);$i++)
 		$this->Cell($w[$i],8,$header[$i],1,0,'C',true);
 	$this->Ln();
@@ -70,6 +70,7 @@ function AppointmentTable($header, $data)
 		$this->Cell($w[0],6,$row[0],1,0,'C',$fill);
 		$this->Cell($w[1],6,$row[1],1,0,'C',$fill);
 		$this->Cell($w[2],6,$row[2],1,0,'C',$fill);
+		$this->Cell($w[3],6,$row[3],1,0,'C',$fill);
 		$this->Ln();
 		$fill = !$fill;
 	}
@@ -106,6 +107,7 @@ function ParentAppointmentTable($header, $data)
 		$this->Cell($w[1],6,$row[1],1,0,'C',$fill);
 		$this->Cell($w[2],6,$row[2],1,0,'C',$fill);
 		$this->Cell($w[3],6,$row[3],1,0,'C',$fill);
+		$this->Cell($w[4],6,$row[4],1,0,'C',$fill);
 		$this->Ln();
 		$fill = !$fill;
 	}
