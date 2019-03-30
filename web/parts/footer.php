@@ -20,7 +20,8 @@ use PhoolKit\HTML as h
           </nav>
         </div>
         <div class="copyright">
-          <a target="_blank" href="<?php h::url("http://bitbucket.org/acg-bonn/estap") ?>">ESTAP</a>
+          <a target="_blank" href="<?php h::url("https://bitbucket.org/acg-bonn/estap") ?>">ESTAP</a>
+          <a target="_blank" href="<?php h::url("https://gitlab.com/witt-oks/estap-oks/") ?>">OKS Version</a>
           <?php h::msg("copyright", date('Y')) ?>
           <?php h::msg("copyright-annotation")?>
           <?php h::msg("copyright-annotation-name")?>
