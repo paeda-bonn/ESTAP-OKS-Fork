@@ -20,8 +20,12 @@ $session = Session::get();
 try
 {
     Config::get()->requireTeacherLoginEnabled();
-    $session->loginTeacher($form->login, $form->password);
-    Request::redirect("../teacherAppointments.php");
+    $result = $session->loginTeacher($form->login, $form->password);
+    if($result->isNew()){
+        Request::redirect("../editTeacher.php");
+    }else{
+        Request::redirect("../teacherAppointments.php");
+    }
 }
 catch (Exception $e)
 {
