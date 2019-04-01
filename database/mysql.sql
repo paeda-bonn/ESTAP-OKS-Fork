@@ -1,3 +1,16 @@
+--
+-- Copyright 2013 Amos-Comenius-Gymnasium Bonn <http://www.acg-bonn.de/>
+-- See LICENSE.md for licensing information. 
+--
+
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+  `last_name` varchar(32) NOT NULL,
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -11,8 +24,8 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `last_name` varchar(32) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+  `teacher_id` int(11) NOT NULL,
+  `pupil_id` int(11) DEFAULT NULL,
 INSERT INTO `admins` (`id`, `login`, `password`, `first_name`, `last_name`) VALUES
 (1, 'admin', '$6$5249e7e24ba8c$6EHRYK58Xxo8ro3LJfhFu8QTzOwq//cX/FvVIwBIrEj/d58ZFukbj//Ul8xByXWfweYxBd4nR8fOWk98DlqxH.', 'First Name', 'Last Name'),
 
@@ -37,8 +50,8 @@ CREATE TABLE IF NOT EXISTS `pupils` (
   `class` varchar(4) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+  `first_name` varchar(32) NOT NULL,
+  `last_name` varchar(32) NOT NULL,
 CREATE TABLE IF NOT EXISTS `teachers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(64) NOT NULL,
@@ -50,8 +63,8 @@ CREATE TABLE IF NOT EXISTS `teachers` (
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+  `password` varchar(128) NOT NULL,
+  `first_name` varchar(32) NOT NULL,
 CREATE TABLE IF NOT EXISTS `time_slots` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `start_time` time NOT NULL,
@@ -59,9 +72,6 @@ CREATE TABLE IF NOT EXISTS `time_slots` (
   `date` date NOT NULL,
   `Lehrer` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 ALTER TABLE `appointments`
   ADD CONSTRAINT `appointments_pupil` FOREIGN KEY (`pupil_id`) REFERENCES `pupils` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `appointments_teacher` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
