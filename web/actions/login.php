@@ -22,17 +22,9 @@ try
 {
     Config::get()->requireParentLoginEnabled();
     $pupil = $session->loginParent($form->login, $form->password);
-    if ($form->another)
-    {
-        Messages::addInfo(I18N::getMessage("login.loggedIn", 
-            $pupil->getName())); 
-        Request::redirect("../login.php");
-    }
-    else
-    {
-        Request::redirect("../parents.php");
-    }
+    Request::redirect("../parents.php");
 }
+
 catch (Exception $e)
 {
     Messages::addError($e->getMessage());

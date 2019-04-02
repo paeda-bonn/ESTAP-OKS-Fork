@@ -74,13 +74,15 @@ final class Teacher extends User
      * @param string $room
      *           The room
      */
-    protected function __construct($id, $login, $firstName, $lastName, $gender, 
-        $room, $active)
+    private $create;
+
+    protected function __construct($id, $login, $firstName, $lastName, $gender, $room, $active,$create)
     {
         parent::__construct($id, $login, $firstName, $lastName);
         $this->gender = $gender;
         $this->room = $room;
-		$this->active = $active;
+        $this->active = $active;
+        $this->create = $create;
     }
     
     /**
@@ -104,7 +106,15 @@ final class Teacher extends User
     {
         return $this->room;
     }
-    
+
+    public function isNew(){
+        if($this->create){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * Checks if teacher is active.
      * 
@@ -169,32 +179,19 @@ final class Teacher extends User
      * @return Teacher
      *            The updated teacher.
      */
-    public function update($login, $password, $firstName, $lastName, $gender, $room) 
+    public function update($login, $firstName, $lastName, $gender, $room) 
     {
         $sql = "UPDATE teachers SET";
-        $this->login = $login;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->gender = $gender;
-        $this->room = $room;
         $params = array(
-            "id" => $this->getId(),
             "login" => $login,
             "first_name" => $firstName,
             "last_name" => $lastName,
             "gender" => $gender,
             "room" => $room
         );
-        $sql = "UPDATE teachers SET login=:login, first_name=:first_name, "
-            . "last_name=:last_name, gender=:gender, room=:room";
-        if ($password)
-        {
-            $params["password"] = crypt($password, '$6$' . uniqid() . '$');
-            $sql .= ", password=:password";
-        }
-        $sql .= " WHERE id=:id";
+        $sql = "UPDATE teachers SET first_name=:first_name, last_name=:last_name, gender=:gender, room=:room WHERE login=:login";
         DB::exec($sql, $params);
-        return $this;
+        return true;
     }
     
     /**
@@ -215,7 +212,7 @@ final class Teacher extends User
             {
                 $teacher = new Teacher(+$row["id"], $row["login"],
                     $row["first_name"], $row["last_name"], $row["gender"],
-                    $row["room"], $row["active"]);
+                    $row["room"], $row["active"],false);
                 self::$teachers[] = $teacher;
                 self::$teacherIndex[$teacher->getId()] = $teacher;
             }
@@ -246,7 +243,7 @@ final class Teacher extends User
             $data = DB::querySingle($sql, array("id" => $id));
             if (!$data) throw new NoSuchUserException();
             $teacher = new Teacher($id, $data["login"], $data["first_name"], 
-                $data["last_name"], $data["gender"], $data["room"], $data["active"]);
+                $data["last_name"], $data["gender"], $data["room"], $data["active"],false);
             self::$teacherIndex[$id] = $teacher;
         }
         return $teacher;
@@ -265,20 +262,63 @@ final class Teacher extends User
      *            When there is no teacher with the specified login or the
      *            password is wrong. 
      */
+
+    private static function ldapLogin($login,$password){
+        $api_url = "http://localhost/Vertretungsplan/api/";
+        $secret = "witt";
+        $json = file_get_contents($api_url."/sessions.php?secret=$secret&create&username=$login&password=$password");
+        $data = json_decode($json,true);
+        if($data["access"] == true && $data["type"] == "teacher"){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+    private static function loadLdapData($login,$password){
+        $api_url = "http://localhost/Vertretungsplan/api/";
+        $secret = "witt";
+        $json = file_get_contents($api_url."/sessions.php?secret=$secret&create&username=$login&password=$password");
+        $data = json_decode($json,true);
+        return $data;
+    }
+
+    
     public static function getByLogin($login, $password)
     {
-        $sql = "SELECT id, password, first_name, last_name, gender, room, active "
+        if(!self::ldapLogin($login, $password)){
+            throw new NoSuchUserException();
+        }
+        $sql = "SELECT id, first_name, last_name, gender, room, active "
             . "FROM teachers WHERE login=:login";
         $data = DB::querySingle($sql, array("login" => $login));
-        if (!$data) throw new NoSuchUserException();
-        $correctHash = $data["password"];
-        $hash = crypt($password, $correctHash);
-        if ($hash != $correctHash) throw new NoSuchUserException();
+
+        if(!$data){
+            $data = self::loadLdapData($login,$password);
+            $firstName = $data["user_info"]["givenname"];
+            $lastName = $data["user_info"]["lastname"];
+            $gender = "m";
+            $room = "";
+            $create = true;
+            self::create($login, $firstName, $lastName, $gender, $room);
+        }else{
+            $create = false;
+            $gender = $data["gender"];
+            $room = $data["room"];
+            $data = self::loadLdapData($login,$password);
+            $firstName = $data["user_info"]["givenname"];
+            $lastName = $data["user_info"]["lastname"];
+            self::update($login, $firstName, $lastName, $gender, $room);
+        }
+        $sql = "SELECT id, first_name, last_name, gender, room, active "
+            . "FROM teachers WHERE login=:login";
+        $data = DB::querySingle($sql, array("login" => $login));
         $id = +$data["id"];
         $teacher = new Teacher($id, $login, $data["first_name"], 
-            $data["last_name"], $data["gender"], $data["room"], $data["active"]);
+            $data["last_name"], $data["gender"], $data["room"], $data["active"],$create);
         self::$teacherIndex[$id] = $teacher;
-        return $teacher;
+        return $teacher;        
     }
     
     /**
@@ -299,26 +339,23 @@ final class Teacher extends User
      * @return Teacher
      *            The created teacher.
      */
-    public static function create($login, $password, $firstName, $lastName,
-        $gender, $room)
+    public static function create($login, $firstName, $lastName, $gender, $room)
     {
 		$state = true;
-		$hash = crypt($password, '$6$' . uniqid() . '$');
         $sql = "INSERT INTO teachers " 
-            . "(login, password, first_name, last_name, gender, room, active) "
-            . "VALUES (:login, :password, :first_name, :last_name, "
+            . "(login, first_name, last_name, gender, room, active) "
+            . "VALUES (:login, :first_name, :last_name, "
             . ":gender, :room, :active)";
         $id = DB::exec($sql, 
             array(
                 "login" => $login,
-                "password" => $hash,
                 "first_name" => $firstName,
                 "last_name" => $lastName,
                 "gender" => $gender,
                 "room" => $room,
 				"active" => $state
             ), "teacher_id");       
-        $teacher = new Teacher($id, $login, $firstName, $lastName, $gender, $room, $state);
+        $teacher = new Teacher($id, $login, $firstName, $lastName, $gender, $room, $state,true);
         self::$teacherIndex[$id] = $teacher;
         return $teacher;
     }

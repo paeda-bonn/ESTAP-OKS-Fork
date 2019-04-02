@@ -1,0 +1,10 @@
+RewriteEngine on
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} !^/paeda-elternsprechtag/
+
+# Rewrites all URLS [Replace "domain" with the actual domain, without the TLD (.com, .net, .biz, etc)]
+RewriteCond %{HTTP_HOST} ^(www\.)?elternsprechtag.paeda\.
+
+# Rewrite all those to insert /folder
+RewriteRule ^(.*)$ /paeda-elternsprechtag [L]
