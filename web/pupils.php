@@ -48,12 +48,17 @@ $pupils = Pupil::search($search, $rowCount, $page);
   
   <h3><?php h::msg("pupils.current.title") ?></h3>
   <div class="buttons">
-    <a href="<?php h::url("addPupil.php") ?>">
+    <a href="<?php h::url("actions/addStudentsFromLdap.php") ?>">
+        Add from LDAP
+      <?php //h::msg("pupils.addPupil") ?>
+    </a>
+      <a href="<?php h::url("addPupil.php") ?>">
       <?php h::msg("pupils.addPupil") ?>
     </a>
     <?php if ($totalPupils): ?>
       <a href="<?php h::url("deletePupils.php") ?>">
-        <?php h::msg("pupils.deleteAll") ?>
+          Schüler NUR aus ESTAP löschen
+        <?php //h::msg("pupils.deleteAll") ?>
       </a>
       <form action="<?php h::url("pupils.php")?>" method="GET">
         <input type="text" name="search" value="<?php echo htmlspecialchars($search) ?>" />
