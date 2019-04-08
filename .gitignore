@@ -11,3 +11,4 @@
 /web/*.html
 /web/*.txt
 /web/lib/PhoolKit
+*.phpproj*
