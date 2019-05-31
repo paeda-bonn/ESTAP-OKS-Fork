@@ -266,9 +266,7 @@ final class Pupil extends User
 
 
     private static function ldapLogin($login,$password){
-        $api_url = "http://localhost/Vertretungsplan/api/";
-        $secret = "witt";
-        $json = file_get_contents($api_url."/sessions.php?secret=$secret&create&username=$login&password=$password");
+        $json = file_get_contents(API_HOST."/user.php?user=login&username=$login&password=$password&secret=".API_SECRET);
         $data = json_decode($json,true);
         if($data["access"] == true && $data["type"] == "student"){
             return true;
@@ -279,9 +277,7 @@ final class Pupil extends User
 
 
     private static function loadLdapData($login,$password){
-        $api_url = "http://localhost/Vertretungsplan/api/";
-        $secret = "witt";
-        $json = file_get_contents($api_url."/sessions.php?secret=$secret&create&username=$login&password=$password");
+        $json = file_get_contents(API_HOST."/sessions.php?secret=".API_SECRET."&create&username=$login&password=$password");
         $data = json_decode($json,true);
         return $data;
     }
