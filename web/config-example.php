@@ -15,6 +15,9 @@ define("ESTAP_DB_TYPE", "mysql");
 define("ESTAP_DB_HOST", "127.0.0.1");
 define("ESTAP_DB_PORT", 3306);
 
+define("API_HOST", "http://localhost");
+define("API_SECRET", "test");
+
 // Set to true if you want to reuse an open database connection. The default
 // is creating a new database connection for each request. When setting it to
 // true you must make sure the database can handle many parallel databse
