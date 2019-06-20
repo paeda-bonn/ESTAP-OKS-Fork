@@ -242,10 +242,13 @@
     "editTeacher.password" => "Passwort (mindestens %d Zeichen)",
     "editTeacher.passwordConfirmation" => "Passwort-Bestätigung",
     "editTeacher.submit" => "Speichern",
+    "editTeacher.submitLeave" => "Speichern & Verlassen",
+    "editTeacher.submitStay" => "Speichern & Bleiben",
     "editTeacher.cancel" => "Abbrechen",
     "editTeacher.loginAlreadyUsed" => "Der Benutzername ist bereits vergeben",
     "editTeacher.times" => "Zusätzliche Sprechzeiten",
     "editTeacher.deleteTimeSlots" => "Zusätzliche Zeiten löschen",
+    "editTeacher.addTimeSlots" => "Zusätzliche Zeiten hinzufügen",
 
 // Delete teacher page
     "deleteTeacher.title" => "Lehrer löschen",
@@ -312,6 +315,12 @@
     "deleteTimeSlots.question" => "Sind Sie sicher, dass Sie alle Sprechzeiten löschen möchten?",
     "deleteTimeSlots.confirm" => "Löschen",
     "deleteTimeSlots.cancel" => "Abbrechen",
+
+
+    "deleteTimeSlotsTeacher.title" => "Alle Sprechzeiten löschen für ",
+    "deleteTimeSlotsTeacher.question" => "Sind Sie sicher, dass Sie alle Sprechzeiten löschen möchten?",
+    "deleteTimeSlotsTeacher.confirm" => "Löschen",
+    "deleteTimeSlotsTeacher.cancel" => "Abbrechen",
 
 // Delete time slots for date page
     "deleteTimeSlotsForDate.title" => "Sprechzeiten löschen",

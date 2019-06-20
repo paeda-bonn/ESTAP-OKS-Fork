@@ -9,7 +9,6 @@
 require_once "estap.php";
 
 use ESTAP\Session;
-use ESTAP\TimeSlot;
 use PhoolKit\HTML as h;
 
 if (isset($_REQUEST["admin"]))
@@ -28,10 +27,10 @@ $teacherId = htmlspecialchars($_GET["teacher"])
 <?php $pageId = "deleteTimeSlots"; include "parts/header.php" ?>
 <?php include "parts/adminNav.php" ?>
 <div id="content">
-  <h2><?php h::msg("deleteTimeSlots.title") ?></h2>
+  <h2><?php h::msg("deleteTimeSlotsTeacher.title"); echo $teacherId?></h2>
   <?php h::messages() ?>
   <p>
-    <?php h::msg("deleteTimeSlots.question") ?>
+    <?php h::msg("deleteTimeSlotsTeacher.question") ?>
   </p>
 
   <div class="buttons">
