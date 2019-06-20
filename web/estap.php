@@ -6,7 +6,12 @@
  * This is the ESTAP bootstrap script which must be included from all views
  * and actions.
  */
-
+if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === "off") {
+    $location = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    header('HTTP/1.1 301 Moved Permanently');
+    header('Location: ' . $location);
+    exit;
+}
 require "config.php";
     
 use PhoolKit\Request;
