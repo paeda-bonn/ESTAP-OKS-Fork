@@ -20,7 +20,7 @@ $form = AddPupilForm::parse("../addPupil.php");
 $session = Session::get()->requireAdmin();
 try
 {
-    Pupil::create($form->login, $form->firstName,
+    Pupil::create($form->login, $form->password, $form->firstName, 
         $form->lastName, $form->class);
     Messages::addInfo(I18N::getMessage("pupils.pupilAdded"));
     Request::redirect("../pupils.php");
