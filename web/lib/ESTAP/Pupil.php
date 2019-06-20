@@ -119,20 +119,30 @@ final class Pupil extends User
      * @return Pupil
      *            The updated pupil.
      */
-    public function update($login,$firstName, $lastName, $class) 
+    public function update($login, $password, $firstName, $lastName, $class) 
     {
         $sql = "UPDATE pupils SET";
+        $this->login = $login;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->class = $class;
         $params = array(
+            "id" => $this->getId(),
             "login" => $login,
             "first_name" => $firstName,
             "last_name" => $lastName,
             "class" => $class
         );
-        $sql = "UPDATE pupils SET first_name=:first_name, "
+        $sql = "UPDATE pupils SET login=:login, first_name=:first_name, "
             . "last_name=:last_name,class=:class";
-        $sql .= " WHERE login=:login";
+        if ($password)
+        {
+            $params["password"] = crypt($password, '$6$' . uniqid() . '$');
+            $sql .= ", password=:password";
+        }
+        $sql .= " WHERE id=:id";
         DB::exec($sql, $params);
-        return true;
+        return $this;
     }
 
     /**
@@ -263,54 +273,18 @@ final class Pupil extends User
      *            When there is no pupil with the specified login or the
      *            password is wrong. 
      */
-
-
-    private static function ldapLogin($login,$password){
-        $json = file_get_contents(API_HOST."/user.php?user=login&username=$login&password=$password&secret=".API_SECRET);
-        $data = json_decode($json,true);
-        if($data["access"] == true && $data["type"] == "student"){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-
-    private static function loadLdapData($login,$password){
-        $json = file_get_contents(API_HOST."/sessions.php?secret=".API_SECRET."&create&username=$login&password=$password");
-        $data = json_decode($json,true);
-        return $data;
-    }
-
-
     public static function getByLogin($login, $password)
     {
-
-        if(!self::ldapLogin($login, $password)){
-            throw new NoSuchUserException();
-        }
-        $sql = "SELECT id, first_name, last_name, class "
+        $sql = "SELECT id, password, first_name, last_name, class "
             . "FROM pupils WHERE login=:login";
         $data = DB::querySingle($sql, array("login" => $login));
-
-        if(!$data){
-            $data = self::loadLdapData($login,$password);
-            $firstName = $data["user_info"]["givenname"];
-            $lastName = $data["user_info"]["lastname"];
-            $class = $data["user_info"]["class"];
-            self::create($login, $firstName, $lastName, $class);
-        }else{
-            $data = self::loadLdapData($login,$password);
-            $firstName = $data["user_info"]["givenname"];
-            $lastName = $data["user_info"]["lastname"];
-            $class = $data["user_info"]["class"];
-            self::update($login,$firstName, $lastName, $class);
-        }
-        $sql = "SELECT id, first_name, last_name, class "
-        . "FROM pupils WHERE login=:login";
-        $data = DB::querySingle($sql, array("login" => $login));
+        if (!$data) throw new NoSuchUserException();
+        $correctHash = $data["password"];
+        $hash = crypt($password, $correctHash);
+        if ($hash != $correctHash) throw new NoSuchUserException();
         $id = +$data["id"];
-        $pupil = new Pupil($id, $login, $data["first_name"], $data["last_name"], $data["class"]);
+        $pupil = new Pupil($id, $login, $data["first_name"], 
+            $data["last_name"], $data["class"]);
         self::$pupilIndex[$id] = $pupil;
         return $pupil;
     }
@@ -331,13 +305,17 @@ final class Pupil extends User
      * @return Pupil
      *            The created pupil.
      */
-    public static function create($login,$firstName, $lastName,
+    public static function create($login, $password, $firstName, $lastName,
         $class)
     {
-        $sql = "INSERT INTO pupils (login, first_name, last_name, class) VALUES (:login, :first_name, :last_name, :class)";
+        $hash = crypt($password, '$6$' . uniqid() . '$');
+        $sql = "INSERT INTO pupils " 
+            . "(login, password, first_name, last_name, class) "
+            . "VALUES (:login, :password, :first_name, :last_name, :class)";
         $id = DB::exec($sql, 
             array(
                 "login" => $login,
+                "password" => $hash,
                 "first_name" => $firstName,
                 "last_name" => $lastName,
                 "class" => $class

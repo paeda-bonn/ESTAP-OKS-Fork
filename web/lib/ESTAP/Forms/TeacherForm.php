@@ -33,7 +33,6 @@ class TeacherForm extends UserForm
      * @var string
      */
     public $room;
-    public $times;
     public $duration;
     public $startHour;
     public $startMinute;
@@ -42,7 +41,7 @@ class TeacherForm extends UserForm
     public $day;
     public $month;
     public $year;
-    
+
     /**
      * @see PhoolKit.Form::getValidators()
      */

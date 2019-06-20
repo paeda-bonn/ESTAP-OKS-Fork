@@ -189,7 +189,7 @@ class Session
         {
             throw new RuntimeException(I18N::getMessage("errors.login"));
         }
-        return $this->teacher;
+        return $this;
     }
     
     /**
