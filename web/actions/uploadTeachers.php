@@ -28,13 +28,12 @@ try
     while (($row = fgets($file)) !== false)
     {
         $data = str_getcsv($row, ";");
-        if (count($data) != 6)
+        if (count($data) != 7)
         {
             throw new RuntimeException(
                 I18N::getMessage("errors.invalidTeacherRow", $row)); 
         }
-        Teacher::create($data[0], $data[1], $data[3], $data[2], $data[4], 
-            $data[5]);
+        Teacher::create($data[0], $data[1], $data[3], $data[2], $data[4], $data[5], $data[6]);
     }
     fclose($file);
     DB::commit();

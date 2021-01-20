@@ -66,6 +66,8 @@ $teachers = Teacher::getAll();
         <th><?php h::msg("teachers.gender") ?></th>
         <th><?php h::msg("teachers.room") ?></th>
         <th><?php h::msg("teachers.actions") ?></th>
+          <!-- //TODO Replace with lang -->
+          <th>VCLink</th>
       </tr>
       <?php foreach (Teacher::getAll() as $teacher):?>
         <tr class="<?php echo $teacher->isActive() ? "active" : "inactive" ?>">
@@ -96,6 +98,7 @@ $teachers = Teacher::getAll();
               </form>
             <?php endif; ?>
           </td>
+            <td><?php h::text($teacher->getVCLink()) ?></td>
         </tr>
       <?php endforeach?>
     </table>

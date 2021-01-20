@@ -78,6 +78,8 @@ $config = Config::get();
         <th><?php h::msg("appointments.teacher") ?></th>
         <th><?php h::msg("appointments.pupil") ?></th>
         <th><?php h::msg("appointments.room") ?></th>
+          <!-- //TODO lang -->
+        <th>VCLink</th>
         <?php if ($config->isParentReservationEnabled()): ?>
           <th><?php h::msg("appointments.actions") ?></th>
         <?php endif ?>
@@ -102,6 +104,9 @@ $config = Config::get();
           </td>
           <td>
             <?php h::text($appointment->getTeacher()->getRoom()) ?>
+          </td>
+          <td>
+            <?php h::text($appointment->getTeacher()->getVCLink()) ?>
           </td>
           <?php if ($config->isParentReservationEnabled()): ?>
             <td class="buttons">

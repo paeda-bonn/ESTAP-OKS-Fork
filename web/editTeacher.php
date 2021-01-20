@@ -78,6 +78,13 @@ else
       <?php h::bindField("room") ?>
       <label <?php h::label() ?>><?php h::msg("editTeacher.room") ?></label>
       <input type="text" <?php h::input() ?> <?php h::classes() ?> />
+
+        <!-- //TODO lang -->
+        <?php h::bindField("vcLink") ?>
+      <label <?php h::label() ?>>VCLink</label>
+      <input type="text" <?php h::input() ?> <?php h::classes() ?> />
+
+
       <?php h::messages();
       h::bindField("times") 
       ?>

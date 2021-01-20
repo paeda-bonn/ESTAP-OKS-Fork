@@ -54,6 +54,11 @@ $session = Session::get()->requireAdmin();
       <label <?php h::label() ?>><?php h::msg("addTeacher.room") ?></label>
       <input type="text" <?php h::input() ?> <?php h::classes() ?> />
       <?php h::messages() ?>
+
+      <?php h::bindField("vcLink") ?>
+      <label <?php h::label() ?>>VCLink</label>
+      <input type="text" <?php h::input() ?> <?php h::classes() ?> />
+      <?php h::messages() ?>
       
       <?php h::bindField("password") ?>
       <label <?php h::label() ?>><?php h::msg("addTeacher.password", Config::get()->getMinPasswordLength()) ?></label>

@@ -57,7 +57,14 @@ final class Teacher extends User
      * @var boolean
      */
     private $active;
-    
+
+    /**
+     * The active state.
+     *
+     * @var string
+     */
+    private $vcLink;
+
     /**
      * Creates a new teacher.
      * 
@@ -73,13 +80,16 @@ final class Teacher extends User
      *           The gender ('f' for female or 'm' for male).
      * @param string $room
      *           The room
+     * @param $active //TODO add Doc
+     * @param $vcLink
      */
-    protected function __construct($id, $login, $firstName, $lastName, $gender, $room, $active)
+    protected function __construct($id, $login, $firstName, $lastName, $gender, $room, $active, $vcLink)
     {
         parent::__construct($id, $login, $firstName, $lastName);
         $this->gender = $gender;
         $this->room = $room;
 		$this->active = $active;
+		$this->vcLink = $vcLink;
     }
     
     /**
@@ -114,7 +124,13 @@ final class Teacher extends User
     {
         return $this->active;
     }
-    
+
+    //TODO add JDoc
+    public function getVCLink()
+    {
+        return $this->vcLink;
+    }
+
     /**
      * Deletes this teacher from the database. The teacher object is no longer
      * valid after this call so don't use it anymore.
@@ -168,7 +184,7 @@ final class Teacher extends User
      * @return Teacher
      *            The updated teacher.
      */
-    public function update($login, $password, $firstName, $lastName, $gender, $room) 
+    public function update($login, $password, $firstName, $lastName, $gender, $room, $vcLink)
     {
         $sql = "UPDATE teachers SET";
         $this->login = $login;
@@ -182,10 +198,10 @@ final class Teacher extends User
             "first_name" => $firstName,
             "last_name" => $lastName,
             "gender" => $gender,
-            "room" => $room
+            "room" => $room,
+            "vclink" => $vcLink
         );
-        $sql = "UPDATE teachers SET login=:login, first_name=:first_name, "
-            . "last_name=:last_name, gender=:gender, room=:room";
+        $sql = "UPDATE teachers SET login=:login, first_name=:first_name, last_name=:last_name, gender=:gender, room=:room, vclink=:vclink";
         if ($password)
         {
             $params["password"] = crypt($password, '$6$' . uniqid() . '$');
@@ -207,14 +223,11 @@ final class Teacher extends User
     {
         if (!self::$teachers)
         {
-            self::$teachers = array(); 
-            $sql = "SELECT id, login, first_name, last_name, gender, room, active "
-                . "FROM teachers ORDER BY login ASC"; 
+            self::$teachers = array();
+            $sql = "SELECT id, login, first_name, last_name, gender, room, active, vclink FROM teachers ORDER BY login ASC";
             foreach (DB::query($sql) as $row)
             {
-                $teacher = new Teacher(+$row["id"], $row["login"],
-                    $row["first_name"], $row["last_name"], $row["gender"],
-                    $row["room"], $row["active"]);
+                $teacher = new Teacher(+$row["id"], $row["login"], $row["first_name"], $row["last_name"], $row["gender"], $row["room"], $row["active"], $row["vclink"]);
                 self::$teachers[] = $teacher;
                 self::$teacherIndex[$teacher->getId()] = $teacher;
             }
@@ -240,12 +253,10 @@ final class Teacher extends User
         }
         else
         {
-            $sql = "SELECT login, first_name, last_name, gender, room, active "
-                . "FROM teachers WHERE id=:id";
+            $sql = "SELECT login, first_name, last_name, gender, room, active, vclink FROM teachers WHERE id=:id";
             $data = DB::querySingle($sql, array("id" => $id));
             if (!$data) throw new NoSuchUserException();
-            $teacher = new Teacher($id, $data["login"], $data["first_name"], 
-                $data["last_name"], $data["gender"], $data["room"], $data["active"]);
+            $teacher = new Teacher($id, $data["login"], $data["first_name"], $data["last_name"], $data["gender"], $data["room"], $data["active"], $data["vclink"]);
             self::$teacherIndex[$id] = $teacher;
         }
         return $teacher;
@@ -274,8 +285,7 @@ final class Teacher extends User
         $hash = crypt($password, $correctHash);
         if ($hash != $correctHash) throw new NoSuchUserException();
         $id = +$data["id"];
-        $teacher = new Teacher($id, $login, $data["first_name"], 
-            $data["last_name"], $data["gender"], $data["room"], $data["active"]);
+        $teacher = new Teacher($id, $login, $data["first_name"], $data["last_name"], $data["gender"], $data["room"], $data["active"], $data["vclink"]);
         self::$teacherIndex[$id] = $teacher;
         return $teacher;
     }
@@ -298,16 +308,12 @@ final class Teacher extends User
      * @return Teacher
      *            The created teacher.
      */
-    public static function create($login, $password, $firstName, $lastName,
-        $gender, $room)
+    public static function create($login, $password, $firstName, $lastName, $gender, $room, $vcLink)
     {
 		$state = true;
 		$hash = crypt($password, '$6$' . uniqid() . '$');
-        $sql = "INSERT INTO teachers " 
-            . "(login, password, first_name, last_name, gender, room, active) "
-            . "VALUES (:login, :password, :first_name, :last_name, "
-            . ":gender, :room, :active)";
-        $id = DB::exec($sql, 
+        $sql = "INSERT INTO teachers (login, password, first_name, last_name, gender, room, active, vclink) VALUES (:login, :password, :first_name, :last_name, :gender, :room, :active, :vclink)";
+        $id = DB::exec($sql,
             array(
                 "login" => $login,
                 "password" => $hash,
@@ -315,9 +321,10 @@ final class Teacher extends User
                 "last_name" => $lastName,
                 "gender" => $gender,
                 "room" => $room,
-				"active" => $state
-            ), "teacher_id");       
-        $teacher = new Teacher($id, $login, $firstName, $lastName, $gender, $room, $state);
+				"active" => $state,
+                "vclink" => $vcLink
+            ), "teacher_id");
+        $teacher = new Teacher($id, $login, $firstName, $lastName, $gender, $room, $state, $vcLink);
         self::$teacherIndex[$id] = $teacher;
         return $teacher;
     }
