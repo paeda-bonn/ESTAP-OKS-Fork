@@ -43,16 +43,14 @@ try
 
     for ($i = $startTime; $i < $endTime; $i += $form->duration)
     {
+        if($i == $startTime){
+            //$timeSlot = TimeSlot::createTeacher($i, $i + $form->duration,$form->id,false,"");
+        }
         $timeSlot = TimeSlot::createTeacher($i, $i + $form->duration,$form->id,false, $date);
     }
     Messages::addInfo(I18N::getMessage("teachers.teacherEdited"));
     if ($admin):
-        if(isset($_POST["return"])){
-            Request::redirect("../editTeacher.php?id=".$form->id);
-        }else{
-            Request::redirect("../teachers.php");
-        }
-
+      Request::redirect("../teachers.php");
     else:
       Request::redirect("../teacherAppointments.php?changed");
     endif;  

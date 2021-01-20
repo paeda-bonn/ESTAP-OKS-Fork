@@ -25,13 +25,13 @@ else
     $admin = false;
 }
 $timeSlotId = +$_REQUEST["id"];
-$teacherId = +$_REQUEST["teacher"];
+
 try
 {
     TimeSlot::deleteById($timeSlotId);
     Messages::addInfo(I18N::getMessage("timeSlots.timeSlotDeleted"));
 	if($admin){
-		Request::redirect("../editTeacher.php?id=".$teacherId);
+		Request::redirect("../teachers.php");
 	}else{
 		Request::redirect("../editTeacher.php");	
 	}

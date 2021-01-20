@@ -76,6 +76,40 @@ function AppointmentTable($header, $data)
 	}
 }
 
+function AppointmentTableStudent($header, $data)
+    {
+        //Document informations
+        $this->SetAuthor(I18N::getMessage("printPDF.author"));
+        $this->SetCreator(I18N::getMessage("printPDF.creator"));
+        $this->SetTitle(I18N::getMessage("printPDF.title"));
+
+        // Colors, line width and bold font
+        $this->SetFillColor(220,220,220);
+        $this->SetTextColor(0);
+        $this->SetDrawColor(0,0,0);
+        $this->SetLineWidth(.3);
+        $this->SetFont('','B',11);
+        // Header
+        $w = array(40, 30, 100);
+        for($i=0;$i<count($header);$i++)
+            $this->Cell($w[$i],8,$header[$i],1,0,'C',true);
+        $this->Ln();
+        // Color and font restoration
+        $this->SetFillColor(235,235,235);
+        $this->SetTextColor(0);
+        $this->SetFont('','',9);
+        // Data
+        $fill = false;
+        foreach($data as $row)
+        {
+            $this->Cell($w[0],6,$row[0],1,0,'C',$fill);
+            $this->Cell($w[1],6,$row[1],1,0,'C',$fill);
+            $this->Cell($w[2],6,$row[2],1,0,'C',$fill);
+            $this->Ln();
+            $fill = !$fill;
+        }
+    }
+
 // Colored table
 function ParentAppointmentTable($header, $data)
 {

@@ -25,7 +25,6 @@ else
 
 $timeSlotId = +$_REQUEST["id"];
 $timeSlot = TimeSlot::getById($timeSlotId);
-$teacherId = +$_REQUEST["teacher"];
 
 ?>
 <?php $pageId = "deleteTimeSlot"; include "parts/header.php" ?>
@@ -45,7 +44,6 @@ $teacherId = +$_REQUEST["teacher"];
 	  <?php } ?>
     
       <input type="hidden" name="id" value="<?php echo $timeSlotId ?>" />
-      <input type="hidden" name="teacher" value="<?php echo $teacherId ?>" />
       <input type="submit" value="<?php h::msg("deleteTimeSlot.confirm") ?>" />
     </form>
     <a href="<?php h::url("teachers.php") ?>">

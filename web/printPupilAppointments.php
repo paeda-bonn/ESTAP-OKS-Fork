@@ -44,7 +44,7 @@ $pupilIds[0] = $pupilId;
         unset($lines);
         $i++;
       }
-      $pdf->AppointmentTable($header,$data);
+      $pdf->AppointmentTableStudent($header,$data);
       unset($data);  
       unset($appointments);
       $pdf->Output('PDF.pdf','I');

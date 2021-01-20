@@ -103,7 +103,7 @@ final class Teacher extends User
     {
         return $this->room;
     }
-
+    
     /**
      * Checks if teacher is active.
      * 
@@ -298,7 +298,8 @@ final class Teacher extends User
      * @return Teacher
      *            The created teacher.
      */
-    public static function create($login, $password, $firstName, $lastName, $gender, $room)
+    public static function create($login, $password, $firstName, $lastName,
+        $gender, $room)
     {
 		$state = true;
 		$hash = crypt($password, '$6$' . uniqid() . '$');
