@@ -37,7 +37,9 @@ $pupil = Pupil::getById($pupilId[0]);
       <tr>
         <th><?php h::msg("appointments.time") ?></th>
         <th><?php h::msg("appointments.teacher") ?></th>
+          <!--
         <th><?php h::msg("appointments.room") ?></th>
+        -->
       </tr>
       <?php $conflicts = false ?>
       <?php foreach ($appointments as $appointment): ?>
@@ -51,9 +53,11 @@ $pupil = Pupil::getById($pupilId[0]);
           <td>
             <?php h::text($appointment->getTeacher()->getName(Teacher::GENDER_LAST)) ?>
           </td>
+            <!--
           <td>
             <?php h::text($appointment->getTeacher()->getRoom()) ?>
           </td>
+          -->
         </tr>
       <?php endforeach ?>
     </table>

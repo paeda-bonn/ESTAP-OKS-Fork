@@ -8,23 +8,20 @@
 
 require_once "estap.php";
 
+use ESTAP\Appointment;
+use ESTAP\Config;
+use ESTAP\Pupil;
 use ESTAP\Session;
 use ESTAP\Teacher;
-use ESTAP\Config;
-use ESTAP\Appointment;
 use PhoolKit\HTML as h;
-use ESTAP\Pupil;
 use PhoolKit\I18N;
 
-if (isset($_REQUEST["teacher"])) 
-{
+if (isset($_REQUEST["teacher"])) {
     $session = Session::get()->requireAdmin();
     $teacherId = +$_REQUEST["teacher"];
     $teacher = Teacher::getById($teacherId);
     $admin = true;
-}
- else 
- {
+} else {
     $session = Session::get()->requireTeacher();
     $teacher = $session->getTeacher();
     $teacherId = $teacher->getId();
@@ -56,7 +53,7 @@ $isReservationEnabled = ($teacher->isActive() & $config->isTeacherReservationEna
             <p><?php h::msg("teacherAppointments.create.help") ?></p>
             <form action="<?php h::url("createTeacherAppointment.php") ?>" method="get" novalidate>
                 <?php if ($admin): ?>
-                    <input type="hidden" name="teacher" value="<?php h::text($teacherId) ?>" />
+                    <input type="hidden" name="teacher" value="<?php h::text($teacherId) ?>"/>
                 <?php endif ?>
                 <div class="fields">
                     <div class="field">
@@ -69,7 +66,7 @@ $isReservationEnabled = ($teacher->isActive() & $config->isTeacherReservationEna
                     </div>
                 </div>
                 <div class="buttons">
-                    <input type="submit" value="<?php h::msg("teacherAppointments.requestTimes") ?>" />
+                    <input type="submit" value="<?php h::msg("teacherAppointments.requestTimes") ?>"/>
                 </div>
             </form>
         </div>
@@ -79,18 +76,18 @@ $isReservationEnabled = ($teacher->isActive() & $config->isTeacherReservationEna
 
     <?php if ($admin): ?>
         <h3><?php h::msg("teachers.editAtDay") ?></h3>
-        <form action="<?php h::url("actions/createLockForDate")?>" method="post">
+        <form action="<?php h::url("actions/createLockForDate") ?>" method="post">
             <input type="hidden" name="teacher" value="<?php h::text($teacherId) ?>"/>
             <div class="field">
                 <select name="date">
-                    <?php foreach (\ESTAP\TimeSlot::getDistinctDates(\ESTAP\TimeSlot::getAll()) as $date):?>
-                        <?php $dateTime = new DateTime($date);?>
+                    <?php foreach (\ESTAP\TimeSlot::getDistinctDates(\ESTAP\TimeSlot::getAll()) as $date): ?>
+                        <?php $dateTime = new DateTime($date); ?>
                         <option value="<?php h::text($dateTime->format("Y-m-d")); ?>"><?php h::text($dateTime->format("d.m.Y")) ?></option>
                     <?php endforeach ?>
                 </select>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?php h::msg("teachers.blockDay")?>"/>
+                <input type="submit" value="<?php h::msg("teachers.blockDay") ?>"/>
             </div>
         </form>
     <?php endif; ?>
@@ -99,12 +96,12 @@ $isReservationEnabled = ($teacher->isActive() & $config->isTeacherReservationEna
         <h3><?php h::msg("teacherAppointments.current.title") ?></h3>
         <p class="help">
             <?php if (!$admin): ?>
-                <?php if($isReservationEnabled): ?>
+                <?php if ($isReservationEnabled): ?>
                     <?php h::msg("teacherAppointments.current.help", $config->getReservationEndDate(), $config->getReservationEndTime()) ?>
                 <?php else: ?>
                     <?php h::msg("teacherAppointments.reservationDisabled") ?>
-                <?php endif?>
-            <?php endif?>
+                <?php endif ?>
+            <?php endif ?>
         </p>
 
         <table class="appointments">
@@ -135,10 +132,10 @@ $isReservationEnabled = ($teacher->isActive() & $config->isTeacherReservationEna
                                 <td class="buttons">
                                     <form action="<?php h::url("actions/deleteLock.php") ?>" method="post">
                                         <?php if ($admin): ?>
-                                            <input type="hidden" name="teacher" value="<?php h::text($teacherId) ?>" />
+                                            <input type="hidden" name="teacher" value="<?php h::text($teacherId) ?>"/>
                                         <?php endif ?>
-                                        <input type="hidden" name="timeSlot" value="<?php h::text($appointment->getTimeSlotId()) ?>" />
-                                        <input type="submit" value="<?php h::msg("teacherAppointments.deleteLock") ?>" />
+                                        <input type="hidden" name="timeSlot" value="<?php h::text($appointment->getTimeSlotId()) ?>"/>
+                                        <input type="submit" value="<?php h::msg("teacherAppointments.deleteLock") ?>"/>
                                     </form>
                                 </td>
                             <?php endif ?>
@@ -175,10 +172,10 @@ $isReservationEnabled = ($teacher->isActive() & $config->isTeacherReservationEna
                             <td class="buttons">
                                 <form action="<?php h::url("actions/createLock.php") ?>" method="post">
                                     <?php if ($admin): ?>
-                                        <input type="hidden" name="teacher" value="<?php h::text($teacherId) ?>" />
+                                        <input type="hidden" name="teacher" value="<?php h::text($teacherId) ?>"/>
                                     <?php endif ?>
-                                    <input type="hidden" name="timeSlot" value="<?php h::text($appointment->getTimeSlotId()) ?>" />
-                                    <input type="submit" value="<?php h::msg("teacherAppointments.createLock") ?>" />
+                                    <input type="hidden" name="timeSlot" value="<?php h::text($appointment->getTimeSlotId()) ?>"/>
+                                    <input type="submit" value="<?php h::msg("teacherAppointments.createLock") ?>"/>
                                 </form>
                             </td>
                         <?php endif ?>

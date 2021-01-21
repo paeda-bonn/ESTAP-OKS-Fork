@@ -141,10 +141,11 @@ function ParentAppointmentTable($header, $data)
 		$this->Cell($w[1],6,$row[1],1,0,'C',$fill);
 		$this->Cell($w[2],6,$row[2],1,0,'C',$fill);
 		$this->Cell($w[3],6,$row[3],1,0,'C',$fill);
-		$this->Cell($w[4],6,$row[4],1,0,'C',$fill);
+		//$this->Cell($w[4],6,$row[4],1,0,'C',$fill);
 		$this->Ln();
 		$fill = !$fill;
 	}
 }
 }
+
 ?>

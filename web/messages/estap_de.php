@@ -266,7 +266,8 @@
     "initializeTeachers.cancel" => "Abbrechen",
 
 // Print teachers page;
-    "printTeacher.headLine" => "Termine für %s (Raum: %s)",
+    "printTeacher.headLine" => "Termine für %s",
+    "printTeacher.headLineWithRoom" => "Termine für %s (Raum: %s)",
     "printTeacher.free" => "Frei",
     "printTeacher.locked" => "Termin blockiert",
 
@@ -370,7 +371,8 @@
     "styles.cantWriteConfig" => "Styles können nicht gespeichert werden. Bitte stellen Sie sicher, dass das 'data' Verzeichnis schreibbar ist.",
 
 // Teacher appointments page
-    "teacherAppointments.title" => "Termine für %s (Raum: %s)",
+    "teacherAppointments.title" => "Termine für %s",
+    "teacherAppointments.titleWithRoom" => "Termine für %s (Raum: %s)",
     "teacherAppointments.create.title" => "Neuer Termin",
     "teacherAppointments.create.help" => "Hier können Sie eine neue Termin-Reservierung beginnen. Wählen Sie einen Schüler/eine Schülerin aus und klicken Sie dann auf 'Sprechzeiten anfragen'. Sie gelangen dann auf eine Seite, wo Sie die freien Sprechzeiten einsehen können und wo Sie sich eine davon aussuchen können.",
     "teacherAppointments.time" => "Zeit",

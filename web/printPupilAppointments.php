@@ -23,7 +23,8 @@ $pupil = Pupil::getById($pupilId);
 $pdf = new PDF();
 
 // Column headings
-$header = array(utf8_decode(I18N::getMessage("printPDF.time")),utf8_decode(I18N::getMessage("printPDF.teacher")),utf8_decode(I18N::getMessage("printPDF.room")));
+$header = array(utf8_decode(I18N::getMessage("printPDF.time")),utf8_decode(I18N::getMessage("printPDF.teacher")));
+//$header = array(utf8_decode(I18N::getMessage("printPDF.time")),utf8_decode(I18N::getMessage("printPDF.teacher")),utf8_decode(I18N::getMessage("printPDF.room")));
 $pdf->SetFont('Arial','',9);
 $lines = array();
 $data = array();
@@ -38,7 +39,7 @@ $pupilIds[0] = $pupilId;
       {
         $lines[0] = $appointment->getTimeSlot()->getTimeString();
         $lines[1] = utf8_decode($appointment->getTeacher()->getName(Teacher::GENDER_LAST));
-        $lines[2] = $appointment->getTeacher()->getRoom();
+        //$lines[2] = $appointment->getTeacher()->getRoom();
         
         $data[$i] = $lines;
         unset($lines);

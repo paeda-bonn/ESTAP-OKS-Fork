@@ -23,7 +23,8 @@ $teachers = Teacher::getAll();
 $pdf = new PDF();
 
 // Column headings
-$header = array(utf8_decode(I18N::getMessage("printPDF.time")), utf8_decode(I18N::getMessage("printPDF.date")), utf8_decode(I18N::getMessage("printPDF.teacher")),utf8_decode(I18N::getMessage("printPDF.pupil")),utf8_decode(I18N::getMessage("printPDF.room")));
+$header = array(utf8_decode(I18N::getMessage("printPDF.time")), utf8_decode(I18N::getMessage("printPDF.date")), utf8_decode(I18N::getMessage("printPDF.teacher")),utf8_decode(I18N::getMessage("printPDF.pupil")));
+//$header = array(utf8_decode(I18N::getMessage("printPDF.time")), utf8_decode(I18N::getMessage("printPDF.date")), utf8_decode(I18N::getMessage("printPDF.teacher")),utf8_decode(I18N::getMessage("printPDF.pupil")),utf8_decode(I18N::getMessage("printPDF.room")));
 $pdf->SetFont('Arial','',9);
 $lines = array();
 $data = array();
@@ -41,7 +42,7 @@ $data = array();
         $lines[1] = utf8_decode($dateTime->format("d.m.Y")); 
         $lines[2] = utf8_decode($appointment->getTeacher()->getName(Teacher::GENDER_LAST));
         $lines[3] = utf8_decode($appointment->getPupil()->getName());
-        $lines[4] = $appointment->getTeacher()->getRoom();
+        //$lines[4] = $appointment->getTeacher()->getRoom();
         $data[$i] = $lines;
         unset($lines);
         $i++;
