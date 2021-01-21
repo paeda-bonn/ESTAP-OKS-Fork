@@ -106,7 +106,10 @@ $config = Config::get();
             <?php h::text($appointment->getTeacher()->getRoom()) ?>
           </td>
           <td>
-            <?php h::text($appointment->getTeacher()->getVCLink()) ?>
+            <?php if(!$config->isParentReservationEnabled()): h::text($appointment->getTeacher()->getVCLink()) ?>
+              <?php endif; ?>
+            <?php if($config->isParentReservationEnabled()): echo "Link wird nach dem ".$config->getReservationEndDate()." angezeigt"?>
+            <?php endif; ?>
           </td>
           <?php if ($config->isParentReservationEnabled()): ?>
             <td class="buttons">
