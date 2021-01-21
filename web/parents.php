@@ -149,11 +149,6 @@ $config = Config::get();
     <?php if (!$config->isParentReservationEnabled()): ?>
       <?php h::msg("appointments.reservationDisabled") ?>
       <?php if ($config->isReservationEnabled() & $config->isBeforeStartTime()): ?>
-<<<<<<< HEAD
-      <br>
-=======
-        <br>
->>>>>>> parent of edaf919... Revert "no message"
         <?php h::msg("appointments.reservationStart", $config->getReservationStartDate(), $config->getReservationStartTime()) ?>
       <?php endif ?>
     <?php endif ?>
