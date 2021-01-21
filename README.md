@@ -41,6 +41,12 @@ Installation
 * Login as `admin` with password `adminpass`.
 * Immediately change your username and password.
 
+Dev Installation
+----------------
+* Required: Docker, Git
+* Clone the repository `git clone git@github.com:paeda-bonn/ESTAP-OKS-Fork.git`
+* Do the steps for Installation
+* Start the Containers with `docker-compose up -d`
 
 Setup
 -----
