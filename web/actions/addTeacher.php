@@ -8,32 +8,27 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
-use ESTAP\Teacher;
 use ESTAP\Forms\AddTeacherForm;
 use ESTAP\Session;
+use ESTAP\Teacher;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $form = AddTeacherForm::parse("../addTeacher.php");
 
 $session = Session::get()->requireAdmin();
-try
-{
+try {
     Teacher::create($form->login, $form->password, $form->firstName, $form->lastName, $form->gender, $form->room, $form->vcLink);
     Messages::addInfo(I18N::getMessage("teachers.teacherAdded"));
     Request::redirect("../teachers.php");
-}
-catch (PDOException $e)
-{
+} catch (PDOException $e) {
     if ($e->getCode() == 23000)
         $form->addError("login", I18N::getMessage("addTeacher.loginAlreadyUsed"));
-    else 
+    else
         Messages::addError($e->getMessage());
     include "../addTeacher.php";
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../addTeacher.php";
 }

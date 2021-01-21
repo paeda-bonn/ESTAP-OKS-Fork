@@ -9,29 +9,26 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
 use ESTAP\Pupil;
 use ESTAP\Session;
 use ESTAP\Utils\DB;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $session = Session::get()->requireAdmin();
 
-try
-{
+try {
     DB::beginTransaction();
     $filename = $_FILES["pupils"]["tmp_name"];
-    if (!$filename) 
+    if (!$filename)
         throw new RuntimeException(I18N::getMessage("errors.noFile"));
     $file = fopen($filename, "rt");
-    while (($row = fgets($file)) !== false)
-    {
+    while (($row = fgets($file)) !== false) {
         $data = str_getcsv($row, ";");
-        if (count($data) != 5)
-        {
+        if (count($data) != 5) {
             throw new RuntimeException(
-                I18N::getMessage("errors.invalidPupilRow", $row)); 
+                I18N::getMessage("errors.invalidPupilRow", $row));
         }
         Pupil::create($data[0], $data[1], $data[4], $data[3], $data[2]);
     }
@@ -39,9 +36,7 @@ try
     DB::commit();
     Messages::addInfo(I18N::getMessage("pupils.uploaded"));
     Request::redirect("../pupils.php");
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     DB::rollback();
     Messages::addError($e->getMessage());
     include "../pupils.php";

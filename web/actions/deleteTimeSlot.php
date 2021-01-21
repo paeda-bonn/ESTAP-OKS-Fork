@@ -8,23 +8,20 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
 use ESTAP\Session;
 use ESTAP\TimeSlot;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 Session::get()->requireAdmin();
 $timeSlotId = +$_REQUEST["id"];
 
-try
-{
+try {
     TimeSlot::deleteById($timeSlotId);
     Messages::addInfo(I18N::getMessage("timeSlots.timeSlotDeleted"));
     Request::redirect("../timeSlots.php");
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../deleteTimeSlot.php";
 }

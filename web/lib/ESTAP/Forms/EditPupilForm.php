@@ -6,12 +6,7 @@
 
 namespace ESTAP\Forms;
 
-use ESTAP\Pupil;
-use ESTAP\User;
-use PhoolKit\Form;
 use PhoolKit\RequireValidator;
-use PhoolKit\MinLengthIfSetValidator;
-use PhoolKit\PasswordConfirmValidator;
 
 /**
  * Form for editing a pupil.
@@ -28,5 +23,5 @@ class EditPupilForm extends PupilForm
         $validators = parent::getValidators();
         $validators[] = new RequireValidator("id");
         return $validators;
-    }      
+    }
 }

@@ -8,13 +8,13 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
 use ESTAP\Config;
+use ESTAP\Exceptions\ConfigException;
 use ESTAP\Forms\ConfigForm;
 use ESTAP\Session;
-use ESTAP\Exceptions\ConfigException;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $form = ConfigForm::parse("../settings.php");
 $session = Session::get()->requireAdmin();
@@ -26,7 +26,9 @@ $config->setDuplicatesEnabled(!!$form->duplicatesEnabled);
 $config->setLocales(preg_split("/[\\s,]+/", $form->locales));
 $config->setDefaultLocale($form->defaultLocale);
 $values = preg_split("/[\\s,]+/", $form->timeSlotDurations);
-array_walk($values, function(&$a) { $a = intval($a); });
+array_walk($values, function (&$a) {
+    $a = intval($a);
+});
 $config->setTimeSlotDurations($values);
 $config->setDefaultTimeSlotDuration(intval($form->defaultTimeSlotDuration));
 $config->setMinPasswordLength(intval($form->minPasswordLength));
@@ -47,35 +49,30 @@ foreach ($form->title as $locale => $title)
 foreach ($form->greeting as $locale => $greeting)
     $config->setGreeting($locale, $greeting);
 
-try
-{
+try {
     $start = $form->reservationStartYear . '.' .
-      str_pad($form->reservationStartMonth,2,'0',STR_PAD_LEFT) . '.' .
-      str_pad($form->reservationStartDay,2,'0',STR_PAD_LEFT) . '.' .
-      str_pad($form->reservationStartHour,2,'0',STR_PAD_LEFT) . '.' .
-      str_pad($form->reservationStartMinute,2,'0',STR_PAD_LEFT);
+        str_pad($form->reservationStartMonth, 2, '0', STR_PAD_LEFT) . '.' .
+        str_pad($form->reservationStartDay, 2, '0', STR_PAD_LEFT) . '.' .
+        str_pad($form->reservationStartHour, 2, '0', STR_PAD_LEFT) . '.' .
+        str_pad($form->reservationStartMinute, 2, '0', STR_PAD_LEFT);
     $stop = $form->reservationEndYear . '.' .
-      str_pad($form->reservationEndMonth,2,'0',STR_PAD_LEFT) . '.' .
-      str_pad($form->reservationEndDay,2,'0',STR_PAD_LEFT) . '.' .
-      str_pad($form->reservationEndHour,2,'0',STR_PAD_LEFT) . '.' .
-      str_pad($form->reservationEndMinute,2,'0',STR_PAD_LEFT);
+        str_pad($form->reservationEndMonth, 2, '0', STR_PAD_LEFT) . '.' .
+        str_pad($form->reservationEndDay, 2, '0', STR_PAD_LEFT) . '.' .
+        str_pad($form->reservationEndHour, 2, '0', STR_PAD_LEFT) . '.' .
+        str_pad($form->reservationEndMinute, 2, '0', STR_PAD_LEFT);
     if ($stop <= $start):
-      Messages::addError(I18N::getMessage("settings.emptyTimeSlot"));
-      throw new Exception();
+        Messages::addError(I18N::getMessage("settings.emptyTimeSlot"));
+        throw new Exception();
     endif;
     $config->setLogo($form->deleteLogo ? null : $_FILES["logo"]);
     $config->setBackground($form->deleteBackground ? null : $_FILES["background"]);
     $config->save();
     Messages::addInfo(I18N::getMessage("settings.saved"));
     Request::redirect("../settings.php");
-}
-catch (ConfigException $e)
-{
+} catch (ConfigException $e) {
     Messages::addError(I18N::getMessage("settings.cantWriteConfig"));
     include "../settings.php";
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../settings.php";
 }

@@ -13,4 +13,6 @@ use Exception;
  *
  * @author Klaus Reimer <k@ailis.de>
  */
-class ConfigException extends Exception {}
+class ConfigException extends Exception
+{
+}

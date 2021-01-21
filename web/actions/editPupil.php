@@ -8,33 +8,28 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
-use ESTAP\Pupil;
 use ESTAP\Forms\EditPupilForm;
+use ESTAP\Pupil;
 use ESTAP\Session;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $form = EditPupilForm::parse("../editPupil.php");
 $session = Session::get()->requireAdmin();
-try
-{
+try {
     $pupil = Pupil::getById($form->id);
-    $pupil->update($form->login, $form->password, $form->firstName, 
+    $pupil->update($form->login, $form->password, $form->firstName,
         $form->lastName, $form->class);
     Messages::addInfo(I18N::getMessage("pupils.pupilEdited"));
     Request::redirect("../pupils.php");
-}
-catch (PDOException $e)
-{
+} catch (PDOException $e) {
     if ($e->getCode() == 23000)
         $form->addError("login", I18N::getMessage("editPupil.loginAlreadyUsed"));
-    else 
+    else
         Messages::addError($e->getMessage());
     include "../editPupil.php";
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../editPupil.php";
 }

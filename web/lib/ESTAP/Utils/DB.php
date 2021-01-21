@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * Copyright 2013 Amos-Comenius-Gymnasium Bonn <http://www.acg-bonn.de/>
  * See LICENSE.md for licensing information. 
@@ -10,19 +10,19 @@ use PDO;
 
 /**
  * Singleton for creating and caching the PDO database connection handle.
- * 
+ *
  * @author Klaus Reimer <k@ailis.de>
  */
 final class DB
-{    
-    /** 
-     * The database connection handle. NULL if not yet open. 
+{
+    /**
+     * The database connection handle. NULL if not yet open.
      *
      * @var PDO
      */
     private static $handle;
-    
-    
+
+
     /**
      * Private constructor to prevent instantiation.
      */
@@ -30,21 +30,20 @@ final class DB
     {
         // Nothing to do
     }
-    
+
     /**
      * Opens a connection to the database (if not already done) and returns
      * the connection handle. There is no need in closing the handle. This
      * done automatically when the request ends or when web server process
      * dies (if persistent mode is enabled).
-     * 
+     *
      * @return PDO
      *            The connection handle. Never null.
      */
     public static function open()
     {
-        if (!self::$handle)
-        {
-            self::$handle = new PDO(ESTAP_DB_DSN, ESTAP_DB_USER, ESTAP_DB_PASS, 
+        if (!self::$handle) {
+            self::$handle = new PDO(ESTAP_DB_DSN, ESTAP_DB_USER, ESTAP_DB_PASS,
                 array(
                     PDO::ATTR_PERSISTENT, ESTAP_DB_PERSISTENT
                 ));
@@ -53,10 +52,10 @@ final class DB
         }
         return self::$handle;
     }
-    
+
     /**
      * Utility method to easily send a query.
-     * 
+     *
      * @param string $sql
      *            The SQL statement.
      * @param array $params
@@ -71,12 +70,12 @@ final class DB
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
         return $data;
-    }   
+    }
 
     /**
      * Performs a query for a single result. Only the first row is returned.
      * If the result was empty then NULL is returned.
-     * 
+     *
      * @param string $sql
      *            The SQL statement.
      * @param array $params
@@ -91,11 +90,11 @@ final class DB
         if (count($result) == 0) return NULL;
         return $result[0];
     }
-    
+
     /**
-     * Performs a query for a single integer value. If the result was empty 
+     * Performs a query for a single integer value. If the result was empty
      * then NULL is returned.
-     * 
+     *
      * @param string $sql
      *            The SQL statement.
      * @param array $params
@@ -109,12 +108,12 @@ final class DB
         if (is_null($row)) return false;
         $values = array_values($row);
         return intval($values[0], 10);
-    }    
-    
+    }
+
     /**
-     * Performs a query for a single boolean value. If the result was empty then 
+     * Performs a query for a single boolean value. If the result was empty then
      * false is returned.
-     * 
+     *
      * @param string $sql
      *            The SQL statement.
      * @param array $params
@@ -128,13 +127,13 @@ final class DB
         if (is_null($row)) return false;
         $values = array_values($row);
         return !!$values[0];
-    }    
-    
+    }
+
     /**
      * Executes an SQL command. For an INSERT statement you should specify
      * a sequence name if you want this method to return the ID for the new
      * row. Otherwise this method returns the number of affected rows.
-     * 
+     *
      * @param string $sql
      *            The SQL statement.
      * @param array $params
@@ -153,6 +152,7 @@ final class DB
         else
             return $stmt->rowCount();
     }
+
     /**
      * Starts a new transaction.
      */
@@ -168,7 +168,7 @@ final class DB
     {
         self::open()->commit();
     }
-     
+
     /**
      * Performs a rollback of the current transaction.
      */

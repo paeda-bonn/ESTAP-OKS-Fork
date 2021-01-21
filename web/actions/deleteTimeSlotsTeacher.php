@@ -8,36 +8,30 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
-use ESTAP\TimeSlot;
 use ESTAP\Session;
+use ESTAP\TimeSlot;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
-if (isset($_REQUEST["admin"]))
-{
+if (isset($_REQUEST["admin"])) {
     $session = Session::get()->requireAdmin();
     $admin = true;
-}
-else
-{
+} else {
     $session = Session::get()->requireTeacher();
     $admin = false;
 }
 $teacherID = htmlspecialchars($_GET["teacher"]);
-try
-{
-    TimeSlot::deleteTeacher($teacherID);    
+try {
+    TimeSlot::deleteTeacher($teacherID);
     Messages::addInfo(I18N::getMessage("timeSlots.deleted"));
-    if($admin){
-       Request::redirect("../editTeacher.php?id=".$teacherID); 
-    }else{
+    if ($admin) {
+        Request::redirect("../editTeacher.php?id=" . $teacherID);
+    } else {
         Request::redirect("../editTeacher.php");
     }
-    
-}
-catch (Exception $e)
-{
+
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../deleteTimeSlotsTeacher.php";
 }

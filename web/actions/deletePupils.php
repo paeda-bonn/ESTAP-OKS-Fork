@@ -8,22 +8,19 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
 use ESTAP\Pupil;
 use ESTAP\Session;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $session = Session::get()->requireAdmin();
 
-try
-{
-    Pupil::deleteAll();    
+try {
+    Pupil::deleteAll();
     Messages::addInfo(I18N::getMessage("pupils.deleted"));
     Request::redirect("../pupils.php");
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../deletePupils.php";
 }

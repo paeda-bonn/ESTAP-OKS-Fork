@@ -8,34 +8,28 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
-use ESTAP\Session;
 use ESTAP\Appointment;
+use ESTAP\Session;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
-if (isset($_REQUEST["teacher"]))
-{
+if (isset($_REQUEST["teacher"])) {
     $session = Session::get()->requireAdmin();
     $teacherId = +$_REQUEST["teacher"];
     $target = "../teacherAppointments.php?teacher=$teacherId";
-}
-else
-{
+} else {
     $session = Session::get()->requireTeacher();
     $teacherId = $session->getTeacher()->getId();
     $target = "../teacherAppointments.php";
 }
 $pupilId = $_REQUEST["pupil"];
 
-try
-{
+try {
     Appointment::deleteByPupilTeacher($pupilId, $teacherId);
     Messages::addInfo(I18N::getMessage("teacherAppointments.deleted"));
     Request::redirect($target);
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../teacherAppointments.php";
 }

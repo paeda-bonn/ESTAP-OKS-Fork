@@ -8,34 +8,27 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
+use ESTAP\Config;
 use ESTAP\Forms\LoginForm;
 use ESTAP\Session;
-use ESTAP\Config;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $form = LoginForm::parse("../login.php");
 
 $session = Session::get();
-try
-{
+try {
     Config::get()->requireParentLoginEnabled();
     $pupil = $session->loginParent($form->login, $form->password);
-    if ($form->another)
-    {
-        Messages::addInfo(I18N::getMessage("login.loggedIn", 
-            $pupil->getName())); 
+    if ($form->another) {
+        Messages::addInfo(I18N::getMessage("login.loggedIn",
+            $pupil->getName()));
         Request::redirect("../login.php");
-    }
-    else
-    {
+    } else {
         Request::redirect("../parents.php");
     }
-}
-
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../login.php";
 }

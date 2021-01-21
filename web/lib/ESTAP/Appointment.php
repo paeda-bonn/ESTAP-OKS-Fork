@@ -6,12 +6,8 @@
 
 namespace ESTAP;
 
-use InvalidArgumentException;
-use Phoolkit\I18N;
 use ESTAP\Utils\DB;
-use ESTAP\Teacher;
-use ESTAP\TimeSlot;
-use ESTAP\Pupil;
+use InvalidArgumentException;
 
 /**
  * A appointment.
@@ -223,7 +219,8 @@ final class Appointment
         return $appointment;
     }
 
-    public static function lockAppointmentsForDate($teacherId, $date){
+    public static function lockAppointmentsForDate($teacherId, $date)
+    {
         $sql = "INSERT INTO `appointments`(`time_slot_id`, `teacher_id`, `pupil_id`)"
             . " SELECT id, :teacher_id, NULL FROM time_slots "
             . "WHERE id NOT IN (SELECT time_slot_id FROM `appointments` WHERE teacher_id=:teacher_id) AND `date`=:date";
@@ -280,8 +277,7 @@ final class Appointment
             . "WHERE `Lehrer`='ALL' OR `Lehrer`='$teacherId'"
             . "ORDER BY ts.date ASC, ts.start_time ASC";
         $params = array("teacher_id" => $teacherId);
-        foreach (DB::query($sql, $params) as $row)
-        {
+        foreach (DB::query($sql, $params) as $row) {
             $id = $row["id"];
             $teacherId = $row["teacher_id"];
             $pupilId = $row["pupil_id"];
@@ -295,7 +291,8 @@ final class Appointment
         return $appointments;
     }
 
-    public static function teacherIsFullyBooked($teacherId){
+    public static function teacherIsFullyBooked($teacherId)
+    {
         $sql = "Select * from (SELECT COUNT(*) as teacherAppointmentCount FROM `appointments` WHERE teacher_id=:teacher_id) as i, 
                 (SELECT COUNT(*) as timeSlotCount FROM `time_slots`) as j";
         $row = DB::query($sql, array("teacher_id" => $teacherId))[0];
@@ -328,8 +325,7 @@ final class Appointment
             . "OR r.pupil_id=:pupil_id) "
             . "ORDER BY ts.date ASC, ts.start_time ASC";
         $params = array("teacher_id" => $teacherId, "pupil_id" => $pupilId);
-        foreach (DB::query($sql, $params) as $row)
-        {
+        foreach (DB::query($sql, $params) as $row) {
             $id = $row["id"];
             $teacherId = $row["teacher_id"];
             $pupilId = $row["pupil_id"];
@@ -361,8 +357,7 @@ final class Appointment
             . "t.id=r.teacher_id WHERE r.pupil_id IN (%s) "
             . "AND t.active=1 ORDER BY ts.start_time ASC",
             implode(",", $pupilIds));
-        foreach (DB::query($sql) as $row)
-        {
+        foreach (DB::query($sql) as $row) {
             $id = $row["id"];
             $teacherId = $row["teacher_id"];
             $pupilId = $row["pupil_id"];
@@ -411,8 +406,7 @@ final class Appointment
     public static function getSelected($appointments, $pupilId, $teacherId)
     {
         $selected = null;
-        foreach ($appointments as $appointment)
-        {
+        foreach ($appointments as $appointment) {
             if (!$appointment->isReserved() && is_null($selected))
                 $selected = $appointment;
             if ($appointment->isReservedTo($pupilId, $teacherId))
@@ -430,8 +424,7 @@ final class Appointment
      */
     public static function isConflict($appointment, $appointments)
     {
-        foreach ($appointments as $other)
-        {
+        foreach ($appointments as $other) {
             if ($other === $appointment) continue;
             if ($other->getTimeSlotId() == $appointment->getTimeSlotId())
                 return true;

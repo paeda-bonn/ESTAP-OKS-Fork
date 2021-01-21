@@ -8,8 +8,8 @@
 
 require_once "estap.php";
 
-use ESTAP\Session;
 use ESTAP\Forms\AddTimeSlotsForm;
+use ESTAP\Session;
 use ESTAP\TimeSlot;
 use PhoolKit\HTML as h;
 
@@ -17,7 +17,8 @@ $session = Session::get()->requireAdmin();
 $timeSlots = TimeSlot::getAll();
 
 ?>
-<?php $pageId="timeSlots"; include "parts/header.php" ?>
+<?php $pageId = "timeSlots";
+include "parts/header.php" ?>
 <?php include "parts/adminNav.php" ?>
 <div id="content">
     <h2><?php h::msg("timeSlots.title") ?></h2>
@@ -95,7 +96,7 @@ $timeSlots = TimeSlot::getAll();
                 </div>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?php h::msg("timeSlots.create") ?>" />
+                <input type="submit" value="<?php h::msg("timeSlots.create") ?>"/>
             </div>
 
         </form>
@@ -135,7 +136,7 @@ $timeSlots = TimeSlot::getAll();
                                 </a>
                             </td>
                         </tr>
-                    <?php endforeach?>
+                    <?php endforeach ?>
                 </table>
             <?php endforeach ?>
         <?php endif ?>

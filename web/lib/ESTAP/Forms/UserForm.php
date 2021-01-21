@@ -6,12 +6,12 @@
 
 namespace ESTAP\Forms;
 
+use ESTAP\Config;
 use ESTAP\User;
 use PhoolKit\Form;
-use PhoolKit\RequireValidator;
 use PhoolKit\MinLengthIfSetValidator;
 use PhoolKit\PasswordConfirmValidator;
-use ESTAP\Config;
+use PhoolKit\RequireValidator;
 
 /**
  * User data form.
@@ -22,46 +22,46 @@ class UserForm extends Form
 {
     /**
      * The user ID.
-     * 
+     *
      * @var integer
      */
     public $id;
-    
-    /** 
+
+    /**
      * The login name.
-     * 
+     *
      * @var string
      */
     public $login;
 
-    /** 
+    /**
      * The password.
-     * 
+     *
      * @var string
      */
     public $password;
-    
-    /** 
+
+    /**
      * The password confirmation.
-     * 
+     *
      * @var string
      */
     public $passwordConfirmation;
-    
-    /** 
+
+    /**
      * The first name.
-     * 
+     *
      * @var string
      */
     public $firstName;
-    
-    /** 
+
+    /**
      * The last name.
-     * 
+     *
      * @var string
      */
     public $lastName;
-    
+
     /**
      * @see PhoolKit.Form::getValidators()
      */
@@ -70,24 +70,21 @@ class UserForm extends Form
         return array(
             new RequireValidator("login", "firstName", "lastName"),
             new MinLengthIfSetValidator(Config::get()->getMinPasswordLength(), "password"),
-            new PasswordConfirmValidator("password", "passwordConfirmation")            
+            new PasswordConfirmValidator("password", "passwordConfirmation")
         );
     }
-    
+
     /**
      * @see PhoolKit.Form::init()
      */
     public function init(User $user = null)
     {
-        if ($user)
-        {
-            $this->id = $user->getId();            
+        if ($user) {
+            $this->id = $user->getId();
             $this->login = $user->getLogin();
             $this->firstName = $user->getFirstName();
             $this->lastName = $user->getLastName();
-        }
-        else
-        {
+        } else {
             $this->id = null;
             $this->login = "";
             $this->firstName = "";
@@ -95,5 +92,5 @@ class UserForm extends Form
         }
         $this->password = "";
         $this->passwordConfirmation = "";
-    }    
+    }
 }

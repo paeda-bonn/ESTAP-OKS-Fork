@@ -6,12 +6,8 @@
 
 namespace ESTAP\Forms;
 
-use ESTAP\Pupil;
 use ESTAP\User;
-use PhoolKit\Form;
 use PhoolKit\RequireValidator;
-use PhoolKit\MinLengthIfSetValidator;
-use PhoolKit\PasswordConfirmValidator;
 
 /**
  * Form for teacher data.
@@ -22,14 +18,14 @@ class TeacherForm extends UserForm
 {
     /**
      * The gender.
-     * 
+     *
      * @var string
      */
     public $gender;
-    
+
     /**
      * The room.
-     * 
+     *
      * @var string
      */
     public $room;
@@ -44,7 +40,7 @@ class TeacherForm extends UserForm
     public $month;
     public $year;
     public $vcLink;
-    
+
     /**
      * @see PhoolKit.Form::getValidators()
      */
@@ -54,25 +50,22 @@ class TeacherForm extends UserForm
         $validators[] = new RequireValidator("gender");
         return $validators;
     }
-    
+
     /**
      * @see PhoolKit.Form::init()
      */
     public function init(User $teacher = null)
     {
         parent::init($teacher);
-        
-        if ($teacher)
-        {
+
+        if ($teacher) {
             $this->room = $teacher->getRoom();
             $this->gender = $teacher->getGender();
             $this->vcLink = $teacher->getVCLink();
-        }
-        else
-        {
+        } else {
             $this->room = "";
             $this->gender = "f";
             $this->vcLink = "";
         }
-    }    
+    }
 }

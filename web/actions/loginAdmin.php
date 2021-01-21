@@ -8,21 +8,18 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
 use ESTAP\Forms\LoginForm;
 use ESTAP\Session;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $form = LoginForm::parse("../loginAdmin.php");
 
 $session = Session::get();
-try
-{
+try {
     $session->loginAdmin($form->login, $form->password);
     Request::redirect("../admins.php");
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../loginAdmin.php";
 }

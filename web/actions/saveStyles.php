@@ -8,31 +8,25 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
 use ESTAP\Config;
-use ESTAP\Forms\ConfigForm;
-use ESTAP\Session;
 use ESTAP\Exceptions\ConfigException;
+use ESTAP\Session;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $session = Session::get()->requireAdmin();
 $config = Config::get();
 
-try
-{
+try {
     $config->setStyles(Request::getParam("css", ""));
     $config->save();
     Messages::addInfo(I18N::getMessage("styles.saved"));
     Request::redirect("../styles.php");
-}
-catch (ConfigException $e)
-{
+} catch (ConfigException $e) {
     Messages::addError(I18N::getMessage("settings.cantWriteStyles"));
     include "../styles.php";
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../styles.php";
 }

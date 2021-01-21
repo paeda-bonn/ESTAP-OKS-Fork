@@ -8,33 +8,28 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
 use ESTAP\Admin;
 use ESTAP\Forms\EditAdminForm;
 use ESTAP\Session;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $form = EditAdminForm::parse("../editAdmin.php");
 $session = Session::get()->requireAdmin();
-try
-{
+try {
     $admin = Admin::getById($form->id);
-    $admin->update($form->login, $form->password, $form->firstName, 
+    $admin->update($form->login, $form->password, $form->firstName,
         $form->lastName);
     Messages::addInfo(I18N::getMessage("admins.adminEdited"));
     Request::redirect("../admins.php");
-}
-catch (PDOException $e)
-{
+} catch (PDOException $e) {
     if ($e->getCode() == 23000)
         $form->addError("login", I18N::getMessage("editAdmin.loginAlreadyUsed"));
-    else 
+    else
         Messages::addError($e->getMessage());
     include "../editAdmin.php";
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../editAdmin.php";
 }

@@ -1,85 +1,72 @@
 @import "reset.css";
 
-html
-{
+html {
     height: 100%;
 }
 
-body
-{
+body {
     font-family: Arial, sans-serif;
     font-size: 14px;
     color: #555;
     height: 100%;
 }
 
-a
-{
+a {
     color: #00f;
-    text-decoration: underline;    
+    text-decoration: underline;
 }
 
-p
-{
+p {
     text-align: justify;
     line-height: 1.25em;
     margin-bottom: 1em;
 }
 
-table
-{
+table {
     margin-bottom: 1em;
     background: #fff;
     margin-left: 3em;
 }
 
-th, td
-{
+th, td {
     padding: 5px 10px;
     border: solid 1px #ccc;
 }
 
-tr:nth-child(odd) td
-{
+tr:nth-child(odd) td {
     background: #f8f8f8;
 }
 
-th
-{
+th {
     font-weight: bold;
     background: #eee;
     text-align: center;
 }
 
-pre
-{
+pre {
     font-family: "Courier New", monospace;
     background: #f8f8f8;
     padding: 5px 10px;
     border: solid 1px #ccc;
-    margin-bottom: 1em; 
+    margin-bottom: 1em;
 }
 
-dl
-{
+dl {
     margin-bottom: 1em;
     line-height: 1.25em;
 }
 
-dt
-{
+dt {
     float: left;
     margin-right: 5px;
 }
 
-dt:after
-{
+dt:after {
     content: ":";
 }
 
-dd
-{
-    font-weight: bold;   
+dd {
+    font-weight: bold;
 }
 
 
@@ -87,59 +74,50 @@ dd
  * Header                                                                    *
  *****************************************************************************/
 
-.page
-{
+.page {
     min-height: 100%;
     position: relative;
 }
 
-.page > header
-{
-    background-color: #eee;    
+.page > header {
+    background-color: #eee;
     border-bottom: solid 1px #ccc;
 }
 
-.page > header .content
-{
+.page > header .content {
     /*width: 980px;*/
     margin: 0 auto;
     padding: 10px 20px;
     position: relative;
 }
 
-.page > header h1
-{
+.page > header h1 {
     font-size: 25px;
-    font-weight: bold; 
+    font-weight: bold;
 }
 
-.page > header h1 img
-{
+.page > header h1 img {
     vertical-align: middle;
-    max-height: 64px; 
+    max-height: 64px;
 }
 
-.page > header nav
-{
+.page > header nav {
     position: absolute;
     right: 10px;
     bottom: 10px;
 }
 
-.page > header nav li
-{
+.page > header nav li {
     display: inline;
 }
 
-.page > header nav li:before
-{
+.page > header nav li:before {
     content: "|";
     margin-left: 5px;
     margin-right: 10px;
 }
 
-.page > header nav li:first-child:before
-{
+.page > header nav li:first-child:before {
     content: "";
 }
 
@@ -147,34 +125,29 @@ dd
 /*****************************************************************************
  * Admin and Teacher navigation bar                                          *
  *****************************************************************************/
- 
-nav.admin, nav.teacher
-{
+
+nav.admin, nav.teacher {
     background: #ddd;
-    border-bottom: solid 1px #ccc;    
+    border-bottom: solid 1px #ccc;
 }
 
-nav.admin ul, nav.teacher ul
-{
+nav.admin ul, nav.teacher ul {
     /*width: 980px;*/
     margin: 0 auto;
     padding: 10px 20px;
 }
 
-nav.admin li, nav.teacher li
-{
+nav.admin li, nav.teacher li {
     display: inline;
 }
 
-nav.admin li:after, nav.teacher li:after
-{
+nav.admin li:after, nav.teacher li:after {
     content: "|";
     margin-left: 10px;
     margin-right: 5px;
 }
 
-nav.admin li:last-child:after, nav.teacher li:last-child:after
-{
+nav.admin li:last-child:after, nav.teacher li:last-child:after {
     content: "";
 }
 
@@ -183,8 +156,7 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
  * Footer                                                                    *
  *****************************************************************************/
 
-.page > footer
-{
+.page > footer {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -193,8 +165,7 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
     border-top: solid 1px #ccc;
 }
 
-.page > footer .copyright
-{
+.page > footer .copyright {
     /*width: 980px;*/
     margin: 0 auto;
     text-align: center;
@@ -203,36 +174,31 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
     position: relative;
 }
 
-.page > footer .content
-{
+.page > footer .content {
     /*width: 980px;*/
     margin: 0 auto;
-    height: 16px; 
+    height: 16px;
     padding: 10px 20px;
     position: relative;
 }
 
-.page > footer nav
-{
+.page > footer nav {
     position: absolute;
     left: 10px;
     top: 10px;
 }
 
-.page > footer nav li
-{
+.page > footer nav li {
     display: inline;
 }
 
-.page > footer nav li:before
-{
+.page > footer nav li:before {
     content: "|";
     margin-left: 5px;
     margin-right: 10px;
 }
 
-.page > footer nav li:first-child:before
-{
+.page > footer nav li:first-child:before {
     content: "";
 }
 
@@ -240,31 +206,27 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
  * Content area common stuff                                                 *
  *****************************************************************************/
 
-#content
-{
+#content {
     /*width: 980px*/
     margin: 0 auto;
     padding: 20px 20px 72px 20px;
 }
 
-#content h2
-{
+#content h2 {
     font-weight: bold;
     font-size: 20px;
     margin-top: 2em;
     margin-bottom: 1em;
 }
 
-#content h3
-{
+#content h3 {
     font-weight: bold;
     font-size: 17px;
     margin-top: 2em;
     margin-bottom: 1em;
 }
 
-#content h4
-{
+#content h4 {
     font-weight: bold;
     font-size: 15px;
     margin-top: 2em;
@@ -273,52 +235,43 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
 
 #content h2:first-child,
 #content h3:first-child,
-#content h4:first-child
-{
+#content h4:first-child {
     margin-top: 0;
 }
 
-#content form label
-{
+#content form label {
     display: block;
     margin-top: 1em;
     margin-bottom: 0.25em;
 }
 
-#content form table label
-{
+#content form table label {
     display: inline;
     margin: 0;
 }
 
-#content form .fields
-{
+#content form .fields {
     margin-bottom: 1em;
 }
 
-#content form .field.checkbox
-{
+#content form .field.checkbox {
     margin-top: 1em;
 }
 
-#content form .field.checkbox label
-{
+#content form .field.checkbox label {
     display: inline;
     margin: 0;
 }
 
-#content form input[type=checkbox]
-{
+#content form input[type=checkbox] {
 }
 
-#content form .messages .error
-{
+#content form .messages .error {
     color: #f00;
     margin-top: 0.25em;
 }
 
-#content .messages.global
-{
+#content .messages.global {
     margin-bottom: 1em;
     padding: 5px 10px;
     border: solid 1px #000;
@@ -326,69 +279,58 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
     border-radius: 3px;
 }
 
-#content .messages.global:empty
-{
+#content .messages.global:empty {
     display: none;
 }
 
-#content .messages.global .error
-{
+#content .messages.global .error {
     color: #ff0000;
 }
 
-#content .messages.global .info
-{
+#content .messages.global .info {
     color: #080;
 }
 
-#content .startbuttons
-{
-  margin-bottom: 1em;
+#content .startbuttons {
+    margin-bottom: 1em;
 }
 
-#content .startbuttons *
-{
+#content .startbuttons * {
     font-size: 1.3em;
     display: inline-block;
     margin-right: 15px;
     margin-top: 1em;
 }
 
-#content .startbuttons *:last-child
-{
+#content .startbuttons *:last-child {
     margin-right: 0;
 }
 
-#content .print *
-{
+#content .print * {
     float: left;
     margin-right: 10px;
 }
 
-#content .buttons
-{
+#content .buttons {
     margin-bottom: 1em;
 }
 
-#content .buttons .main
-{
+#content .buttons .main {
     background-color: red;
 }
-#content .buttons *
-{
+
+#content .buttons * {
     display: inline-block;
     margin-right: 10px;
 }
 
-#content .buttons *:last-child
-{
+#content .buttons *:last-child {
     margin-right: 0;
 }
 
-#content th.buttons
-{
-    //border: none;
-    //background: transparent;
+#content th.buttons {
+/ / border: none;
+/ / background: transparent;
 }
 
 /*****************************************************************************
@@ -396,20 +338,17 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
  *****************************************************************************/
 
 #createAppointment-page .reserved td,
-#createTeacherAppointment-page .reserved td
-{
+#createTeacherAppointment-page .reserved td {
     background-color: #fdd;
 }
 
 #createAppointment-page .free td,
-#createTeacherAppointment-page .free td
-{
+#createTeacherAppointment-page .free td {
     background-color: #dfd;
 }
 
 #createAppointment-page .own td,
-#createTeacherAppointment-page .own td
-{
+#createTeacherAppointment-page .own td {
     background-color: #ddf;
 }
 
@@ -420,28 +359,23 @@ nav.admin li:last-child:after, nav.teacher li:last-child:after
 
 #appointments-page form .field,
 #appointments-page form .fields,
-#appointments-page form .buttons
-{
+#appointments-page form .buttons {
     display: inline-block;
 }
 
-appointments-page form label
-{
+appointments-page form label {
     margin-top: 0;
 }
 
-#appointments-page form .field
-{
-    margin-right: 20px;    
+#appointments-page form .field {
+    margin-right: 20px;
 }
 
-#appointments-page tr.conflict
-{
+#appointments-page tr.conflict {
     background-color: #ff8;
 }
 
-#appointments-page p.conflicts
-{
+#appointments-page p.conflicts {
     background-image: url(../images/icons/12x12/warning.png);
     background-repeat: no-repeat;
     background-position: 5px 5px;
@@ -451,8 +385,7 @@ appointments-page form label
     border-radius: 3px;
 }
 
-#appointments-page tr.conflict:nth-child(odd) td
-{
+#appointments-page tr.conflict:nth-child(odd) td {
     background-color: #ff0;
 }
 
@@ -463,40 +396,34 @@ appointments-page form label
 
 #timeSlots-page form .field,
 #timeSlots-page form .fields,
-#timeSlots-page form .buttons
-{
-    display: inline-block;    
+#timeSlots-page form .buttons {
+    display: inline-block;
 }
 
-#timeSlots-page form label
-{
+#timeSlots-page form label {
     margin-top: 0;
 }
 
-#timeSlots-page form .field
-{
-    margin-right: 20px;    
+#timeSlots-page form .field {
+    margin-right: 20px;
 }
 
 /*****************************************************************************
  * Settings page                                                             *
  *****************************************************************************/
 
-#settings-page .enabled
-{
+#settings-page .enabled {
     font-weight: bold;
     color: #080;
 }
 
-#settings-page .disabled
-{
+#settings-page .disabled {
     font-weight: bold;
     color: #f00;
 }
 
 #settings-page form .field,
-#settings-page form .fields
-{
+#settings-page form .fields {
     display: inline-block;
     margin-right: 10px;
 }
@@ -508,57 +435,47 @@ appointments-page form label
 
 #teacherAppointments-page form .field,
 #teacherAppointments-page form .fields,
-#teacherAppointments-page form .buttons
-{
+#teacherAppointments-page form .buttons {
     display: inline-block;
 }
 
-#teacherAppointments-page form label
-{
+#teacherAppointments-page form label {
     margin-top: 0;
 }
 
-#teacherAppointments-page form .field
-{
-    margin-right: 20px;    
+#teacherAppointments-page form .field {
+    margin-right: 20px;
 }
 
-#teacherAppointments-page .status
-{
+#teacherAppointments-page .status {
     text-align: center;
 }
 
-#teacherAppointments-page .free td
-{
-    background-color: #dfd;    
+#teacherAppointments-page .free td {
+    background-color: #dfd;
 }
 
-#teacherAppointments-page .reserved td
-{
+#teacherAppointments-page .reserved td {
     background-color: #fdd;
 }
 
-#teacherAppointments-page .locked td
-{
+#teacherAppointments-page .locked td {
     background-color: #fee;
 }
 
-#teachers-page .inactive td
-{
+#teachers-page .inactive td {
     background-color: #fee;
 }
 
-#teachers-page .active td
-{
+#teachers-page .active td {
 }
 
 /*****************************************************************************
  * Styles editor                                                             *
  *****************************************************************************/
 
-#styles-page textarea
-{
-   width: 100%;
-   height: 512px;
-   margin-bottom: 1em;
+#styles-page textarea {
+    width: 100%;
+    height: 512px;
+    margin-bottom: 1em;
 }

@@ -23,7 +23,7 @@ define("ESTAP_DB_PERSISTENT", false);
 
 // The database DSN. It is automatically build from the connection parameters
 // above, so usually you don't need to touch it
-define("ESTAP_DB_DSN", ESTAP_DB_TYPE . 
-    ":dbname=" . ESTAP_DB_NAME . 
+define("ESTAP_DB_DSN", ESTAP_DB_TYPE .
+    ":dbname=" . ESTAP_DB_NAME .
     ";host=" . ESTAP_DB_HOST .
     ";port=" . ESTAP_DB_PORT);

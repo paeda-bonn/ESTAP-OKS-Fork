@@ -6,12 +6,7 @@
 
 namespace ESTAP\Forms;
 
-use ESTAP\Pupil;
-use ESTAP\User;
-use PhoolKit\Form;
 use PhoolKit\RequireValidator;
-use PhoolKit\MinLengthIfSetValidator;
-use PhoolKit\PasswordConfirmValidator;
 
 /**
  * Form for adding a pupil.

@@ -9,29 +9,26 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
-use ESTAP\Teacher;
 use ESTAP\Session;
+use ESTAP\Teacher;
 use ESTAP\Utils\DB;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $session = Session::get()->requireAdmin();
 
-try
-{
+try {
     DB::beginTransaction();
     $filename = $_FILES["teachers"]["tmp_name"];
-    if (!$filename) 
+    if (!$filename)
         throw new RuntimeException(I18N::getMessage("errors.noFile"));
     $file = fopen($filename, "rt");
-    while (($row = fgets($file)) !== false)
-    {
+    while (($row = fgets($file)) !== false) {
         $data = str_getcsv($row, ";");
-        if (count($data) != 7)
-        {
+        if (count($data) != 7) {
             throw new RuntimeException(
-                I18N::getMessage("errors.invalidTeacherRow", $row)); 
+                I18N::getMessage("errors.invalidTeacherRow", $row));
         }
         Teacher::create($data[0], $data[1], $data[3], $data[2], $data[4], $data[5], $data[6]);
     }
@@ -39,9 +36,7 @@ try
     DB::commit();
     Messages::addInfo(I18N::getMessage("teachers.uploaded"));
     Request::redirect("../teachers.php");
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     DB::rollback();
     Messages::addError($e->getMessage());
     include "../teachers.php";

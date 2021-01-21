@@ -13,6 +13,7 @@ use ESTAP\Config;
 use ESTAP\Pupil;
 use ESTAP\Session;
 use ESTAP\Teacher;
+use ESTAP\TimeSlot;
 use PhoolKit\HTML as h;
 use PhoolKit\I18N;
 
@@ -80,7 +81,7 @@ $isReservationEnabled = ($teacher->isActive() & $config->isTeacherReservationEna
             <input type="hidden" name="teacher" value="<?php h::text($teacherId) ?>"/>
             <div class="field">
                 <select name="date">
-                    <?php foreach (\ESTAP\TimeSlot::getDistinctDates(\ESTAP\TimeSlot::getAll()) as $date): ?>
+                    <?php foreach (TimeSlot::getDistinctDates(TimeSlot::getAll()) as $date): ?>
                         <?php $dateTime = new DateTime($date); ?>
                         <option value="<?php h::text($dateTime->format("Y-m-d")); ?>"><?php h::text($dateTime->format("d.m.Y")) ?></option>
                     <?php endforeach ?>

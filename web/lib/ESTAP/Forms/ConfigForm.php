@@ -6,9 +6,9 @@
 
 namespace ESTAP\Forms;
 
+use ESTAP\Config;
 use PhoolKit\Form;
 use PhoolKit\RequireValidator;
-use ESTAP\Config;
 
 /**
  * The configuration form.
@@ -234,8 +234,7 @@ class ConfigForm extends Form
         $this->reservationEndMinute = $config->getReservationEndMinute();
         $this->title = array();
         $this->greeting = array();
-        foreach ($config->getLocales() as $locale)
-        {
+        foreach ($config->getLocales() as $locale) {
             $this->title[$locale] = $config->getTitle($locale);
             $this->greeting[$locale] = $config->getGreeting($locale);
         }

@@ -8,9 +8,9 @@
 
 require_once "estap.php";
 
+use ESTAP\Appointment;
 use ESTAP\Session;
 use ESTAP\Teacher;
-use ESTAP\Appointment;
 use PhoolKit\HTML as h;
 
 $pupilId = $_REQUEST["pupil"];
@@ -20,7 +20,8 @@ $pupil = $session->getPupil($pupilId);
 $teacher = Teacher::getById($teacherId);
 
 ?>
-<?php $pageId = "createAppointment"; include "parts/header.php" ?>
+<?php $pageId = "createAppointment";
+include "parts/header.php" ?>
 <div id="content">
     <h2><?php h::msg("createAppointment.title") ?></h2>
 
@@ -29,10 +30,10 @@ $teacher = Teacher::getById($teacherId);
     <p class="help"><?php h::msg("createAppointment.help") ?></p>
 
     <form action="<?php h::url("actions/createAppointment.php") ?>" method="post" novalidate>
-        <input type="hidden" name="teacher" value="<?php echo $teacher->getId() ?>" />
-        <input type="hidden" name="pupil" value="<?php echo $pupil->getId() ?>" />
+        <input type="hidden" name="teacher" value="<?php echo $teacher->getId() ?>"/>
+        <input type="hidden" name="pupil" value="<?php echo $pupil->getId() ?>"/>
         <div class="buttons">
-            <input type="submit" value="<?php h::msg("createAppointment.reserve") ?>" />
+            <input type="submit" value="<?php h::msg("createAppointment.reserve") ?>"/>
             <a href="<?php h::url("parents.php") ?>">
                 <?php h::msg("createAppointment.cancel") ?>
             </a>
@@ -61,14 +62,14 @@ $teacher = Teacher::getById($teacherId);
             <?php endif; ?>
             <?php foreach ($appointments as $appointment): ?>
                 <?php $timeSlot = $appointment->getTimeSlot() ?>
-                <tr class="<?php echo $appointment->isReserved() ? "reserved" : "free" ?> <?php if ($appointment->isReservedTo($pupilId, $teacherId)):?>own<?php endif ?>">
+                <tr class="<?php echo $appointment->isReserved() ? "reserved" : "free" ?> <?php if ($appointment->isReservedTo($pupilId, $teacherId)): ?>own<?php endif ?>">
                     <td>
                         <?php if (!$appointment->isReserved() || $appointment->isReservedTo($pupilId, $teacherId)): ?>
-                            <input id="timeSlot-<?php echo $appointment->getTimeSlotId()?>" type="radio" name="timeSlot" value="<?php echo $timeSlot->getId() ?>" <?php if ($selected == $appointment): ?>checked<?php endif ?> />
+                            <input id="timeSlot-<?php echo $appointment->getTimeSlotId() ?>" type="radio" name="timeSlot" value="<?php echo $timeSlot->getId() ?>" <?php if ($selected == $appointment): ?>checked<?php endif ?> />
                         <?php endif ?>
                     </td>
                     <td>
-                        <label for="timeSlot-<?php echo $appointment->getTimeSlotId()?>"><?php h::text($timeSlot->getTimeString()) ?></label>
+                        <label for="timeSlot-<?php echo $appointment->getTimeSlotId() ?>"><?php h::text($timeSlot->getTimeString()) ?></label>
                     </td>
                     <td>
                         <?php $dateTime = new DateTime($timeSlot->getDate());

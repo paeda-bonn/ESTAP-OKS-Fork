@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * Copyright 2013 Amos-Comenius-Gymnasium Bonn <http://www.acg-bonn.de/>
  * See LICENSE.md for licensing information. 
@@ -6,11 +6,9 @@
 
 namespace ESTAP;
 
-use InvalidArgumentException;
-
 /**
  * Base class for user-like objects (Teachers and pupils).
- * 
+ *
  * @author Klaus Reimer <k@ailis.de>
  */
 abstract class User
@@ -20,38 +18,38 @@ abstract class User
 
     /** Constant for name format "First Last". */
     const FIRST_LAST = 1;
-    
-    /** 
+
+    /**
      * The unique ID of the user.
-     * 
-     * @var int 
-     */ 
+     *
+     * @var int
+     */
     protected $id;
-    
-    /** 
-     * The login name of the user.  
-     * 
+
+    /**
+     * The login name of the user.
+     *
      * @var string
      */
     protected $login;
-    
-    /** 
-     * The first name of the user.  
-     * 
+
+    /**
+     * The first name of the user.
+     *
      * @var string
      */
     protected $firstName;
-    
-    /** 
+
+    /**
      * The last name of the user.
-     * 
+     *
      * @var string
      */
     protected $lastName;
-        
+
     /**
      * Creates a new user.
-     * 
+     *
      * @param string $id
      *           The unique ID of the user.
      * @param string $login
@@ -66,12 +64,12 @@ abstract class User
         $this->id = $id;
         $this->login = $login;
         $this->firstName = $firstName;
-        $this->lastName = $lastName;       
+        $this->lastName = $lastName;
     }
-    
+
     /**
      * Returns the unique user ID.
-     * 
+     *
      * @return string
      *            The unique user ID.
      */
@@ -79,10 +77,10 @@ abstract class User
     {
         return $this->id;
     }
-    
+
     /**
      * Returns the login name.
-     * 
+     *
      * @return string
      *            The login name.
      */
@@ -90,10 +88,10 @@ abstract class User
     {
         return $this->login;
     }
-        
+
     /**
      * Returns the first name.
-     * 
+     *
      * @return string
      *            The first name.
      */
@@ -104,7 +102,7 @@ abstract class User
 
     /**
      * Returns the last name of the user.
-     * 
+     *
      * @return string
      *            The last name of the user.
      */
@@ -112,10 +110,10 @@ abstract class User
     {
         return $this->lastName;
     }
-    
+
     /**
      * Returns the full name of the user.
-     * 
+     *
      * @param int $format
      *            Optional name format. Defaults to User::FIRST_LAST. Can
      *            also be User::LAST_FIRST.
@@ -124,12 +122,9 @@ abstract class User
      */
     public function getName($mode = User::FIRST_LAST)
     {
-        if ($mode == User::LAST_FIRST)
-        {
+        if ($mode == User::LAST_FIRST) {
             return $this->lastName . ", " . $this->firstName;
-        }
-        else
-        {
+        } else {
             return $this->firstName . " " . $this->lastName;
         }
     }

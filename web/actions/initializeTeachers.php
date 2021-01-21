@@ -8,24 +8,21 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
-use ESTAP\Teacher;
 use ESTAP\Appointment;
 use ESTAP\Session;
+use ESTAP\Teacher;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $session = Session::get()->requireAdmin();
 
-try
-{
+try {
     Teacher::activateAll();
     Appointment::deleteAll();
     Messages::addInfo(I18N::getMessage("teachers.initialized"));
     Request::redirect("../teachers.php");
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     include "../initializeTeachers.php";
 }

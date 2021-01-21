@@ -1,7 +1,6 @@
 @import "reset.css";
 
-body
-{
+body {
     padding: 1em;
     font-family: Arial, sans-serif;
     font-size: 10pt;
@@ -9,56 +8,47 @@ body
 }
 
 header, footer, .buttons, .print, div.createAppointment, h3, .help, .messages,
-nav, .screen
-{
+nav, .screen {
     display: none;
 }
 
-p
-{
+p {
     text-align: justify;
     margin-bottom: 1em;
 }
 
-table
-{
+table {
     margin-bottom: 1em;
     background: #fff;
 }
 
-th, td
-{
+th, td {
     padding: 5px 10px;
     border: solid 1px #ccc;
-		color: black;
+    color: black;
 }
 
-tr:nth-child(odd) td
-{
+tr:nth-child(odd) td {
     background: #eee;
 }
 
-th
-{
+th {
     font-weight: bold;
     background: #eee;
     text-align: left;
 }
 
-tr.conflict
-{
+tr.conflict {
     background-color: #ff0;
 }
 
-tr.conflict td:first-child
-{
-    text-decoration: underline;    
+tr.conflict td:first-child {
+    text-decoration: underline;
 }
 
-h2
-{
+h2 {
     font-size: 20px;
     font-width: bold;
     margin-bottom: 1em;
-		color: black;
+    color: black;
 }

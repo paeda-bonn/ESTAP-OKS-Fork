@@ -6,9 +6,9 @@
 
 namespace ESTAP\Forms;
 
+use ESTAP\Config;
 use PhoolKit\Form;
 use PhoolKit\RequireValidator;
-use ESTAP\Config;
 
 /**
  * Form to add time slots.
@@ -17,74 +17,74 @@ use ESTAP\Config;
  */
 class AddTimeSlotsForm extends Form
 {
-    /** 
+    /**
      * The time slot duration.
-     * 
+     *
      * @var string
      */
     public $duration;
-    
+
     /**
      * The starting hour.
-     * 
+     *
      * @var string
      */
     public $startHour;
-    
+
     /**
      * The starting minute.
-     * 
+     *
      * @var string
      */
     public $startMinute;
-    
+
     /**
      * The ending hour.
-     * 
+     *
      * @var string.
      */
     public $endHour;
 
     /**
      * The ending minute.
-     * 
+     *
      * @var string.
      */
     public $endMinute;
-    
+
     /**
      * The day of the month
-     * 
+     *
      * @var int
      */
     public $day;
-    
+
     /**
      * The month of the year
-     * 
+     *
      * @var int
      */
     public $month;
-    
+
     /**
      * The year
-     * 
+     *
      * @var int
      */
     public $year;
-    
-    
+
+
     /**
      * @see PhoolKit.Form::getValidators()
      */
     public function getValidators()
     {
         return array(
-            new RequireValidator("duration", "startHour", "startMinute", 
-                "endHour", "endMinute", "day", "month", "year")            
+            new RequireValidator("duration", "startHour", "startMinute",
+                "endHour", "endMinute", "day", "month", "year")
         );
     }
-    
+
     /**
      * @see PhoolKit.Form::init()
      */
@@ -99,5 +99,5 @@ class AddTimeSlotsForm extends Form
         $this->day = date("d");
         $this->month = date("m");
         $this->year = date("Y");
-    }    
+    }
 }

@@ -6,10 +6,9 @@
 
 namespace ESTAP;
 
+use ESTAP\Exceptions\ConfigException;
 use Phoolkit\I18N;
 use Phoolkit\Request;
-use ESTAP\Utils\DB;
-use ESTAP\Exceptions\ConfigException;
 use RuntimeException;
 
 /**
@@ -68,8 +67,7 @@ final class Config
      */
     public static function get()
     {
-        if (!self::$instance)
-        {
+        if (!self::$instance) {
             self::$instance = new Config();
         }
         return self::$instance;
@@ -172,10 +170,10 @@ final class Config
         $isEnabled = $this->isReservationEnabled();
         $now = date("Y.m.d.H.i");
         $stop = $this->getReservationEndYear() . '.' .
-          str_pad($this->getReservationEndMonth(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationEndDay(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationEndHour(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationEndMinute(),2,'0',STR_PAD_LEFT);
+            str_pad($this->getReservationEndMonth(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndDay(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndHour(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndMinute(), 2, '0', STR_PAD_LEFT);
         $beforeEndTime = ($now < $stop);
         return ($beforeEndTime & $isEnabled) or (!$isEnabled & $this->isTeacherLoginEnabled());
     }
@@ -191,15 +189,15 @@ final class Config
         $isEnabled = $this->isReservationEnabled();
         $now = date("Y.m.d.H.i");
         $start = $this->getReservationStartYear() . '.' .
-          str_pad($this->getReservationStartMonth(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationStartDay(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationStartHour(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationStartMinute(),2,'0',STR_PAD_LEFT);
+            str_pad($this->getReservationStartMonth(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationStartDay(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationStartHour(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationStartMinute(), 2, '0', STR_PAD_LEFT);
         $stop = $this->getReservationEndYear() . '.' .
-          str_pad($this->getReservationEndMonth(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationEndDay(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationEndHour(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationEndMinute(),2,'0',STR_PAD_LEFT);
+            str_pad($this->getReservationEndMonth(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndDay(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndHour(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndMinute(), 2, '0', STR_PAD_LEFT);
         $inTimeWindow = ($start <= $now) & ($now < $stop);
         return ($isEnabled & $inTimeWindow) or (!$isEnabled & $this->isParentLoginEnabled());
     }
@@ -343,7 +341,7 @@ final class Config
      */
     public function getTimeSlotDurations()
     {
-        return $this->getValue("timeSlotDurations", array(10,15,20,30,45,60));
+        return $this->getValue("timeSlotDurations", array(10, 15, 20, 30, 45, 60));
     }
 
     /**
@@ -471,16 +469,14 @@ final class Config
 
         // Remove existing file
         $file = $this->getLogo();
-        if ($file)
-        {
+        if ($file) {
             @unlink(Request::getBaseDir() . DIRECTORY_SEPARATOR . "data" .
                 DIRECTORY_SEPARATOR . $file);
             $this->values["logo"] = null;
         }
 
         // Save new file if present
-        if ($upload)
-        {
+        if ($upload) {
             $ext = pathinfo($upload["name"], PATHINFO_EXTENSION);
             $file = uniqid() . "." . $ext;
             @move_uploaded_file($upload["tmp_name"], Request::getBaseDir() .
@@ -515,16 +511,14 @@ final class Config
 
         // Remove existing file
         $file = $this->getBackground();
-        if ($file)
-        {
+        if ($file) {
             @unlink(Request::getBaseDir() . DIRECTORY_SEPARATOR . "data" .
                 DIRECTORY_SEPARATOR . $file);
             $this->values["background"] = null;
         }
 
         // Save new file if present
-        if ($upload)
-        {
+        if ($upload) {
             $ext = pathinfo($upload["name"], PATHINFO_EXTENSION);
             $file = uniqid() . "." . $ext;
             @move_uploaded_file($upload["tmp_name"], Request::getBaseDir() .
@@ -580,15 +574,13 @@ final class Config
     {
         // Remove existing CSS file
         $file = $this->getStylesFile();
-        if ($file)
-        {
+        if ($file) {
             @unlink($file);
             $this->values["styles"] = null;
         }
 
         // Save new styles if present
-        if ($styles)
-        {
+        if ($styles) {
             $file = uniqid() . ".css";
             $this->values["styles"] = $file;
             file_put_contents($this->getStylesFile(), $styles);
@@ -605,7 +597,7 @@ final class Config
      */
     public function getTitle($locale = null)
     {
-    	
+
         /*if (!$locale) $locale = $this->locale;
         $values = $this->getValue("title", array());
         if (array_key_exists($locale, $values))
@@ -888,7 +880,7 @@ final class Config
      */
     public function getReservationStartDate()
     {
-      return $this->getReservationStartDay().'.'.$this->getReservationStartMonth().'.'.$this->getReservationStartYear();
+        return $this->getReservationStartDay() . '.' . $this->getReservationStartMonth() . '.' . $this->getReservationStartYear();
 
     }
 
@@ -900,7 +892,7 @@ final class Config
      */
     public function getReservationStartTime()
     {
-      return $this->getReservationStartHour().':'.str_pad($this->getReservationStartMinute(),2,'0',STR_PAD_LEFT);
+        return $this->getReservationStartHour() . ':' . str_pad($this->getReservationStartMinute(), 2, '0', STR_PAD_LEFT);
 
     }
 
@@ -912,7 +904,7 @@ final class Config
      */
     public function getReservationEndDate()
     {
-      return $this->getReservationEndDay().'.'.$this->getReservationEndMonth().'.'.$this->getReservationEndYear();
+        return $this->getReservationEndDay() . '.' . $this->getReservationEndMonth() . '.' . $this->getReservationEndYear();
     }
 
     /**
@@ -923,7 +915,7 @@ final class Config
      */
     public function getReservationEndTime()
     {
-      return $this->getReservationEndHour().':'.str_pad($this->getReservationEndMinute(),2,'0',STR_PAD_LEFT);
+        return $this->getReservationEndHour() . ':' . str_pad($this->getReservationEndMinute(), 2, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -936,25 +928,24 @@ final class Config
     {
         $now = date("Y.m.d.H.i");
         $start = $this->getReservationStartYear() . '.' .
-          str_pad($this->getReservationStartMonth(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationStartDay(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationStartHour(),2,'0',STR_PAD_LEFT) . '.' .
-          str_pad($this->getReservationStartMinute(),2,'0',STR_PAD_LEFT);
-      return $now < $start;
+            str_pad($this->getReservationStartMonth(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationStartDay(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationStartHour(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationStartMinute(), 2, '0', STR_PAD_LEFT);
+        return $now < $start;
     }
 
     /**
      * Returns the list of days to select as start and end day for the
      * reservation window.
-     * 
+     *
      * @return array
      *            The possible days.
      */
     public static function getDays()
     {
         $days = array();
-        for ($i = 1; $i <= 31; $i += 1)
-        {
+        for ($i = 1; $i <= 31; $i += 1) {
             $days[$i] = sprintf("%02d", $i);
         }
         return $days;
@@ -963,15 +954,14 @@ final class Config
     /**
      * Returns the list of month to select as start and end month for the
      * reservation window.
-     * 
+     *
      * @return array
      *            The possible months.
      */
     public static function getMonths()
     {
         $months = array();
-        for ($i = 1; $i <= 12; $i += 1)
-        {
+        for ($i = 1; $i <= 12; $i += 1) {
             $months[$i] = sprintf("%02d", $i);
         }
         return $months;
@@ -980,15 +970,14 @@ final class Config
     /**
      * Returns the list of years to select as start and end year for the
      * reservation window.
-     * 
+     *
      * @return array
      *            The possible years.
      */
     public static function getYears()
     {
         $years = array();
-        for ($i = date('Y') - 1; $i <= date('Y') + 1; $i += 1)
-        {
+        for ($i = date('Y') - 1; $i <= date('Y') + 1; $i += 1) {
             $years[$i] = (string)$i;
         }
         return $years;
@@ -997,15 +986,14 @@ final class Config
     /**
      * Returns the list of hours to select as start and end hour for the
      * reservation window.
-     * 
+     *
      * @return array
      *            The possible hours.
      */
     public static function getHours()
     {
         $hours = array();
-        for ($i = 0; $i <= 23; $i += 1)
-        {
+        for ($i = 0; $i <= 23; $i += 1) {
             $hours[$i] = sprintf("%02d", $i);
         }
         return $hours;
@@ -1014,15 +1002,14 @@ final class Config
     /**
      * Returns the list of minutes to select as start and end minute for the
      * reservation window.
-     * 
+     *
      * @return array
      *            The possible minutes.
      */
     public static function getMinutes()
     {
         $minutes = array();
-        for ($i = 0; $i <= 50; $i += 10)
-        {
+        for ($i = 0; $i <= 50; $i += 10) {
             $minutes[$i] = sprintf("%02d", $i);
         }
         return $minutes;

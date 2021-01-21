@@ -13,4 +13,6 @@ use Exception;
  *
  * @author Klaus Reimer <k@ailis.de>
  */
-class NoSuchUserException extends Exception {}
+class NoSuchUserException extends Exception
+{
+}

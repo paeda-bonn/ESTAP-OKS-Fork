@@ -57,7 +57,7 @@ $styles = $config->getStylesUrl();
         <div class="content">
           <h1>
             <?php if ($logo): ?>
-              <a href="/paeda-elternsprechtag"><img src="<?php echo $logo?>" alt="" /></a>
+              <a href="/"><img src="<?php echo $logo?>" alt="" /></a>
 	    <?php endif ?>
             <?=htmlspecialchars($config->getTitle())?>
           </h1>

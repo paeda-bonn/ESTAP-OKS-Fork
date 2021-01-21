@@ -8,39 +8,34 @@
 
 require_once "../estap.php";
 
-use PhoolKit\Request;
-use PhoolKit\Messages;
-use PhoolKit\I18N;
-use ESTAP\Session;
-use ESTAP\Utils\DB;
 use ESTAP\Appointment;
 use ESTAP\Config;
+use ESTAP\Session;
+use ESTAP\Utils\DB;
+use PhoolKit\I18N;
+use PhoolKit\Messages;
+use PhoolKit\Request;
 
 $teacherId = +$_REQUEST["teacher"];
 $pupilId = +$_REQUEST["pupil"];
 $timeSlotId = +$_REQUEST["timeSlot"];
 $session = Session::get()->requireParent($pupilId);
-try
-{
+try {
     DB::beginTransaction();
     Config::get()->requireParentReservationEnabled();
     Appointment::deleteByPupilTeacher($pupilId, $teacherId);
     $appointment = Appointment::create($timeSlotId, $teacherId, $pupilId);
     DB::commit();
     Messages::addInfo(I18N::getMessage("appointments.created"));
-    Request::redirect("../parents.php");    
-}
-catch (PDOException $e)
-{
+    Request::redirect("../parents.php");
+} catch (PDOException $e) {
     if ($e->getCode() == 23000)
         Messages::addError(I18N::getMessage("errors.alreadyReserved"));
-    else 
+    else
         Messages::addError($e->getMessage());
     DB::rollBack();
     include "../createAppointment.php";
-}
-catch (Exception $e)
-{
+} catch (Exception $e) {
     Messages::addError($e->getMessage());
     DB::rollBack();
     include "../createAppointment.php";
