@@ -6,7 +6,7 @@
  * The page footer.
  */
 
-use PhoolKit\HTML as h 
+use PhoolKit\HTML as h;
 
 ?>
       <footer>
@@ -21,7 +21,7 @@ use PhoolKit\HTML as h
         </div>
         <div class="copyright">
           <a target="_blank" href="<?php h::url("https://bitbucket.org/acg-bonn/estap") ?>">ESTAP</a>
-          <a target="_blank" href="<?php h::url("https://gitlab.com/witt-oks/estap-oks/") ?>">OKS Version</a>
+          <a target="_blank" href="<?php h::url("https://github.com/paeda-bonn/ESTAP-OKS-Fork") ?>">OKS Version</a>
           <?php h::msg("copyright", date('Y')) ?>
           <?php h::msg("copyright-annotation")?>
           <?php h::msg("copyright-annotation-name")?>
