@@ -180,4 +180,4 @@ ALTER TABLE `appointments`
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-INSERT INTO `admins` (`id`, `login`, `password`, `first_name`, `last_name`) VALUES (1, 'admin', '$6$5249e7e24ba8c$6EHRYK58Xxo8ro3LJfhFu8QTzOwq//cX/FvVIwBIrEj/d58ZFukbj//Ul8xByXWfweYxBd4nR8fOWk98DlqxH.', 'First Name', 'Last Name')
+INSERT INTO `admins` (`id`, `login`, `password`, `first_name`, `last_name`) VALUES (1, 'admin', '$6$6009b72594f65$47dzIu7RElp2ALOnZqO3gU2vL4dUXrFhpE30eEYP6IwXccHrvyrgtJJ/Qz7.vwL0zxQGW1tn3N8pJ8EfDP4jA1', 'First Name', 'Last Name')
