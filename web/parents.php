@@ -80,7 +80,7 @@ include "parts/header.php" ?>
                 <th><?php h::msg("appointments.pupil") ?></th>
                 <!--<th><?php h::msg("appointments.room") ?></th>-->
                 <!-- //TODO lang -->
-                <th>VCLink</th>
+                <th><?php h::msg("appointments.vclink") ?></th>
                 <?php if ($config->isParentReservationEnabled()): ?>
                     <th><?php h::msg("appointments.actions") ?></th>
                 <?php endif ?>

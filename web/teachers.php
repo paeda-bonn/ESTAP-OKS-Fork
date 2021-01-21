@@ -67,8 +67,7 @@ include "parts/header.php" ?>
                 <th><?php h::msg("teachers.gender") ?></th>
                 <th><?php h::msg("teachers.room") ?></th>
                 <th><?php h::msg("teachers.actions") ?></th>
-                <!-- //TODO Replace with lang -->
-                <th>VCLink</th>
+                <th><?php h::msg("teachers.vclink") ?></th>
             </tr>
             <?php foreach (Teacher::getAll() as $teacher): ?>
                 <tr class="<?php echo $teacher->isActive() ? "active" : "inactive" ?>">

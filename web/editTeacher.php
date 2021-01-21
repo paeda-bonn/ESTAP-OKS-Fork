@@ -77,7 +77,7 @@ include "parts/header.php" ?>
 
                 <!-- //TODO lang -->
                 <?php h::bindField("vcLink") ?>
-                <label <?php h::label() ?>>VCLink</label>
+                <label <?php h::label() ?>><?php h::msg("editTeacher.vclink") ?></label>
                 <input type="text" <?php h::input() ?> <?php h::classes() ?> />
 
 
