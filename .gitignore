@@ -12,3 +12,4 @@
 /web/*.txt
 /web/lib/PhoolKit
 *.phpproj*
+/database/tmp/

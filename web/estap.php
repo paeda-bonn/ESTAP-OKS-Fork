@@ -23,7 +23,7 @@ call_user_func(function () {
     $baseDir = dirname(__FILE__);
 
     // Setup the include path
-    set_include_path("$baseDir/lib2" . PATH_SEPARATOR . get_include_path());
+    set_include_path("$baseDir/lib" . PATH_SEPARATOR . get_include_path());
 
     // Setup request
     Request::setBaseDir($baseDir);
