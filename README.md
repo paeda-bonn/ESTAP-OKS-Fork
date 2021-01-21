@@ -38,7 +38,7 @@ Installation
 * Copy all files from the `web` directory to your webserver.
 * Open the web in your browser.
 * Switch to the admin login page at the bottom of the screen.
-* Login as `admin` with password `estap`.
+* Login as `admin` with password `adminpass`.
 * Immediately change your username and password.
 
 
