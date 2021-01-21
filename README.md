@@ -43,7 +43,7 @@ Installation
 
 Dev Installation
 ----------------
-* Required: Docker, Git
+* Required: Docker with compose, Git
 * Clone the repository `git clone git@github.com:paeda-bonn/ESTAP-OKS-Fork.git`
 * Do the steps for Installation
 * Start the Containers with `docker-compose up -d`
