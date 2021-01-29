@@ -153,8 +153,7 @@ final class Admin extends User
      */
     public static function getByLogin($login, $password)
     {
-        $sql = "SELECT id, password, first_name, last_name "
-            . "FROM admins WHERE login=:login";
+        $sql = "SELECT id, password, first_name, last_name FROM admins WHERE login=:login";
         $data = DB::querySingle($sql, array("login" => $login));
         if (!$data) throw new NoSuchUserException();
         $correctHash = $data["password"];

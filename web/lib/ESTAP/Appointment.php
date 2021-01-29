@@ -270,12 +270,7 @@ final class Appointment
         TimeSlot::getAll();
 
         $appointments = array();
-        $sql = "SELECT r.id AS id, ts.id AS time_slot_id, "
-            . "r.teacher_id AS teacher_id, r.pupil_id AS pupil_id FROM "
-            . "time_slots AS ts LEFT JOIN appointments AS r ON "
-            . "ts.id=r.time_slot_id AND r.teacher_id=:teacher_id "
-            . "WHERE `Lehrer`='ALL' OR `Lehrer`='$teacherId'"
-            . "ORDER BY ts.date ASC, ts.start_time ASC";
+        $sql = "SELECT r.id AS id, ts.id AS time_slot_id, r.teacher_id AS teacher_id, r.pupil_id AS pupil_id FROM time_slots AS ts LEFT JOIN appointments AS r ON ts.id=r.time_slot_id AND r.teacher_id=:teacher_id WHERE `teacher`='ALL' OR `teacher`='$teacherId'ORDER BY ts.date ASC, ts.start_time ASC";
         $params = array("teacher_id" => $teacherId);
         foreach (DB::query($sql, $params) as $row) {
             $id = $row["id"];
@@ -318,12 +313,7 @@ final class Appointment
         TimeSlot::getAll();
 
         $appointments = array();
-        $sql = "SELECT r.id AS id, ts.id AS time_slot_id, "
-            . "r.teacher_id AS teacher_id, r.pupil_id AS pupil_id FROM "
-            . "time_slots AS ts LEFT JOIN appointments AS r ON "
-            . "ts.id=r.time_slot_id AND (r.teacher_id=:teacher_id "
-            . "OR r.pupil_id=:pupil_id) "
-            . "ORDER BY ts.date ASC, ts.start_time ASC";
+        $sql = "SELECT r.id AS id, ts.teacher, ts.id AS time_slot_id, r.teacher_id AS teacher_id, r.pupil_id AS pupil_id FROM time_slots AS ts LEFT JOIN appointments AS r ON ts.id=r.time_slot_id AND (r.teacher_id=:teacher_id OR r.pupil_id=:pupil_id) WHERE ts.teacher='ALL' OR ts.teacher=:teacher_id ORDER BY ts.date ASC, ts.start_time ASC";
         $params = array("teacher_id" => $teacherId, "pupil_id" => $pupilId);
         foreach (DB::query($sql, $params) as $row) {
             $id = $row["id"];
