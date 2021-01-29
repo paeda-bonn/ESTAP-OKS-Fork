@@ -27,7 +27,7 @@
     "copyright-annotation" => "- angepasst von",
     "copyright-annotation-name" => "Robert Rabe, Nils Witt",
 
-// Main navigation
+// Main navigationteacher
     "mainNav.logout" => "Abmelden",
     "mainNav.loginAnotherPupil" => "Weiteren Schüler anmelden",
 
@@ -75,7 +75,9 @@
     "appointments.pupil" => "Schüler",
     "appointments.teacher" => "Lehrer",
     "appointments.room" => "Raum",
-    "appointments.vclink" => "Zoom Link",
+    "appointments.vcLink" => "Meeting Link",
+    "appointments.vcId" => "Meeting ID",
+    "appointments.vcCode" => "Meeting Code",
     "appointments.actions" => "Aktionen",
     "appointments.delete" => "Löschen",
     "appointments.change" => "Ändern",
@@ -106,9 +108,7 @@
     "createAppointment.reserved" => "Reserviert",
     "createAppointment.reserve" => "Reservieren",
     "createAppointment.cancel" => "Abbrechen",
-    "createAppointment.noTimeslotsLeft" => "Leider sind bei diesem Lehrer keine Termine mehr verfügbar."
-        . " Wir bitten Sie, mit dem entsprechenden Fachlehrer in Kontakt zu treten. "
-        . "Die Kontaktdaten finden Sie auf der Homepage der Otto-Kühne-Schule.",
+    "createAppointment.noTimeslotsLeft" => "Leider sind bei diesem Lehrer keine Termine mehr verfügbar. Wir bitten Sie, mit dem entsprechenden Fachlehrer in Kontakt zu treten. Die Kontaktdaten finden Sie auf der Homepage der Otto-Kühne-Schule.",
 
 // Admin login page
     "loginAdmin.title" => "Admin Anmeldung",
@@ -200,7 +200,9 @@
     "teachers.firstName" => "Vorname",
     "teachers.gender" => "Anrede",
     "teachers.room" => "Raum",
-    "teachers.vclink" => "Zoom Link",
+    "teachers.vcLink" => "Meeting Link",
+    "teachers.vcId" => "Meeting ID",
+    "teachers.vcCode" => "Meeting Code",
     "teachers.actions" => "Aktionen",
     "teachers.addTeacher" => "Lehrer hinzufügen",
     "teachers.upload.title" => "Lehrer hochladen",
@@ -228,7 +230,9 @@
     "addTeacher.lastName" => "Nachname",
     "addTeacher.gender" => "Anrede",
     "addTeacher.room" => "Raum",
-    "addTeacher.vclink" => "Zoom Link",
+    "addTeacher.vcLink" => "Meeting Link",
+    "addTeacher.vcId" => "Meeting ID",
+    "addTeacher.vcCode" => "Meeting Code",
     "addTeacher.password" => "Passwort (mindestens %d Zeichen)",
     "addTeacher.passwordConfirmation" => "Passwort-Bestätigung",
     "addTeacher.submit" => "Lehrer hinzufügen",
@@ -242,7 +246,9 @@
     "editTeacher.lastName" => "Nachname",
     "editTeacher.gender" => "Anrede",
     "editTeacher.room" => "Raum",
-    "editTeacher.vclink" => "Zoom Link",
+    "editTeacher.vcLink" => "Meeting Link",
+    "editTeacher.vcId" => "Meeting ID",
+    "editTeacher.vcCode" => "Meeting Code",
     "editTeacher.password" => "Passwort (mindestens %d Zeichen)",
     "editTeacher.passwordConfirmation" => "Passwort-Bestätigung",
     "editTeacher.submit" => "Speichern",
@@ -292,7 +298,9 @@
     "printPDF.teacher" => "Lehrer",
     "printPDF.pupil" => "Schüler",
     "printPDF.room" => "Raum",
-    "printPDF.vclink" => "Zoom Link",
+    "printPDF.vcLink" => "Meeting Link",
+    "printPDF.vcId" => "Meeting ID",
+    "printPDF.vcCode" => "Meeting Code",
     "printPDF.class" => "Klasse",
 
 // Time slots page

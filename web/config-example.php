@@ -12,7 +12,7 @@ define("ESTAP_DB_NAME", "estap");
 define("ESTAP_DB_USER", "estap");
 define("ESTAP_DB_PASS", "estap");
 define("ESTAP_DB_TYPE", "mysql");
-define("ESTAP_DB_HOST", "mysql");
+define("ESTAP_DB_HOST", "127.0.0.1");
 define("ESTAP_DB_PORT", 3306);
 
 // Set to true if you want to reuse an open database connection. The default

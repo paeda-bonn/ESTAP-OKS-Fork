@@ -19,7 +19,7 @@ $form = AddTeacherForm::parse("../addTeacher.php");
 
 $session = Session::get()->requireAdmin();
 try {
-    Teacher::create($form->login, $form->password, $form->firstName, $form->lastName, $form->gender, $form->room, $form->vcLink);
+    Teacher::create($form->login, $form->password, $form->firstName, $form->lastName, $form->gender, $form->room, $form->vcLink, $form->vcId, $form->vcCode);
     Messages::addInfo(I18N::getMessage("teachers.teacherAdded"));
     Request::redirect("../teachers.php");
 } catch (PDOException $e) {

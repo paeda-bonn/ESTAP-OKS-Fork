@@ -6,9 +6,9 @@
  * The page header.
  */
 
-use PhoolKit\HTML as h;
-use ESTAP\Session;
 use ESTAP\Config;
+use ESTAP\Session;
+use PhoolKit\HTML as h;
 
 $config = Config::get();
 $session = Session::get();

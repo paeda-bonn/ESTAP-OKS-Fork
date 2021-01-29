@@ -75,8 +75,10 @@ CREATE TABLE `teachers` (
   `first_name` varchar(32) NOT NULL,
   `last_name` varchar(32) NOT NULL,
   `gender` enum('f','m') NOT NULL,
-  `room` varchar(32) NOT NULL,
-  `vclink` varchar(200) NOT NULL,
+  `room` varchar(32) DEFAULT '',
+  `vclink` varchar(200) DEFAULT '',
+  `vcid` varchar(200) DEFAULT '',
+  `vccode` varchar(200) DEFAULT '',
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -90,7 +92,8 @@ CREATE TABLE `time_slots` (
   `id` int(11) NOT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  `teacher` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

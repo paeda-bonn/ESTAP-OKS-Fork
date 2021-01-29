@@ -59,91 +59,6 @@ final class Pupil extends User
     }
 
     /**
-     * Deletes this pupil from the database. The pupil object is no longer
-     * valid after this call so don't use it anymore.
-     */
-    public function delete()
-    {
-        self::deleteById($this->getId());
-    }
-
-    /**
-     * Deletes a single pupil.
-     *
-     * @param integer $pupilId
-     *            The ID of the pupil to delete.
-     */
-    public static function deleteById($id)
-    {
-        $sql = "DELETE FROM pupils WHERE id=:id";
-        DB::exec($sql, array("id" => $id));
-    }
-
-    /**
-     * Returns the class.
-     *
-     * @return string
-     *            The class.
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * Returns the string representation of this pupil. This is the full name
-     * of the pupil (With last name first) and the class in brackets.
-     *
-     * @return string
-     *             The string representation.
-     */
-    public function __toString()
-    {
-        return $this->getName(Pupil::LAST_FIRST) . " (" . $this->getClass() . ")";
-    }
-
-    /**
-     * Updates the pupil with new data.
-     *
-     * @param string $login
-     *            The new login name.
-     * @param string $password
-     *            The new password. Null to keep old one.
-     * @param string $firstName
-     *            The new first name.
-     * @param string $lastName
-     *            The new last name.
-     * @param string $class
-     *            The new class.
-     * @return Pupil
-     *            The updated pupil.
-     */
-    public function update($login, $password, $firstName, $lastName, $class)
-    {
-        $sql = "UPDATE pupils SET";
-        $this->login = $login;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->class = $class;
-        $params = array(
-            "id" => $this->getId(),
-            "login" => $login,
-            "first_name" => $firstName,
-            "last_name" => $lastName,
-            "class" => $class
-        );
-        $sql = "UPDATE pupils SET login=:login, first_name=:first_name, "
-            . "last_name=:last_name,class=:class";
-        if ($password) {
-            $params["password"] = crypt($password, '$6$' . uniqid() . '$');
-            $sql .= ", password=:password";
-        }
-        $sql .= " WHERE id=:id";
-        DB::exec($sql, $params);
-        return $this;
-    }
-
-    /**
      * Returns the number of pupils from the database.
      *
      * @return integer
@@ -321,5 +236,90 @@ final class Pupil extends User
     {
         $sql = "DELETE FROM pupils";
         DB::exec($sql);
+    }
+
+    /**
+     * Deletes this pupil from the database. The pupil object is no longer
+     * valid after this call so don't use it anymore.
+     */
+    public function delete()
+    {
+        self::deleteById($this->getId());
+    }
+
+    /**
+     * Deletes a single pupil.
+     *
+     * @param integer $pupilId
+     *            The ID of the pupil to delete.
+     */
+    public static function deleteById($id)
+    {
+        $sql = "DELETE FROM pupils WHERE id=:id";
+        DB::exec($sql, array("id" => $id));
+    }
+
+    /**
+     * Returns the string representation of this pupil. This is the full name
+     * of the pupil (With last name first) and the class in brackets.
+     *
+     * @return string
+     *             The string representation.
+     */
+    public function __toString()
+    {
+        return $this->getName(Pupil::LAST_FIRST) . " (" . $this->getClass() . ")";
+    }
+
+    /**
+     * Returns the class.
+     *
+     * @return string
+     *            The class.
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Updates the pupil with new data.
+     *
+     * @param string $login
+     *            The new login name.
+     * @param string $password
+     *            The new password. Null to keep old one.
+     * @param string $firstName
+     *            The new first name.
+     * @param string $lastName
+     *            The new last name.
+     * @param string $class
+     *            The new class.
+     * @return Pupil
+     *            The updated pupil.
+     */
+    public function update($login, $password, $firstName, $lastName, $class)
+    {
+        $sql = "UPDATE pupils SET";
+        $this->login = $login;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->class = $class;
+        $params = array(
+            "id" => $this->getId(),
+            "login" => $login,
+            "first_name" => $firstName,
+            "last_name" => $lastName,
+            "class" => $class
+        );
+        $sql = "UPDATE pupils SET login=:login, first_name=:first_name, "
+            . "last_name=:last_name,class=:class";
+        if ($password) {
+            $params["password"] = crypt($password, '$6$' . uniqid() . '$');
+            $sql .= ", password=:password";
+        }
+        $sql .= " WHERE id=:id";
+        DB::exec($sql, $params);
+        return $this;
     }
 }
