@@ -32,44 +32,22 @@ final class DB
     }
 
     /**
-     * Opens a connection to the database (if not already done) and returns
-     * the connection handle. There is no need in closing the handle. This
-     * done automatically when the request ends or when web server process
-     * dies (if persistent mode is enabled).
-     *
-     * @return PDO
-     *            The connection handle. Never null.
-     */
-    public static function open()
-    {
-        if (!self::$handle) {
-            self::$handle = new PDO(ESTAP_DB_DSN, ESTAP_DB_USER, ESTAP_DB_PASS,
-                array(
-                    PDO::ATTR_PERSISTENT, ESTAP_DB_PERSISTENT
-                ));
-            self::$handle->setAttribute(PDO::ATTR_ERRMODE,
-                PDO::ERRMODE_EXCEPTION);
-        }
-        return self::$handle;
-    }
-
-    /**
-     * Utility method to easily send a query.
+     * Performs a query for a single integer value. If the result was empty
+     * then NULL is returned.
      *
      * @param string $sql
      *            The SQL statement.
      * @param array $params
      *            Hash map with parameters.
-     * @return array
-     *            Array of hash maps with result data. Never null.
+     * @return integer
+     *            The integer value or NULL if not found.
      */
-    public static function query($sql, $params = array())
+    public static function queryInt($sql, $params = array())
     {
-        $stmt = self::open()->prepare($sql);
-        $stmt->execute($params);
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
-        return $data;
+        $row = self::querySingle($sql, $params);
+        if (is_null($row)) return false;
+        $values = array_values($row);
+        return intval($values[0], 10);
     }
 
     /**
@@ -92,22 +70,44 @@ final class DB
     }
 
     /**
-     * Performs a query for a single integer value. If the result was empty
-     * then NULL is returned.
+     * Utility method to easily send a query.
      *
      * @param string $sql
      *            The SQL statement.
      * @param array $params
      *            Hash map with parameters.
-     * @return integer
-     *            The integer value or NULL if not found.
+     * @return array
+     *            Array of hash maps with result data. Never null.
      */
-    public static function queryInt($sql, $params = array())
+    public static function query($sql, $params = array())
     {
-        $row = self::querySingle($sql, $params);
-        if (is_null($row)) return false;
-        $values = array_values($row);
-        return intval($values[0], 10);
+        $stmt = self::open()->prepare($sql);
+        $stmt->execute($params);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $data;
+    }
+
+    /**
+     * Opens a connection to the database (if not already done) and returns
+     * the connection handle. There is no need in closing the handle. This
+     * done automatically when the request ends or when web server process
+     * dies (if persistent mode is enabled).
+     *
+     * @return PDO
+     *            The connection handle. Never null.
+     */
+    public static function open()
+    {
+        if (!self::$handle) {
+            self::$handle = new PDO(ESTAP_DB_DSN, ESTAP_DB_USER, ESTAP_DB_PASS,
+                array(
+                    PDO::ATTR_PERSISTENT, ESTAP_DB_PERSISTENT
+                ));
+            self::$handle->setAttribute(PDO::ATTR_ERRMODE,
+                PDO::ERRMODE_EXCEPTION);
+        }
+        return self::$handle;
     }
 
     /**

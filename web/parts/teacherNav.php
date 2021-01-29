@@ -6,7 +6,7 @@
  * The admin navigation.
  */
 
-use PhoolKit\HTML as h; 
+use PhoolKit\HTML as h;
 
 ?>
 <nav class="teacher">

@@ -18,14 +18,12 @@ use RuntimeException;
  */
 final class Config
 {
-    /** The configuration values. */
-    private $values;
-
-    /** The current locale. */
-    private $locale;
-
     /** The singleton instance of the configuration. */
     private static $instance = null;
+    /** The configuration values. */
+    private $values;
+    /** The current locale. */
+    private $locale;
 
     private function __construct()
     {
@@ -41,36 +39,14 @@ final class Config
     }
 
     /**
-     * Saves the configuration.
-     */
-    public function save()
-    {
-        $dataDir = Request::getBaseDir() . DIRECTORY_SEPARATOR . "data" . DIRECTORY_SEPARATOR;
-        $newFile = $dataDir . "config.php.new";
-        $file = $dataDir . "config.php";
-
-        ob_start();
-        var_export($this->values);
-        $data = "<?php return " . ob_get_contents() . "; ?>";
-        ob_end_clean();
-        if (@file_put_contents($newFile, $data) === false)
-            throw new ConfigException();
-        if (!@rename($newFile, $file))
-            throw new ConfigException();
-    }
-
-    /**
-     * Return the configuration.
+     * Returns the list of available locales.
      *
-     * @return Config
-     *            The configuration.
+     * @return string[]
+     *            The list of available locales.
      */
-    public static function get()
+    public function getLocales()
     {
-        if (!self::$instance) {
-            self::$instance = new Config();
-        }
-        return self::$instance;
+        return $this->getValue("locales", array("en", "de"));
     }
 
     /**
@@ -91,6 +67,130 @@ final class Config
             return $this->values[$key];
         else
             return $defaultValue;
+    }
+
+    /**
+     * Returns the default locale.
+     *
+     * @return string
+     *            The default locale.
+     */
+    public function getDefaultLocale()
+    {
+        return $this->getValue("defaultLocale", "en");
+    }
+
+    /**
+     * Return the configuration.
+     *
+     * @return Config
+     *            The configuration.
+     */
+    public static function get()
+    {
+        if (!self::$instance) {
+            self::$instance = new Config();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Returns the list of days to select as start and end day for the
+     * reservation window.
+     *
+     * @return array
+     *            The possible days.
+     */
+    public static function getDays()
+    {
+        $days = array();
+        for ($i = 1; $i <= 31; $i += 1) {
+            $days[$i] = sprintf("%02d", $i);
+        }
+        return $days;
+    }
+
+    /**
+     * Returns the list of month to select as start and end month for the
+     * reservation window.
+     *
+     * @return array
+     *            The possible months.
+     */
+    public static function getMonths()
+    {
+        $months = array();
+        for ($i = 1; $i <= 12; $i += 1) {
+            $months[$i] = sprintf("%02d", $i);
+        }
+        return $months;
+    }
+
+    /**
+     * Returns the list of years to select as start and end year for the
+     * reservation window.
+     *
+     * @return array
+     *            The possible years.
+     */
+    public static function getYears()
+    {
+        $years = array();
+        for ($i = date('Y') - 1; $i <= date('Y') + 1; $i += 1) {
+            $years[$i] = (string)$i;
+        }
+        return $years;
+    }
+
+    /**
+     * Returns the list of hours to select as start and end hour for the
+     * reservation window.
+     *
+     * @return array
+     *            The possible hours.
+     */
+    public static function getHours()
+    {
+        $hours = array();
+        for ($i = 0; $i <= 23; $i += 1) {
+            $hours[$i] = sprintf("%02d", $i);
+        }
+        return $hours;
+    }
+
+    /**
+     * Returns the list of minutes to select as start and end minute for the
+     * reservation window.
+     *
+     * @return array
+     *            The possible minutes.
+     */
+    public static function getMinutes()
+    {
+        $minutes = array();
+        for ($i = 0; $i <= 50; $i += 10) {
+            $minutes[$i] = sprintf("%02d", $i);
+        }
+        return $minutes;
+    }
+
+    /**
+     * Saves the configuration.
+     */
+    public function save()
+    {
+        $dataDir = Request::getBaseDir() . DIRECTORY_SEPARATOR . "data" . DIRECTORY_SEPARATOR;
+        $newFile = $dataDir . "config.php.new";
+        $file = $dataDir . "config.php";
+
+        ob_start();
+        var_export($this->values);
+        $data = "<?php return " . ob_get_contents() . "; ?>";
+        ob_end_clean();
+        if (@file_put_contents($newFile, $data) === false)
+            throw new ConfigException();
+        if (!@rename($newFile, $file))
+            throw new ConfigException();
     }
 
     /**
@@ -116,17 +216,6 @@ final class Config
     }
 
     /**
-     * Checks if parent login is enabled.
-     *
-     * @return boolean
-     *            True if parent login is enabled.
-     */
-    public function isParentLoginEnabled()
-    {
-        return $this->getValue("parentLoginEnabled", false);
-    }
-
-    /**
      * Enables or disables parent login.
      *
      * @param boolean $parentLoginEnabled
@@ -138,17 +227,6 @@ final class Config
     }
 
     /**
-     * Checks if teacher login is enabled.
-     *
-     * @return boolean
-     *            True if parent login is enabled.
-     */
-    public function isTeacherLoginEnabled()
-    {
-        return $this->getValue("teacherLoginEnabled", false);
-    }
-
-    /**
      * Enables or disables teacher login.
      *
      * @param boolean $teacherLoginEnabled
@@ -157,60 +235,6 @@ final class Config
     public function setTeacherLoginEnabled($teacherLoginEnabled)
     {
         $this->values["teacherLoginEnabled"] = $teacherLoginEnabled;
-    }
-
-    /**
-     * Checks if appointment reservation for teachers is enabled.
-     *
-     * @return boolean
-     *            True if appointment reservation is enabled.
-     */
-    public function isTeacherReservationEnabled()
-    {
-        $isEnabled = $this->isReservationEnabled();
-        $now = date("Y.m.d.H.i");
-        $stop = $this->getReservationEndYear() . '.' .
-            str_pad($this->getReservationEndMonth(), 2, '0', STR_PAD_LEFT) . '.' .
-            str_pad($this->getReservationEndDay(), 2, '0', STR_PAD_LEFT) . '.' .
-            str_pad($this->getReservationEndHour(), 2, '0', STR_PAD_LEFT) . '.' .
-            str_pad($this->getReservationEndMinute(), 2, '0', STR_PAD_LEFT);
-        $beforeEndTime = ($now < $stop);
-        return ($beforeEndTime & $isEnabled) or (!$isEnabled & $this->isTeacherLoginEnabled());
-    }
-
-    /**
-     * Checks if appointment reservation for parents is enabled.
-     *
-     * @return boolean
-     *            True if appointment reservation is enabled.
-     */
-    public function isParentReservationEnabled()
-    {
-        $isEnabled = $this->isReservationEnabled();
-        $now = date("Y.m.d.H.i");
-        $start = $this->getReservationStartYear() . '.' .
-            str_pad($this->getReservationStartMonth(), 2, '0', STR_PAD_LEFT) . '.' .
-            str_pad($this->getReservationStartDay(), 2, '0', STR_PAD_LEFT) . '.' .
-            str_pad($this->getReservationStartHour(), 2, '0', STR_PAD_LEFT) . '.' .
-            str_pad($this->getReservationStartMinute(), 2, '0', STR_PAD_LEFT);
-        $stop = $this->getReservationEndYear() . '.' .
-            str_pad($this->getReservationEndMonth(), 2, '0', STR_PAD_LEFT) . '.' .
-            str_pad($this->getReservationEndDay(), 2, '0', STR_PAD_LEFT) . '.' .
-            str_pad($this->getReservationEndHour(), 2, '0', STR_PAD_LEFT) . '.' .
-            str_pad($this->getReservationEndMinute(), 2, '0', STR_PAD_LEFT);
-        $inTimeWindow = ($start <= $now) & ($now < $stop);
-        return ($isEnabled & $inTimeWindow) or (!$isEnabled & $this->isParentLoginEnabled());
-    }
-
-    /**
-     * Checks if appointment reservation is enabled.
-     *
-     * @return boolean
-     *            True if appointment reservation is enabled.
-     */
-    public function isReservationEnabled()
-    {
-        return $this->getValue("reservationEnabled", false);
     }
 
     /**
@@ -238,6 +262,17 @@ final class Config
     }
 
     /**
+     * Checks if parent login is enabled.
+     *
+     * @return boolean
+     *            True if parent login is enabled.
+     */
+    public function isParentLoginEnabled()
+    {
+        return $this->getValue("parentLoginEnabled", false);
+    }
+
+    /**
      * Checks if teacher login is enabled and throws an exception if this is
      * not the case.
      *
@@ -248,6 +283,17 @@ final class Config
     {
         if (!$this->isTeacherLoginEnabled())
             throw new RuntimeException(I18N::getMessage("errors.loginDisabled"));
+    }
+
+    /**
+     * Checks if teacher login is enabled.
+     *
+     * @return boolean
+     *            True if parent login is enabled.
+     */
+    public function isTeacherLoginEnabled()
+    {
+        return $this->getValue("teacherLoginEnabled", false);
     }
 
     /**
@@ -264,6 +310,17 @@ final class Config
     }
 
     /**
+     * Checks if appointment reservation is enabled.
+     *
+     * @return boolean
+     *            True if appointment reservation is enabled.
+     */
+    public function isReservationEnabled()
+    {
+        return $this->getValue("reservationEnabled", false);
+    }
+
+    /**
      * Checks if appointment reservation for teachers is enabled and throws an exception if
      * this is not the case.
      *
@@ -274,6 +331,80 @@ final class Config
     {
         if (!$this->isTeacherReservationEnabled())
             throw new RuntimeException(I18N::getMessage("errors.reservationDisabled"));
+    }
+
+    /**
+     * Checks if appointment reservation for teachers is enabled.
+     *
+     * @return boolean
+     *            True if appointment reservation is enabled.
+     */
+    public function isTeacherReservationEnabled()
+    {
+        $isEnabled = $this->isReservationEnabled();
+        $now = date("Y.m.d.H.i");
+        $stop = $this->getReservationEndYear() . '.' .
+            str_pad($this->getReservationEndMonth(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndDay(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndHour(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndMinute(), 2, '0', STR_PAD_LEFT);
+        $beforeEndTime = ($now < $stop);
+        return ($beforeEndTime & $isEnabled) or (!$isEnabled & $this->isTeacherLoginEnabled());
+    }
+
+    /**
+     * Returns the reservation end year.
+     *
+     * @return integer
+     *            The reservation end year.
+     */
+    public function getReservationEndYear()
+    {
+        return $this->getValue("reservationEndYear", date("Y"));
+    }
+
+    /**
+     * Returns the reservation end month.
+     *
+     * @return integer
+     *            The reservation end month.
+     */
+    public function getReservationEndMonth()
+    {
+        return $this->getValue("reservationEndMonth", 1);
+    }
+
+    /**
+     * Returns the reservation end day.
+     *
+     * @return integer
+     *            The reservation end day.
+     */
+    public function getReservationEndDay()
+    {
+        return $this->getValue("reservationEndDay", 1);
+    }
+
+    /**
+     * Returns the reservation end hour.
+     *
+     * @return integer
+     *            The reservation end hour.
+     */
+    public function getReservationEndHour()
+    {
+        return $this->getValue("reservationEndHour", 10);
+    }
+
+    /**
+     * Returns the reservation end minute.
+     *
+     * @return integer
+     *            The reservation end minute.
+     */
+    public function getReservationEndMinute()
+    {
+        return $this->getValue("reservationEndMinute", 0);
     }
 
     /**
@@ -290,14 +421,82 @@ final class Config
     }
 
     /**
-     * Returns the list of available locales.
+     * Checks if appointment reservation for parents is enabled.
      *
-     * @return string[]
-     *            The list of available locales.
+     * @return boolean
+     *            True if appointment reservation is enabled.
      */
-    public function getLocales()
+    public function isParentReservationEnabled()
     {
-        return $this->getValue("locales", array("en", "de"));
+        $isEnabled = $this->isReservationEnabled();
+        $now = date("Y.m.d.H.i");
+        $start = $this->getReservationStartYear() . '.' .
+            str_pad($this->getReservationStartMonth(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationStartDay(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationStartHour(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationStartMinute(), 2, '0', STR_PAD_LEFT);
+        $stop = $this->getReservationEndYear() . '.' .
+            str_pad($this->getReservationEndMonth(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndDay(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndHour(), 2, '0', STR_PAD_LEFT) . '.' .
+            str_pad($this->getReservationEndMinute(), 2, '0', STR_PAD_LEFT);
+        $inTimeWindow = ($start <= $now) & ($now < $stop);
+        return ($isEnabled & $inTimeWindow) or (!$isEnabled & $this->isParentLoginEnabled());
+    }
+
+    /**
+     * Returns the reservation start year.
+     *
+     * @return integer
+     *            The reservation start year.
+     */
+    public function getReservationStartYear()
+    {
+        return $this->getValue("reservationStartYear", date("Y"));
+    }
+
+    /**
+     * Returns the reservation start month.
+     *
+     * @return integer
+     *            The reservation start month.
+     */
+    public function getReservationStartMonth()
+    {
+        return $this->getValue("reservationStartMonth", 1);
+    }
+
+    /**
+     * Returns the reservation start day.
+     *
+     * @return integer
+     *            The reservation start day.
+     */
+    public function getReservationStartDay()
+    {
+        return $this->getValue("reservationStartDay", 1);
+    }
+
+    /**
+     * Returns the reservation start hour.
+     *
+     * @return integer
+     *            The reservation start hour.
+     */
+    public function getReservationStartHour()
+    {
+        return $this->getValue("reservationStartHour", 10);
+    }
+
+    /**
+     * Returns the reservation start minute.
+     *
+     * @return integer
+     *            The reservation start minute.
+     */
+    public function getReservationStartMinute()
+    {
+        return $this->getValue("reservationStartMinute", 0);
     }
 
     /**
@@ -309,17 +508,6 @@ final class Config
     public function setLocales($locales)
     {
         $this->values["locales"] = $locales;
-    }
-
-    /**
-     * Returns the default locale.
-     *
-     * @return string
-     *            The default locale.
-     */
-    public function getDefaultLocale()
-    {
-        return $this->getValue("defaultLocale", "en");
     }
 
     /**
@@ -444,18 +632,6 @@ final class Config
     }
 
     /**
-     * Returns the URL of the logo or null if no logo is set.
-     *
-     * @return The URL of the logo or null if none.
-     */
-    public function getLogo()
-    {
-        $filename = $this->getValue("logo");
-        if (!$filename) return null;
-        return Request::getBaseUrl() . "/data/" . $filename;
-    }
-
-    /**
      * Sets the logo.
      *
      * @param array $upload
@@ -486,13 +662,13 @@ final class Config
     }
 
     /**
-     * Returns the URL of the background image or null if no background is set.
+     * Returns the URL of the logo or null if no logo is set.
      *
-     * @return The URL of the background image or null if none.
+     * @return The URL of the logo or null if none.
      */
-    public function getBackground()
+    public function getLogo()
     {
-        $filename = $this->getValue("background");
+        $filename = $this->getValue("logo");
         if (!$filename) return null;
         return Request::getBaseUrl() . "/data/" . $filename;
     }
@@ -528,6 +704,18 @@ final class Config
     }
 
     /**
+     * Returns the URL of the background image or null if no background is set.
+     *
+     * @return The URL of the background image or null if none.
+     */
+    public function getBackground()
+    {
+        $filename = $this->getValue("background");
+        if (!$filename) return null;
+        return Request::getBaseUrl() . "/data/" . $filename;
+    }
+
+    /**
      * Returns the URL of the custom CSS or null if not set.
      *
      * @return The URL of the custom CSS or null if none.
@@ -537,6 +725,18 @@ final class Config
         $filename = $this->getValue("styles");
         if (!$filename) return null;
         return Request::getBaseUrl() . "/data/" . $filename;
+    }
+
+    /**
+     * Returns the custom CSS.
+     *
+     * @return The custom CSS.
+     */
+    public function getStyles()
+    {
+        $file = $this->getStylesFile();
+        if (!file_exists($file)) return "";
+        return file_get_contents($file);
     }
 
     /**
@@ -550,18 +750,6 @@ final class Config
         if (!$filename) return null;
         return Request::getBaseDir() . DIRECTORY_SEPARATOR . "data" .
             DIRECTORY_SEPARATOR . $filename;
-    }
-
-    /**
-     * Returns the custom CSS.
-     *
-     * @return The custom CSS.
-     */
-    public function getStyles()
-    {
-        $file = $this->getStylesFile();
-        if (!file_exists($file)) return "";
-        return file_get_contents($file);
     }
 
     /**
@@ -653,17 +841,6 @@ final class Config
     }
 
     /**
-     * Returns the reservation start day.
-     *
-     * @return integer
-     *            The reservation start day.
-     */
-    public function getReservationStartDay()
-    {
-        return $this->getValue("reservationStartDay", 1);
-    }
-
-    /**
      * Sets the reservation start day.
      *
      * @param integer $reservationStartDay
@@ -672,17 +849,6 @@ final class Config
     public function setReservationStartDay($reservationStartDay)
     {
         $this->values["reservationStartDay"] = $reservationStartDay;
-    }
-
-    /**
-     * Returns the reservation start month.
-     *
-     * @return integer
-     *            The reservation start month.
-     */
-    public function getReservationStartMonth()
-    {
-        return $this->getValue("reservationStartMonth", 1);
     }
 
     /**
@@ -697,17 +863,6 @@ final class Config
     }
 
     /**
-     * Returns the reservation start year.
-     *
-     * @return integer
-     *            The reservation start year.
-     */
-    public function getReservationStartYear()
-    {
-        return $this->getValue("reservationStartYear", date("Y"));
-    }
-
-    /**
      * Sets the reservation start year.
      *
      * @param integer $reservationStartYear
@@ -716,17 +871,6 @@ final class Config
     public function setReservationStartYear($reservationStartYear)
     {
         $this->values["reservationStartYear"] = $reservationStartYear;
-    }
-
-    /**
-     * Returns the reservation start hour.
-     *
-     * @return integer
-     *            The reservation start hour.
-     */
-    public function getReservationStartHour()
-    {
-        return $this->getValue("reservationStartHour", 10);
     }
 
     /**
@@ -741,17 +885,6 @@ final class Config
     }
 
     /**
-     * Returns the reservation start minute.
-     *
-     * @return integer
-     *            The reservation start minute.
-     */
-    public function getReservationStartMinute()
-    {
-        return $this->getValue("reservationStartMinute", 0);
-    }
-
-    /**
      * Sets the reservation start minute.
      *
      * @param integer $reservationStartMinute
@@ -760,17 +893,6 @@ final class Config
     public function setReservationStartMinute($reservationStartMinute)
     {
         $this->values["reservationStartMinute"] = $reservationStartMinute;
-    }
-
-    /**
-     * Returns the reservation end day.
-     *
-     * @return integer
-     *            The reservation end day.
-     */
-    public function getReservationEndDay()
-    {
-        return $this->getValue("reservationEndDay", 1);
     }
 
     /**
@@ -785,17 +907,6 @@ final class Config
     }
 
     /**
-     * Returns the reservation end month.
-     *
-     * @return integer
-     *            The reservation end month.
-     */
-    public function getReservationEndMonth()
-    {
-        return $this->getValue("reservationEndMonth", 1);
-    }
-
-    /**
      * Sets the reservation end Month.
      *
      * @param integer $reservationEndMonth
@@ -804,17 +915,6 @@ final class Config
     public function setReservationEndMonth($reservationEndMonth)
     {
         $this->values["reservationEndMonth"] = $reservationEndMonth;
-    }
-
-    /**
-     * Returns the reservation end year.
-     *
-     * @return integer
-     *            The reservation end year.
-     */
-    public function getReservationEndYear()
-    {
-        return $this->getValue("reservationEndYear", date("Y"));
     }
 
     /**
@@ -829,17 +929,6 @@ final class Config
     }
 
     /**
-     * Returns the reservation end hour.
-     *
-     * @return integer
-     *            The reservation end hour.
-     */
-    public function getReservationEndHour()
-    {
-        return $this->getValue("reservationEndHour", 10);
-    }
-
-    /**
      * Sets the reservation end Hour.
      *
      * @param integer $reservationEndHour
@@ -848,17 +937,6 @@ final class Config
     public function setReservationEndHour($reservationEndHour)
     {
         $this->values["reservationEndHour"] = $reservationEndHour;
-    }
-
-    /**
-     * Returns the reservation end minute.
-     *
-     * @return integer
-     *            The reservation end minute.
-     */
-    public function getReservationEndMinute()
-    {
-        return $this->getValue("reservationEndMinute", 0);
     }
 
     /**
@@ -933,86 +1011,6 @@ final class Config
             str_pad($this->getReservationStartHour(), 2, '0', STR_PAD_LEFT) . '.' .
             str_pad($this->getReservationStartMinute(), 2, '0', STR_PAD_LEFT);
         return $now < $start;
-    }
-
-    /**
-     * Returns the list of days to select as start and end day for the
-     * reservation window.
-     *
-     * @return array
-     *            The possible days.
-     */
-    public static function getDays()
-    {
-        $days = array();
-        for ($i = 1; $i <= 31; $i += 1) {
-            $days[$i] = sprintf("%02d", $i);
-        }
-        return $days;
-    }
-
-    /**
-     * Returns the list of month to select as start and end month for the
-     * reservation window.
-     *
-     * @return array
-     *            The possible months.
-     */
-    public static function getMonths()
-    {
-        $months = array();
-        for ($i = 1; $i <= 12; $i += 1) {
-            $months[$i] = sprintf("%02d", $i);
-        }
-        return $months;
-    }
-
-    /**
-     * Returns the list of years to select as start and end year for the
-     * reservation window.
-     *
-     * @return array
-     *            The possible years.
-     */
-    public static function getYears()
-    {
-        $years = array();
-        for ($i = date('Y') - 1; $i <= date('Y') + 1; $i += 1) {
-            $years[$i] = (string)$i;
-        }
-        return $years;
-    }
-
-    /**
-     * Returns the list of hours to select as start and end hour for the
-     * reservation window.
-     *
-     * @return array
-     *            The possible hours.
-     */
-    public static function getHours()
-    {
-        $hours = array();
-        for ($i = 0; $i <= 23; $i += 1) {
-            $hours[$i] = sprintf("%02d", $i);
-        }
-        return $hours;
-    }
-
-    /**
-     * Returns the list of minutes to select as start and end minute for the
-     * reservation window.
-     *
-     * @return array
-     *            The possible minutes.
-     */
-    public static function getMinutes()
-    {
-        $minutes = array();
-        for ($i = 0; $i <= 50; $i += 10) {
-            $minutes[$i] = sprintf("%02d", $i);
-        }
-        return $minutes;
     }
 
 }

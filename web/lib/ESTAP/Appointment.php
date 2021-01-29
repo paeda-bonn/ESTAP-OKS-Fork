@@ -288,8 +288,7 @@ final class Appointment
 
     public static function teacherIsFullyBooked($teacherId)
     {
-        $sql = "Select * from (SELECT COUNT(*) as teacherAppointmentCount FROM `appointments` WHERE teacher_id=:teacher_id) as i, 
-                (SELECT COUNT(*) as timeSlotCount FROM `time_slots`) as j";
+        $sql = "Select * from (SELECT COUNT(*) as teacherAppointmentCount FROM `appointments` WHERE teacher_id=:teacher_id) as i, (SELECT COUNT(*) as timeSlotCount FROM `time_slots`) as j";
         $row = DB::query($sql, array("teacher_id" => $teacherId))[0];
         return $row["teacherAppointmentCount"] === $row["timeSlotCount"];
     }

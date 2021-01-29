@@ -87,8 +87,8 @@ final class Teacher extends User
         parent::__construct($id, $login, $firstName, $lastName);
         $this->gender = $gender;
         $this->room = $room;
-        $this->active = $active;
-        $this->vcLink = $vcLink;
+		$this->active = $active;
+		$this->vcLink = $vcLink;
     }
 
     /**
@@ -201,7 +201,8 @@ final class Teacher extends User
             "vclink" => $vcLink
         );
         $sql = "UPDATE teachers SET login=:login, first_name=:first_name, last_name=:last_name, gender=:gender, room=:room, vclink=:vclink";
-        if ($password) {
+        if ($password)
+        {
             $params["password"] = crypt($password, '$6$' . uniqid() . '$');
             $sql .= ", password=:password";
         }
@@ -219,10 +220,12 @@ final class Teacher extends User
      */
     public static function getAll()
     {
-        if (!self::$teachers) {
+        if (!self::$teachers)
+        {
             self::$teachers = array();
             $sql = "SELECT id, login, first_name, last_name, gender, room, active, vclink FROM teachers ORDER BY login ASC";
-            foreach (DB::query($sql) as $row) {
+            foreach (DB::query($sql) as $row)
+            {
                 $teacher = new Teacher(+$row["id"], $row["login"], $row["first_name"], $row["last_name"], $row["gender"], $row["room"], $row["active"], $row["vclink"]);
                 self::$teachers[] = $teacher;
                 self::$teacherIndex[$teacher->getId()] = $teacher;
@@ -243,9 +246,12 @@ final class Teacher extends User
      */
     public static function getById($id)
     {
-        if (array_key_exists($id, self::$teacherIndex)) {
+        if (array_key_exists($id, self::$teacherIndex))
+        {
             $teacher = self::$teacherIndex[$id];
-        } else {
+        }
+        else
+        {
             $sql = "SELECT login, first_name, last_name, gender, room, active, vclink FROM teachers WHERE id=:id";
             $data = DB::querySingle($sql, array("id" => $id));
             if (!$data) throw new NoSuchUserException();
@@ -303,8 +309,8 @@ final class Teacher extends User
      */
     public static function create($login, $password, $firstName, $lastName, $gender, $room, $vcLink)
     {
-        $state = true;
-        $hash = crypt($password, '$6$' . uniqid() . '$');
+		$state = true;
+		$hash = crypt($password, '$6$' . uniqid() . '$');
         $sql = "INSERT INTO teachers (login, password, first_name, last_name, gender, room, active, vclink) VALUES (:login, :password, :first_name, :last_name, :gender, :room, :active, :vclink)";
         $id = DB::exec($sql,
             array(
@@ -314,7 +320,7 @@ final class Teacher extends User
                 "last_name" => $lastName,
                 "gender" => $gender,
                 "room" => $room,
-                "active" => $state,
+				"active" => $state,
                 "vclink" => $vcLink
             ), "teacher_id");
         $teacher = new Teacher($id, $login, $firstName, $lastName, $gender, $room, $state, $vcLink);
@@ -331,7 +337,7 @@ final class Teacher extends User
         DB::exec($sql);
     }
 
-    /**
+     /**
      * Activates all teachers.
      */
     public static function activateAll()
@@ -365,13 +371,18 @@ final class Teacher extends User
      */
     public function getName($mode = User::FIRST_LAST)
     {
-        if ($mode == Teacher::GENDER_LAST) {
+        if ($mode == Teacher::GENDER_LAST)
+        {
             $gender = I18N::getMessage("gender." . $this->getGender());
             return $gender . " " . $this->lastName;
-        } elseif ($mode == Teacher::GENDER_ACC_LAST) {
+        }
+        elseif ($mode == Teacher::GENDER_ACC_LAST)
+        {
             $gender = I18N::getMessage("gender.acc." . $this->getGender());
             return $gender . " " . $this->lastName;
-        } else {
+        }
+        else
+        {
             return parent::getName($mode);
         }
     }

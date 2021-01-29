@@ -51,46 +51,6 @@ final class Admin extends User
     }
 
     /**
-     * Updates the admin with new data.
-     *
-     * @param string $login
-     *            The new login name.
-     * @param string $password
-     *            The new password. Null to keep old one.
-     * @param string $firstName
-     *            The new first name.
-     * @param string $lastName
-     *            The new last name.
-     * @param boolean $admin
-     *            True to give the admin admin privileges, false to revoke
-     *            them.
-     * @return Admin
-     *            The updated admin.
-     */
-    public function update($login, $password, $firstName, $lastName)
-    {
-        $sql = "UPDATE admins SET";
-        $this->login = $login;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $params = array(
-            "id" => $this->getId(),
-            "login" => $login,
-            "first_name" => $firstName,
-            "last_name" => $lastName
-        );
-        $sql = "UPDATE admins SET login=:login, first_name=:first_name, "
-            . "last_name=:last_name";
-        if ($password) {
-            $params["password"] = crypt($password, '$6$' . uniqid() . '$');
-            $sql .= ", password=:password";
-        }
-        $sql .= " WHERE id=:id";
-        DB::exec($sql, $params);
-        return $this;
-    }
-
-    /**
      * Returns all admins from the database. This list is cached so it not
      * generated again in the same request.
      *
@@ -195,6 +155,46 @@ final class Admin extends User
         $admin = new Admin($id, $login, $firstName, $lastName);
         self::$adminIndex[$id] = $admin;
         return $admin;
+    }
+
+    /**
+     * Updates the admin with new data.
+     *
+     * @param string $login
+     *            The new login name.
+     * @param string $password
+     *            The new password. Null to keep old one.
+     * @param string $firstName
+     *            The new first name.
+     * @param string $lastName
+     *            The new last name.
+     * @param boolean $admin
+     *            True to give the admin admin privileges, false to revoke
+     *            them.
+     * @return Admin
+     *            The updated admin.
+     */
+    public function update($login, $password, $firstName, $lastName)
+    {
+        $sql = "UPDATE admins SET";
+        $this->login = $login;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $params = array(
+            "id" => $this->getId(),
+            "login" => $login,
+            "first_name" => $firstName,
+            "last_name" => $lastName
+        );
+        $sql = "UPDATE admins SET login=:login, first_name=:first_name, "
+            . "last_name=:last_name";
+        if ($password) {
+            $params["password"] = crypt($password, '$6$' . uniqid() . '$');
+            $sql .= ", password=:password";
+        }
+        $sql .= " WHERE id=:id";
+        DB::exec($sql, $params);
+        return $this;
     }
 
     /**
