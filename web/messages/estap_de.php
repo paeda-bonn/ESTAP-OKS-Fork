@@ -27,7 +27,7 @@
     "copyright-annotation" => "- angepasst von",
     "copyright-annotation-name" => "Robert Rabe, Nils Witt",
 
-// Main navigation
+// Main navigationteacher
     "mainNav.logout" => "Abmelden",
     "mainNav.loginAnotherPupil" => "Weiteren Schüler anmelden",
 
@@ -245,8 +245,8 @@
     "editTeacher.firstName" => "Vorname",
     "editTeacher.lastName" => "Nachname",
     "editTeacher.gender" => "Anrede",
-    "editTeacher.room" => "Raum (Hier kommen KEINE Links hin)",
-    "editTeacher.vclink" => "Meeting Link (NUR der Link, nicht die ganze Einladung)",
+    "editTeacher.room" => "Raum",
+    "editTeacher.vcLink" => "Meeting Link",
     "editTeacher.vcId" => "Meeting ID",
     "editTeacher.vcCode" => "Meeting Code",
     "editTeacher.password" => "Passwort (mindestens %d Zeichen)",

@@ -15,7 +15,7 @@ use ESTAP\Teacher;
 use PhoolKit\HTML as h;
 
 $session = Session::get()->requireAdmin();
-
+$config = Config::get();
 ?>
 <?php $pageId = "addTeacher";
 include "parts/header.php" ?>
@@ -52,14 +52,18 @@ include "parts/header.php" ?>
             <?php h::messages() ?>
 
             <?php h::bindField("room") ?>
-            <label <?php h::label() ?>><?php h::msg("addTeacher.room") ?></label>
-            <input type="text" <?php h::input() ?> <?php h::classes() ?> />
-            <?php h::messages() ?>
+            <label <?php h::label() ?>><?php h::msg("editTeacher.room") ?></label>
+            <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isRoomsEnabled()) echo "disabled"?>/>
 
             <?php h::bindField("vcLink") ?>
-            <label <?php h::label() ?>>VCLink</label>
-            <input type="text" <?php h::input() ?> <?php h::classes() ?> />
-            <?php h::messages() ?>
+            <label <?php h::label() ?>><?php h::msg("editTeacher.vcLink") ?></label>
+            <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isMeetingsEnabled()) echo "disabled"?>/>
+            <?php h::bindField("vcId") ?>
+            <label <?php h::label() ?>><?php h::msg("editTeacher.vcId") ?></label>
+            <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isMeetingsEnabled()) echo "disabled"?>/>
+            <?php h::bindField("vcCode") ?>
+            <label <?php h::label() ?>><?php h::msg("editTeacher.vcCode") ?></label>
+            <input type="text"<?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isMeetingsEnabled()) echo "disabled"?>/>
 
             <?php h::bindField("password") ?>
             <label <?php h::label() ?>><?php h::msg("addTeacher.password", Config::get()->getMinPasswordLength()) ?></label>

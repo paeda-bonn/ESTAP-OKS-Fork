@@ -1013,4 +1013,12 @@ final class Config
         return $now < $start;
     }
 
+    public function isRoomsEnabled(){
+        return false;
+    }
+
+    public function isMeetingsEnabled(){
+        return true;
+    }
+
 }

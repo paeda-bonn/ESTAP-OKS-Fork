@@ -29,7 +29,6 @@ class TeacherForm extends UserForm
      * @var string
      */
     public $room;
-    //TODO Jdoc
     public $times;
     public $duration;
     public $startHour;
@@ -39,7 +38,24 @@ class TeacherForm extends UserForm
     public $day;
     public $month;
     public $year;
+    /**
+     * The meeting link.
+     *
+     * @var string
+     */
     public $vcLink;
+    /**
+     * The meeting id.
+     *
+     * @var string
+     */
+    public $vcId;
+    /**
+     * The meeting code.
+     *
+     * @var string
+     */
+    public $vcCode;
 
     /**
      * @see PhoolKit.Form::getValidators()
@@ -61,11 +77,15 @@ class TeacherForm extends UserForm
         if ($teacher) {
             $this->room = $teacher->getRoom();
             $this->gender = $teacher->getGender();
-            $this->vcLink = $teacher->getVCLink();
+            $this->vcLink = $teacher->getVcLink();
+            $this->vcId = $teacher->getVcId();
+            $this->vcCode = $teacher->getVcCode();
         } else {
             $this->room = "";
             $this->gender = "f";
             $this->vcLink = "";
+            $this->vcId = "";
+            $this->vcCode = "";
         }
     }
 }

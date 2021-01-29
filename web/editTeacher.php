@@ -25,7 +25,7 @@ if (isset($_REQUEST["id"])) {
     $teacherId = $teacher->getId();
     $admin = false;
 }
-
+$config = Config::get();
 ?>
 <?php $pageId = "editTeacher";
 include "parts/header.php" ?>
@@ -73,12 +73,17 @@ include "parts/header.php" ?>
 
                 <?php h::bindField("room") ?>
                 <label <?php h::label() ?>><?php h::msg("editTeacher.room") ?></label>
-                <input type="text" <?php h::input() ?> <?php h::classes() ?> />
+                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isRoomsEnabled()) echo "disabled"?>/>
 
-                <!-- //TODO lang -->
                 <?php h::bindField("vcLink") ?>
-                <label <?php h::label() ?>><?php h::msg("editTeacher.vclink") ?></label>
-                <input type="text" <?php h::input() ?> <?php h::classes() ?> />
+                <label <?php h::label() ?>><?php h::msg("editTeacher.vcLink") ?></label>
+                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isMeetingsEnabled()) echo "disabled"?>/>
+                <?php h::bindField("vcId") ?>
+                <label <?php h::label() ?>><?php h::msg("editTeacher.vcId") ?></label>
+                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isMeetingsEnabled()) echo "disabled"?>/>
+                <?php h::bindField("vcCode") ?>
+                <label <?php h::label() ?>><?php h::msg("editTeacher.vcCode") ?></label>
+                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isMeetingsEnabled()) echo "disabled"?>/>
 
 
                 <?php h::messages();

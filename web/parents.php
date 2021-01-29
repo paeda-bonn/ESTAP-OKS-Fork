@@ -78,9 +78,14 @@ include "parts/header.php" ?>
                 <th><?php h::msg("appointments.date") ?></th>
                 <th><?php h::msg("appointments.teacher") ?></th>
                 <th><?php h::msg("appointments.pupil") ?></th>
-                <!--<th><?php h::msg("appointments.room") ?></th>-->
-                <!-- //TODO lang -->
-                <th><?php h::msg("appointments.vclink") ?></th>
+                <?php if ($config->isRoomsEnabled()): ?>
+                    <th><?php h::msg("appointments.room") ?></th>
+                <?php endif ?>
+                <?php if ($config->isMeetingsEnabled()): ?>
+                    <th><?php h::msg("appointments.vcLink") ?></th>
+                    <th><?php h::msg("appointments.vcId") ?></th>
+                    <th><?php h::msg("appointments.vcCode") ?></th>
+                <?php endif ?>
                 <?php if ($config->isParentReservationEnabled()): ?>
                     <th><?php h::msg("appointments.actions") ?></th>
                 <?php endif ?>
@@ -104,16 +109,20 @@ include "parts/header.php" ?>
                     <td>
                         <?php h::text($appointment->getPupil()->getName()) ?>
                     </td>
-                    <!--
-          <td>
-            <?php h::text($appointment->getTeacher()->getRoom()) ?>
-          </td>-->
-                    <td>
-                        <?php if (!$config->isParentReservationEnabled()): h::text($appointment->getTeacher()->getVCLink()) ?>
-                        <?php endif; ?>
-                        <?php if ($config->isParentReservationEnabled()): echo "Link wird nach dem " . $config->getReservationEndDate() . " angezeigt" ?>
-                        <?php endif; ?>
-                    </td>
+                    <?php if ($config->isRoomsEnabled()): ?>
+                        <td><?php h::text($appointment->getTeacher()->getRoom()) ?></td>
+                    <?php endif?>
+                    <?php if (!$config->isParentReservationEnabled() && $config->isMeetingsEnabled()): ?>
+                        <td><?php h::text($appointment->getTeacher()->getVcLink()) ?></td>
+                        <td><?php h::text($appointment->getTeacher()->getVcId()) ?></td>
+                        <td><?php h::text($appointment->getTeacher()->getVcCode()) ?></td>
+                    <?php endif; ?>
+                    <?php if ($config->isParentReservationEnabled()): ?>
+                    <td><?php echo "Link wird nach dem " . $config->getReservationEndDate() . " angezeigt" ?></td>
+                    <td><?php echo "Link wird nach dem " . $config->getReservationEndDate() . " angezeigt" ?></td>
+                    <td><?php echo "Link wird nach dem " . $config->getReservationEndDate() . " angezeigt" ?></td>
+                    <?php endif; ?>
+
                     <?php if ($config->isParentReservationEnabled()): ?>
                         <td class="buttons">
                             <a href="<?php h::url("createAppointment.php?pupil=" . $appointment->getPupilId() . "&teacher=" . $appointment->getTeacherId()) ?>">
