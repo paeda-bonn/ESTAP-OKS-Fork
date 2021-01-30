@@ -183,4 +183,9 @@ ALTER TABLE `appointments`
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-INSERT INTO `admins` (`id`, `login`, `password`, `first_name`, `last_name`) VALUES (1, 'admin', '$6$6009b72594f65$47dzIu7RElp2ALOnZqO3gU2vL4dUXrFhpE30eEYP6IwXccHrvyrgtJJ/Qz7.vwL0zxQGW1tn3N8pJ8EfDP4jA1', 'First Name', 'Last Name')
+INSERT INTO `admins` (`id`, `login`, `password`, `first_name`, `last_name`) VALUES (1, 'admin', '$6$6009b72594f65$47dzIu7RElp2ALOnZqO3gU2vL4dUXrFhpE30eEYP6IwXccHrvyrgtJJ/Qz7.vwL0zxQGW1tn3N8pJ8EfDP4jA1', 'First Name', 'Last Name');
+/* Admin: admin pw: adminpass */
+INSERT INTO teachers (id, login, password, first_name, last_name, gender) VALUES (1,'teacher','$6$60151f1587e5b$fkbBhzw4Ct8i7QX1sAPkoT7L.2CESVogUtr9AX7tiTGprNk2w11khy0HjaziCRUJRMxPAKGY2cHwUXr8zrH5z1', 'First Name', 'Last Name', 'f');
+/* Teacher: teacher pw: teacherpass */
+INSERT INTO pupils (id, login, password, first_name, last_name, class) VALUES (1, 'student','$6$60151f00a92e5$GFtDxFXZ5dlcYg12vQVGONvxyF5m.exQ6MpGDp2NFhTiDt7oeXwfqqdDMFIUMVnsW1N8C3q88iVIZzG7wZGO.1','First Name', 'Last Name','T1')
+/* Student: student pw: studentpass */
