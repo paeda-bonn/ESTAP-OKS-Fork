@@ -62,21 +62,21 @@ final class Teacher extends User
      *
      * @var string
      */
-    private $vcLink;
+    private $vConferenceLink;
 
     /**
      * The meeting id
      *
      * @var string
      */
-    private $vcId;
+    private $vConferenceId;
 
     /**
      * The meeting code
      *
      * @var string
      */
-    private $vcCode;
+    private $vConferencePass;
 
     /**
      * Creates a new teacher.
@@ -102,15 +102,15 @@ final class Teacher extends User
      * @param string $vcCode
      *          The meeting code
      */
-    protected function __construct($id, $login, $firstName, $lastName, $gender, $room, $active, $vcLink, $vcId, $vcCode)
+    protected function __construct($id, $login, $firstName, $lastName, $gender, $room, $active, $vConferenceLink, $vConferenceId, $vConferencePass)
     {
         parent::__construct($id, $login, $firstName, $lastName);
         $this->gender = $gender;
         $this->room = $room;
         $this->active = $active;
-        $this->vcLink = $vcLink;
-        $this->vcId = $vcId;
-        $this->vcCode = $vcCode;
+        $this->vConferenceLink = $vConferenceLink;
+        $this->vConferenceId = $vConferenceId;
+        $this->vConferencePass = $vConferencePass;
     }
 
     /**
@@ -151,9 +151,9 @@ final class Teacher extends User
      *
      * @return string
      */
-    public function getVcLink()
+    public function getVConferenceLink()
     {
-        return $this->vcLink;
+        return $this->vConferenceLink;
     }
 
     /**
@@ -161,9 +161,9 @@ final class Teacher extends User
      *
      * @return string
      */
-    public function getVcId()
+    public function getVConferenceId()
     {
-        return $this->vcId;
+        return $this->vConferenceId;
     }
 
     /**
@@ -171,9 +171,9 @@ final class Teacher extends User
      *
      * @return string
      */
-    public function getVcCode()
+    public function getVConferencePass()
     {
-        return $this->vcCode;
+        return $this->vConferencePass;
     }
 
     /**
@@ -226,16 +226,16 @@ final class Teacher extends User
      *            The new gender. 'f' for female or 'm' for male.
      * @param string $room
      *            The new room.
-     * @param string $vcLink
+     * @param string $vConferenceLink
      *            The meeting link.
-     * @param string $vcId
+     * @param string $vConferenceId
      *            The meeting id.
-     * @param string $vcCode
+     * @param string $vConferencePass
      *            The meeting code.
      * @return Teacher
      *            The updated teacher.
      */
-    public function update($login, $password, $firstName, $lastName, $gender, $room, $vcLink, $vcId, $vcCode)
+    public function update($login, $password, $firstName, $lastName, $gender, $room, $vConferenceLink, $vConferenceId, $vConferencePass)
     {
         $sql = "UPDATE teachers SET";
         $this->login = $login;
@@ -250,11 +250,11 @@ final class Teacher extends User
             "last_name" => $lastName,
             "gender" => $gender,
             "room" => $room,
-            "vclink" => $vcLink,
-            "vcid" => $vcId,
-            "vccode" => $vcCode
+            "vConferenceLink" => $vConferenceLink,
+            "vConferenceId" => $vConferenceId,
+            "vConferencePass" => $vConferencePass
         );
-        $sql = "UPDATE teachers SET login=:login, first_name=:first_name, last_name=:last_name, gender=:gender, room=:room, vclink=:vclink, vcid=:vcid, vccode=:vccode";
+        $sql = "UPDATE teachers SET login=:login, first_name=:first_name, last_name=:last_name, gender=:gender, room=:room, vclink=:vConferenceLink, vcid=:vConferenceId, vccode=:vConferencePass";
         if ($password) {
             $params["password"] = crypt($password, '$6$' . uniqid() . '$');
             $sql .= ", password=:password";
@@ -355,7 +355,7 @@ final class Teacher extends User
      * @return Teacher
      *            The created teacher.
      */
-    public static function create($login, $password, $firstName, $lastName, $gender, $room, $vcLink, $vcId, $vcCode)
+    public static function create($login, $password, $firstName, $lastName, $gender, $room, $vConferenceLink, $vConferenceId, $vConferencePass)
     {
         $state = true;
         $hash = crypt($password, '$6$' . uniqid() . '$');
@@ -369,11 +369,11 @@ final class Teacher extends User
                 "gender" => $gender,
                 "room" => $room,
                 "active" => $state,
-                "vclink" => $vcLink,
-                "vcid" => $vcId,
-                "vccode" => $vcCode
+                "vclink" => $vConferenceLink,
+                "vcid" => $vConferenceId,
+                "vccode" => $vConferencePass
             ), "teacher_id");
-        $teacher = new Teacher($id, $login, $firstName, $lastName, $gender, $room, $state, $vcLink, $vcId, $vcLink);
+        $teacher = new Teacher($id, $login, $firstName, $lastName, $gender, $room, $state, $vConferenceLink, $vConferenceId, $vConferencePass);
         self::$teacherIndex[$id] = $teacher;
         return $teacher;
     }

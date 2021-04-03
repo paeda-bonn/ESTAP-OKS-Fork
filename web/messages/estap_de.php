@@ -27,7 +27,7 @@
     "copyright-annotation" => "- angepasst von",
     "copyright-annotation-name" => "Robert Rabe, Nils Witt",
 
-// Main navigationteacher
+// Main navigation
     "mainNav.logout" => "Abmelden",
     "mainNav.loginAnotherPupil" => "Weiteren Schüler anmelden",
 
@@ -75,9 +75,7 @@
     "appointments.pupil" => "Schüler",
     "appointments.teacher" => "Lehrer",
     "appointments.room" => "Raum",
-    "appointments.vcLink" => "Meeting Link",
-    "appointments.vcId" => "Meeting ID",
-    "appointments.vcCode" => "Meeting Code",
+    "appointments.vConferenceLink" => "Zoom Link",
     "appointments.actions" => "Aktionen",
     "appointments.delete" => "Löschen",
     "appointments.change" => "Ändern",
@@ -108,7 +106,9 @@
     "createAppointment.reserved" => "Reserviert",
     "createAppointment.reserve" => "Reservieren",
     "createAppointment.cancel" => "Abbrechen",
-    "createAppointment.noTimeslotsLeft" => "Leider sind bei diesem Lehrer keine Termine mehr verfügbar. Wir bitten Sie, mit dem entsprechenden Fachlehrer in Kontakt zu treten. Die Kontaktdaten finden Sie auf der Homepage der Otto-Kühne-Schule.",
+    "createAppointment.noTimeslotsLeft" => "Leider sind bei diesem Lehrer keine Termine mehr verfügbar."
+        . " Wir bitten Sie, mit dem entsprechenden Fachlehrer in Kontakt zu treten. "
+        . "Die Kontaktdaten finden Sie auf der Homepage der Otto-Kühne-Schule.",
 
 // Admin login page
     "loginAdmin.title" => "Admin Anmeldung",
@@ -200,14 +200,12 @@
     "teachers.firstName" => "Vorname",
     "teachers.gender" => "Anrede",
     "teachers.room" => "Raum",
-    "teachers.vcLink" => "Meeting Link",
-    "teachers.vcId" => "Meeting ID",
-    "teachers.vcCode" => "Meeting Code",
+    "teachers.vConferenceLink" => "Zoom Link",
     "teachers.actions" => "Aktionen",
     "teachers.addTeacher" => "Lehrer hinzufügen",
     "teachers.upload.title" => "Lehrer hochladen",
     "teachers.upload.description" => "Hier können Sie alle Lehrer auf einmal hochladen. Die Datei muss eine UTF-8 kodierte CSV Datei ohne Überschriften und mit Semikolons als Trennzeichen sein. Format:",
-    "teachers.upload.format" => "Benutzername;Passwort;Nachname;Vorname;Geschlecht;Raum;VCLink",
+    "teachers.upload.format" => "Benutzername;Passwort;Nachname;Vorname;Geschlecht;Raum;Konferenz Link; Konference Id;Konferenze Passwort",
     "teachers.upload.hints" => "Geschlecht muss 'f' für Frau oder 'm' für Mann sein. Stellen Sie sicher, dass die hochgeladene Datei keinen Byte-Order-Mark Header besitzt. Die maximale Dateigröße ist: %s. Größere Dateien müssen in mehreren Teilen hochgeladen werden.",
     "teachers.current.title" => "Aktuelle Lehrer",
     "teachers.teacherAdded" => "Lehrer erfolgreich hinzugefügt",
@@ -230,9 +228,7 @@
     "addTeacher.lastName" => "Nachname",
     "addTeacher.gender" => "Anrede",
     "addTeacher.room" => "Raum",
-    "addTeacher.vcLink" => "Meeting Link",
-    "addTeacher.vcId" => "Meeting ID",
-    "addTeacher.vcCode" => "Meeting Code",
+    "addTeacher.vConferenceLink" => "Zoom Link",
     "addTeacher.password" => "Passwort (mindestens %d Zeichen)",
     "addTeacher.passwordConfirmation" => "Passwort-Bestätigung",
     "addTeacher.submit" => "Lehrer hinzufügen",
@@ -245,10 +241,8 @@
     "editTeacher.firstName" => "Vorname",
     "editTeacher.lastName" => "Nachname",
     "editTeacher.gender" => "Anrede",
-    "editTeacher.room" => "Raum",
-    "editTeacher.vcLink" => "Meeting Link",
-    "editTeacher.vcId" => "Meeting ID",
-    "editTeacher.vcCode" => "Meeting Code",
+    "editTeacher.room" => "Raum (Hier kommen KEINE Links hin)",
+    "editTeacher.vConferenceLink" => "Zoom Link (NUR der Link, nicht die ganze Einladung)",
     "editTeacher.password" => "Passwort (mindestens %d Zeichen)",
     "editTeacher.passwordConfirmation" => "Passwort-Bestätigung",
     "editTeacher.submit" => "Speichern",
@@ -298,9 +292,7 @@
     "printPDF.teacher" => "Lehrer",
     "printPDF.pupil" => "Schüler",
     "printPDF.room" => "Raum",
-    "printPDF.vcLink" => "Meeting Link",
-    "printPDF.vcId" => "Meeting ID",
-    "printPDF.vcCode" => "Meeting Code",
+    "printPDF.vConferenceLink" => "Zoom Link",
     "printPDF.class" => "Klasse",
 
 // Time slots page

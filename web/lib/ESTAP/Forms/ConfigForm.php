@@ -46,6 +46,20 @@ class ConfigForm extends Form
     public $duplicatesEnabled;
 
     /**
+     * If rooms for reservations are enabled.
+     *
+     * @var boolean
+     */
+    public $roomsEnabled;
+
+    /**
+     * If video conferences for reservations are enabled.
+     *
+     * @var boolean
+     */
+    public $vConferencesEnabled;
+
+    /**
      * Comma-separated list of available locales.
      *
      * @var string
@@ -215,6 +229,8 @@ class ConfigForm extends Form
         $this->parentLoginEnabled = $config->isParentLoginEnabled();
         $this->reservationEnabled = $config->isReservationEnabled();
         $this->duplicatesEnabled = $config->isDuplicatesEnabled();
+        $this->roomsEnabled = $config->isRoomsEnabled();
+        $this->vConferencesEnabled = $config->isVConferencesEnabled();
         $this->locales = join(",", $config->getLocales());
         $this->defaultLocale = $config->getDefaultLocale();
         $this->timeSlotDurations = join(",", $config->getTimeSlotDurations());

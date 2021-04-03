@@ -23,6 +23,8 @@ $config->setParentLoginEnabled(!!$form->parentLoginEnabled);
 $config->setTeacherLoginEnabled(!!$form->teacherLoginEnabled);
 $config->setReservationEnabled(!!$form->reservationEnabled);
 $config->setDuplicatesEnabled(!!$form->duplicatesEnabled);
+$config->setVConferencesEnabled(!!$form->vConferencesEnabled);
+$config->setRoomsEnabled(!!$form->roomsEnabled);
 $config->setLocales(preg_split("/[\\s,]+/", $form->locales));
 $config->setDefaultLocale($form->defaultLocale);
 $values = preg_split("/[\\s,]+/", $form->timeSlotDurations);

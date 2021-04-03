@@ -67,15 +67,13 @@ include "parts/header.php" ?>
                 <th><?php h::msg("teachers.lastName") ?></th>
                 <th><?php h::msg("teachers.firstName") ?></th>
                 <th><?php h::msg("teachers.gender") ?></th>
-                <?php if ($config->isRoomsEnabled()): ?>
+                <?php if($config->isRoomsEnabled()): ?>
                     <th><?php h::msg("teachers.room") ?></th>
-                <?php endif?>
+                <?php endif; ?>
                 <th><?php h::msg("teachers.actions") ?></th>
-                <?php if ($config->isMeetingsEnabled()): ?>
-                    <th><?php h::msg("teachers.vcLink") ?></th>
-                    <th><?php h::msg("teachers.vcId") ?></th>
-                    <th><?php h::msg("teachers.vcCode") ?></th>
-                <?php endif?>
+                <?php if($config->isVConferencesEnabled()): ?>
+                    <th><?php h::msg("teachers.vclink") ?></th>
+                <?php endif; ?>
             </tr>
             <?php foreach (Teacher::getAll() as $teacher): ?>
                 <tr class="<?php echo $teacher->isActive() ? "active" : "inactive" ?>">
@@ -83,9 +81,9 @@ include "parts/header.php" ?>
                     <td><?php h::text($teacher->getLastName()) ?></td>
                     <td><?php h::text($teacher->getFirstName()) ?></td>
                     <td><?php h::msg("gender." . $teacher->getGender()) ?></td>
-                    <?php if ($config->isRoomsEnabled()): ?>
+                    <?php if($config->isRoomsEnabled()): ?>
                         <td><?php h::text($teacher->getRoom()) ?></td>
-                    <?php endif?>
+                    <?php endif; ?>
                     <td class="buttons">
                         <a href="<?php h::url("editTeacher.php?id=") . h::text($teacher->getId()) ?>">
                             <?php h::msg("teachers.edit") ?>
@@ -108,11 +106,9 @@ include "parts/header.php" ?>
                             </form>
                         <?php endif; ?>
                     </td>
-                    <?php if ($config->isMeetingsEnabled()): ?>
-                        <td><?php h::text($teacher->getVcLink()) ?></td>
-                        <td><?php h::text($teacher->getVcId()) ?></td>
-                        <td><?php h::text($teacher->getVcCode()) ?></td>
-                    <?php endif ?>
+                    <?php if($config->isVConferencesEnabled()): ?>
+                    <td><?php h::text($teacher->getVConferenceLink()) ?></td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach ?>
         </table>

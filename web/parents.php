@@ -80,12 +80,12 @@ include "parts/header.php" ?>
                 <th><?php h::msg("appointments.pupil") ?></th>
                 <?php if ($config->isRoomsEnabled()): ?>
                     <th><?php h::msg("appointments.room") ?></th>
-                <?php endif ?>
-                <?php if ($config->isMeetingsEnabled()): ?>
-                    <th><?php h::msg("appointments.vcLink") ?></th>
-                    <th><?php h::msg("appointments.vcId") ?></th>
-                    <th><?php h::msg("appointments.vcCode") ?></th>
-                <?php endif ?>
+                <?php endif; ?>
+                <?php if ($config->isVConferencesEnabled()): ?>
+                    <th><?php h::msg("appointments.vConferenceLink") ?></th>
+                    <th><?php h::msg("appointments.vConferenceId") ?></th>
+                    <th><?php h::msg("appointments.vConferencePass") ?></th>
+                <?php endif; ?>
                 <?php if ($config->isParentReservationEnabled()): ?>
                     <th><?php h::msg("appointments.actions") ?></th>
                 <?php endif ?>
@@ -110,19 +110,21 @@ include "parts/header.php" ?>
                         <?php h::text($appointment->getPupil()->getName()) ?>
                     </td>
                     <?php if ($config->isRoomsEnabled()): ?>
-                        <td><?php h::text($appointment->getTeacher()->getRoom()) ?></td>
-                    <?php endif?>
-                    <?php if (!$config->isParentReservationEnabled() && $config->isMeetingsEnabled()): ?>
-                        <td><?php h::text($appointment->getTeacher()->getVcLink()) ?></td>
-                        <td><?php h::text($appointment->getTeacher()->getVcId()) ?></td>
-                        <td><?php h::text($appointment->getTeacher()->getVcCode()) ?></td>
+                        <td>
+                            <?php h::text($appointment->getTeacher()->getRoom()) ?>
+                        </td>
                     <?php endif; ?>
-                    <?php if ($config->isParentReservationEnabled()): ?>
-                    <td><?php echo "Link wird nach dem " . $config->getReservationEndDate() . " angezeigt" ?></td>
-                    <td><?php echo "Link wird nach dem " . $config->getReservationEndDate() . " angezeigt" ?></td>
-                    <td><?php echo "Link wird nach dem " . $config->getReservationEndDate() . " angezeigt" ?></td>
-                    <?php endif; ?>
-
+                    <?php if ($config->isVConferencesEnabled()): ?>
+                        <?php if ($config->isParentReservationEnabled()): ?>
+                            <td>Link wird nach dem <?php echo $config->getReservationEndDate() ?></td>
+                            <td></td>
+                            <td></td>
+                        <?php else: ?>
+                            <td><a><?php h::text($appointment->getTeacher()->getVConferenceLink()); ?></a></td>
+                            <td><?php h::text($appointment->getTeacher()->getVConferenceId()); ?></td>
+                            <td><?php h::text($appointment->getTeacher()->getVConferencePass()); ?></td>
+                        <?php endif; ?>
+                    <? endif; ?>
                     <?php if ($config->isParentReservationEnabled()): ?>
                         <td class="buttons">
                             <a href="<?php h::url("createAppointment.php?pupil=" . $appointment->getPupilId() . "&teacher=" . $appointment->getTeacherId()) ?>">

@@ -43,19 +43,19 @@ class TeacherForm extends UserForm
      *
      * @var string
      */
-    public $vcLink;
+    public $vConferenceLink;
     /**
      * The meeting id.
      *
      * @var string
      */
-    public $vcId;
+    public $vConferenceId;
     /**
-     * The meeting code.
+     * The meeting pass.
      *
      * @var string
      */
-    public $vcCode;
+    public $vConferencePass;
 
     /**
      * @see PhoolKit.Form::getValidators()
@@ -77,15 +77,15 @@ class TeacherForm extends UserForm
         if ($teacher) {
             $this->room = $teacher->getRoom();
             $this->gender = $teacher->getGender();
-            $this->vcLink = $teacher->getVcLink();
-            $this->vcId = $teacher->getVcId();
-            $this->vcCode = $teacher->getVcCode();
+            $this->vConferenceLink = $teacher->getVConferenceLink();
+            $this->vConferenceId = $teacher->getVConferenceId();
+            $this->vConferencePass = $teacher->getVConferencePass();
         } else {
             $this->room = "";
             $this->gender = "f";
-            $this->vcLink = "";
-            $this->vcId = "";
-            $this->vcCode = "";
+            $this->vConferenceLink = "";
+            $this->vConferenceId = "";
+            $this->vConferencePass = "";
         }
     }
 }

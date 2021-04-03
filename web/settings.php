@@ -64,6 +64,21 @@ include "parts/header.php" ?>
             </div>
             <?php h::messages() ?>
 
+            <?php h::bindField("roomsEnabled") ?>
+            <div class="field checkbox">
+                <input type="checkbox" <?= h::checkbox() ?> <?php h::classes() ?> />
+                <label <?php h::label() ?>><?php h::msg("settings.roomsEnabled") ?></label>
+            </div>
+            <?php h::messages(); ?>
+
+            <?php h::bindField("vConferencesEnabled") ?>
+                <div class="field checkbox">
+                    <input type="checkbox" <?= h::checkbox() ?> <?php h::classes() ?> />
+                    <label <?php h::label() ?>><?php h::msg("settings.vConferencesEnabled") ?></label>
+                </div>
+            <?php h::messages(); ?>
+
+
             <h3><?php h::msg("settings.reservationSettings") ?></h3>
             <?php h::msg("settings.reservationHint") ?>
             <label <?php h::label() ?>><?php h::msg("settings.startTime") ?></label>

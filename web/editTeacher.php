@@ -73,17 +73,17 @@ include "parts/header.php" ?>
 
                 <?php h::bindField("room") ?>
                 <label <?php h::label() ?>><?php h::msg("editTeacher.room") ?></label>
-                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isRoomsEnabled()) echo "disabled"?>/>
+                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if(!$config->isRoomsEnabled()) echo "disabled"?>/>
 
-                <?php h::bindField("vcLink") ?>
-                <label <?php h::label() ?>><?php h::msg("editTeacher.vcLink") ?></label>
-                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isMeetingsEnabled()) echo "disabled"?>/>
-                <?php h::bindField("vcId") ?>
-                <label <?php h::label() ?>><?php h::msg("editTeacher.vcId") ?></label>
-                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isMeetingsEnabled()) echo "disabled"?>/>
-                <?php h::bindField("vcCode") ?>
-                <label <?php h::label() ?>><?php h::msg("editTeacher.vcCode") ?></label>
-                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if (!$config->isMeetingsEnabled()) echo "disabled"?>/>
+                <?php h::bindField("vConferenceLink") ?>
+                <label <?php h::label() ?>><?php h::msg("editTeacher.vConferenceLink") ?></label>
+                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if(!$config->isVConferencesEnabled()) echo "disabled"?>/>
+                <?php h::bindField("vConferenceId") ?>
+                <label <?php h::label() ?>><?php h::msg("editTeacher.vConferenceId") ?></label>
+                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if(!$config->isVConferencesEnabled()) echo "disabled"?>/>
+                <?php h::bindField("vConferencePass") ?>
+                <label <?php h::label() ?>><?php h::msg("editTeacher.vConferencePass") ?></label>
+                <input type="text" <?php h::input() ?> <?php h::classes() ?> <?php if(!$config->isVConferencesEnabled()) echo "disabled"?>/>
 
 
                 <?php h::messages();
@@ -101,7 +101,7 @@ include "parts/header.php" ?>
                     <div class="fields">
                         <div class="field">
                             <?php h::bindField("duration") ?>
-                            <label <?php h::label() ?>><?php h::msg("timeSlots.duration") ?></label>
+                            <label <?php h::label() ?>><?php h::msg("editTeacher.duration") ?></label>
                             <select <?php h::select() ?>>
                                 <?php h::options(TimeSlot::getDurations()) ?>
                             </select>
@@ -110,7 +110,7 @@ include "parts/header.php" ?>
 
                         <div class="field">
                             <?php h::bindField("startHour") ?>
-                            <label <?php h::label() ?>><?php h::msg("timeSlots.startTime") ?></label>
+                            <label <?php h::label() ?>><?php h::msg("editTeacher.startTime") ?></label>
                             <select <?php h::select() ?>>
                                 <?php h::options(TimeSlot::getHours()) ?>
                             </select>
@@ -126,7 +126,7 @@ include "parts/header.php" ?>
 
                         <div class="field">
                             <?php h::bindField("endHour") ?>
-                            <label <?php h::label() ?>><?php h::msg("timeSlots.endTime") ?></label>
+                            <label <?php h::label() ?>><?php h::msg("editTeacher.endTime") ?></label>
                             <select <?php h::select() ?>>
                                 <?php h::options(TimeSlot::getHours()) ?>
                             </select>
@@ -141,7 +141,7 @@ include "parts/header.php" ?>
                         </div>
                         <div class="field">
                             <?php h::bindField("day") ?>
-                            <label <?php h::label() ?>><?php h::msg("timeSlots.day") ?></label>
+                            <label <?php h::label() ?>><?php h::msg("editTeacher.timeslotsdate") ?></label>
                             <select <?php h::select() ?>>
                                 <?php h::options(TimeSlot::getDays()) ?>
                             </select>
@@ -163,12 +163,15 @@ include "parts/header.php" ?>
                     </div>
                     <table>
                         <tr>
+                            <!--TODO add text-->
+                            <th>Datum</th>
                             <th><?php h::msg("timeSlots.startTime") ?></th>
                             <th><?php h::msg("timeSlots.endTime") ?></th>
                             <th class="buttons"></th>
                         </tr>
                         <?php foreach (TimeSlot::getTimeSlotsForTeacher($teacherId) as $timeSlot): ?>
                             <tr>
+                                <td><?php h::text((new DateTime($timeSlot->getDate()))->format("d.m.Y")) ?></td>
                                 <td><?php h::text($timeSlot->getStartTimeString()) ?></td>
                                 <td><?php h::text($timeSlot->getEndTimeString()) ?></td>
                                 <td class="buttons">
@@ -208,6 +211,5 @@ include "parts/header.php" ?>
                 <?php endif ?>
             </div>
         </form>
-
 </div>
 <?php include "parts/footer.php" ?>

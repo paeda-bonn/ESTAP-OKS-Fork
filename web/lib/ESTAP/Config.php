@@ -1014,11 +1014,32 @@ final class Config
     }
 
     public function isRoomsEnabled(){
-        return false;
+        return $this->getValue("rooms", false);
     }
 
-    public function isMeetingsEnabled(){
-        return true;
+    public function isVConferencesEnabled(){
+        return $this->getValue("vconferences", false);
+    }
+
+    /**
+     * Sets the maximum time slot end hour.
+     *
+     * @param boolean $enabled
+     *            The maximum time slot end hour to set.
+     */
+    public function setVConferencesEnabled($enabled)
+    {
+        $this->values["vconferences"] = $enabled;
+    }
+    /**
+     * Sets the maximum time slot end hour.
+     *
+     * @param boolean $enabled
+     *            The maximum time slot end hour to set.
+     */
+    public function setRoomsEnabled($enabled)
+    {
+        $this->values["rooms"] = $enabled;
     }
 
 }

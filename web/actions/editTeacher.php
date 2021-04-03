@@ -29,7 +29,7 @@ $form = EditTeacherForm::parse("../editTeacher.php");
 
 try {
     $teacher = Teacher::getById($form->id);
-    $teacher->update($form->login, $form->password, $form->firstName, $form->lastName, $form->gender, $form->room, $form->vcLink, $form->vcId, $form->vcCode);
+    $teacher->update($form->login, $form->password, $form->firstName, $form->lastName, $form->gender, $form->room, $form->vConferenceLink, $form->vConferenceId, $form->vConferencePass);
     $startTime = $form->startHour * 60 + $form->startMinute;
     $endTime = $form->endHour * 60 + $form->endMinute;
 
