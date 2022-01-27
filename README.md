@@ -1,10 +1,27 @@
-# Estap OKS
-Fork of https://bitbucket.org/acg-bonn/estap/overview
-Changes made by Robert Rabe and Nils Witt
+# Estap - OKS Version [DEPRECATED]
+Fork of [ESTAP](https://bitbucket.org/acg-bonn/estap/overview)
+
+## Contributors
+- See [ESTAP](https://bitbucket.org/acg-bonn/estap/overview) for initial Contributors
+- Robert Rabe
+- [Nils Witt](https://github.com/Nils-Witt)
 
 Changes made to the original Repo:
 * Added option for appointments on different days
-* Added option to add times for each teacher separately
+* Added option to add times foreach teacher separately
+* Video conferencing integration
+* Minor adjustments for supporting PHP 7.4
+
+IMPORTANT information
+---------------------
+This software was originally written for PHP 5.3, as of now this software has NO support and is marked as deprecated.
+The deprication is caused of
+- some used functions are deprecated in PHP 7.0 and removed in 8.0
+- There is currently no active maintenance (if you want to takeover the maintanance contact Nils Witt)
+- There will be no updates for the UI / UX
+- Nearly the full backend needs a rewrite for full PHP 8.0 support and better maintainability
+- Use of deprecated HTML tags and attributes
+
 
 Original Readme.md:
 ESTAP
@@ -19,19 +36,19 @@ Teachers can login to see their calendar.
 Requirements
 ------------
 
-* MySQL 5.0
-* PHP 5.3 or newer with enabled PDO and MySQL support
+* MySQL 5.0 or MariaDB
+* PHP  5.3 to 7.4 with enabled PDO and MySQL support (read above about newer PHP version support)
 * [PhoolKit](https://github.com/kayahr/phoolkit)
 
 
 Installation
 ------------
 
-* Create a new MySQL database and execute the `database/mysql.sql` file in it.
+* Create a new MySQL database and execute the `database/paeda.sql` file in it.
   This will create the database schema and enables an initial admin user 
-  called `admin` with the initial password `estap`.
-* Download [PhoolKit](https://github.com/kayahr/phoolkit) and copy the contents
-  of the `src` folder somewhere into the PHP include path or the `web/lib` folder
+  called `admin` with the initial password `adminpass`.
+* Download [PhoolKit](https://github.com/kayahr/phoolkit) or [Here](https://github.com/paeda-bonn/phoolkit) and copy the contents
+  of the `src` folder somewhere into the PHP include path or the `web/library` folder
   of ESTAP.
 * Copy the `web/config-example.php` to `web/config.php` and edit the file to 
   setup ESTAP. You must enter at least the database connection parameters. 
